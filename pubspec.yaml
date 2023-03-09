@@ -30,12 +30,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_colorpicker: ^1.0.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   permission_handler: ^10.2.0
+  image_picker: ^0.8.1
+  
 
 dev_dependencies:
   flutter_test:
@@ -60,7 +62,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - assets/image/getPhoto.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -89,3 +92,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+rules:
+  prefer_const_constructors: false
+  avoid_print: false
+  prefer_typing_uninitialized_variables: false
+  prefer_const_constructors_in_immutables: false
