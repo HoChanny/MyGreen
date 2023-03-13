@@ -27,14 +27,16 @@ class Test extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CreateAccountPage()));
+                          builder: (context) => const CreateAccountPage()));
                 },
               ),
               ElevatedButton(
                 child: const Text('로그인'),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()));
                 },
               )
             ])));
