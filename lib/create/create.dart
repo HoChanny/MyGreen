@@ -41,12 +41,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     }
 
 //backend에 입력값 보내기
-    Future<http.Response> postRequest(String id, password, birthday) async {
+    Future<http.Response> postRequest(String id, password, date) async {
       final url = Uri.parse('https://iotvase.azurewebsites.net/test');
       Map<String, dynamic> user = {
         "id": id,
         "password": password,
-        "birthday": birthday
+        "birthday": date.year + date.month + date.day,
+
       };
       final response = await http.post(url,
           headers: {'Content-Type': 'application/json'},
@@ -292,7 +293,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       onPressed: () {
                         validateAndSave();
                         print('$id $password $birthDay');
-                        postRequest(id, password, birthDay);
+                        postRequest(id, password, date);
+                        print('${date.year} ${date.month} ${date.day}');
                       },
                       style: ButtonStyle(
                         shape:
