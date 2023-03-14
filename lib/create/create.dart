@@ -293,7 +293,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       onPressed: () {
                         validateAndSave();
                         print('$id $password $birthDay');
-                        postRequest(id, password, birthDay,date);
+                        postRequest(id, password, date);
                         print('${date.year} ${date.month} ${date.day}');
                       },
                       style: ButtonStyle(
