@@ -14,10 +14,10 @@ class _LoginPageState extends State<LoginPage> {
     final formKey = GlobalKey<FormState>();
 
     //아이디
-    String _id = '';
+    String id = '';
 
     //비밀번호
-    String _password = '';
+    String password = '';
 
     void validateAndSave() {
       final form = formKey.currentState;
@@ -35,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
             tooltip: 'Back',
             onPressed: () {
               //뒤로가기 함수 넣으면 됩니다!!
+              // ignore: avoid_print
               print('back button is clicked');
               Navigator.pop(context);
             },
@@ -86,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                         return '아이디를 입력해주세요..';
                       }
                     },
-                    onSaved: (value) => _id = value!,
+                    onSaved: (value) => id = value!,
                   ),
 
                   //  패스워드 입력
@@ -118,10 +119,11 @@ class _LoginPageState extends State<LoginPage> {
                       if (value!.isEmpty) {
                         return '비밀번호를 입력해주세요';
                       }
+                      return '';
                     },
                     onSaved: (value) {
                       setState(() {
-                        _password = value!;
+                        password = value!;
                       });
                     },
                   ),
@@ -130,7 +132,8 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                       onPressed: () {
                         validateAndSave();
-                        print('$_id $_password');
+                        // ignore: avoid_print
+                        print('$id $password');
                       },
                       style: ElevatedButton.styleFrom(),
                       child: const Text(
