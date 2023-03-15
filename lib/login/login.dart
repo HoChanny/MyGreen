@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,12 +23,37 @@ class _LoginPageState extends State<LoginPage> {
     //비밀번호
     String password = '';
 
-    void validateAndSave() {
+    bool validateAndSave() {
       final form = formKey.currentState;
 
       if (form != null && form.validate()) {
         form.save();
-      } else {}
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    // //로그인 증명
+    // Future<void> doLogin() async {
+    //   final response = await http
+    //       .get(Uri.parse('https://jsonplaceholder.typicode.com/comments'));
+    //   // Wait for the HTTP GET request to complete and store the response in a variable
+
+    //   if (response.statusCode == 200) {
+    //     final jsonData = jsonDecode(response.body);
+    //     print(jsonData);
+    //   } else {
+    //     throw Exception('Failed to load data');
+    //   }
+    // }
+
+    Future<void> loadData() async {
+      final file = File('../asseets/data.json');
+      final contents = await file.readAsString();
+      final jsonData = jsonDecode(contents);
+      print('a $jsonData');
+      // Do something with the JSON data
     }
 
     return Scaffold(
@@ -131,7 +160,10 @@ class _LoginPageState extends State<LoginPage> {
                   // 제출하기 버튼
                   ElevatedButton(
                       onPressed: () {
-                        validateAndSave();
+                        loadData();
+                        if (validateAndSave()) {
+                        } else {}
+
                         // ignore: avoid_print
                         print('$id $password');
                       },
