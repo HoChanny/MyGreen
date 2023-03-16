@@ -38,23 +38,8 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
 
-    // //로그인 증명
-    // Future<void> doLogin() async {
-    //   final response = await http
-    //       .get(Uri.parse('https://jsonplaceholder.typicode.com/comments'));
-    //   // Wait for the HTTP GET request to complete and store the response in a variable
-
-    //   if (response.statusCode == 200) {
-    //     final jsonData = jsonDecode(response.body);
-    //     print(jsonData);
-    //   } else {
-    //     throw Exception('Failed to load data');
-    //   }
-    // }
-
-    
-
-
+    final screenWidth = MediaQuery.of(context).size.width;
+    final width = screenWidth * 0.5; // 50% of screen width
 
 
     return Scaffold(
@@ -82,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Form(
               key: formKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   //  아이디 입력
                   TextFormField(
@@ -94,10 +79,10 @@ class _LoginPageState extends State<LoginPage> {
                       focusColor: Colors.white,
                       //add prefix icon
                       prefixIcon: const Icon(
-                        Icons.person_outline_rounded,
-                        color: Colors.grey,
+                        Icons.person,
+                        color: Colors.black,
                       ),
-hintText: '아이디를 입력하시오',
+                      hintText: '아이디를 입력하시오',
                       //default border
                       enabledBorder: UnderlineInputBorder(
                           borderSide: const BorderSide(
@@ -127,8 +112,8 @@ hintText: '아이디를 입력하시오',
                       focusColor: Colors.white,
                       //add prefix icon
                       prefixIcon: const Icon(
-                        Icons.key_rounded,
-                        color: Colors.grey,
+                        Icons.key,
+                        color: Colors.black,
                       ),
 
                       hintText: '비밀번호를 입력하시오',
@@ -150,25 +135,18 @@ hintText: '아이디를 입력하시오',
                       if (value!.isEmpty) {
                         return '비밀번호를 입력해주세요';
                       }
-                      
                     },
-                    
                         onSaved: (value) => password = value!,
-                      
-                    
                   ),
 
                   // 제출하기 버튼
                   ElevatedButton(
                       onPressed: () {
                         if (validateAndSave()) {
-                        print('$id $password');
-
                           if(checkingId(id)){
                             if(checkingPassword(password)){
                               token = true;
-                                                      print('로그인 완료');
-
+                              print('로그인 완료');
                               print(token);
                             }else {
                               token = false;
@@ -181,9 +159,7 @@ hintText: '아이디를 입력하시오',
                               token = false;
                               print(token);  
                               ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('아이디를 확인해주세요.')));
-                            
-                            
+                              SnackBar(content: Text('아이디를 확인해주세요.'))); 
                           }
 
                         } else {}
@@ -191,10 +167,32 @@ hintText: '아이디를 입력하시오',
                         
                         
                       },
-                      style: ElevatedButton.styleFrom(),
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.lightGreen),
+                        fixedSize: MaterialStateProperty.all<Size>(
+                          const Size(1000, 50),
+                        ),
+                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                          const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                        ),
+                      ),                      
                       child: const Text(
                         '로그인 하기',
-                      ),)
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      )
                 ],
               )),
         ));

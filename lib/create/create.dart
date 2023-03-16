@@ -127,7 +127,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         focusColor: Colors.white,
                         //add prefix icon
                         prefixIcon: const Icon(
-                          Icons.person_outline_rounded,
+                          Icons.person,
                           color: Colors.black,
                         ),
 
