@@ -38,6 +38,7 @@ dependencies:
   permission_handler: ^10.2.0
   image_picker: ^0.8.1
   path_provider:
+  http: ^0.13.5
   
 
 dev_dependencies:
@@ -63,8 +64,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/image
+  # assets:
+  #   - assets/image
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

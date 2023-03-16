@@ -4,8 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -17,6 +15,7 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   XFile? _pickedFile ;
   Color profileColor = Colors.lightGreen;
+  var potProfile = Map();
   var potName;
   var properTemperature;
   var wateringCycle;
@@ -152,9 +151,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   if (tempFormKeyState!.validate()) {
                     tempFormKeyState.save();
                   }
-                  print(potName);
-                  print(properTemperature);
-                  print(wateringCycle);
+                  potProfile['name'] = potName;
+                  potProfile['image'] = _pickedFile;
+                  potProfile['color'] = profileColor;
+                  potProfile['temperature'] = properTemperature;
+                  potProfile['wateringCycle'] = wateringCycle;
+                  print(potProfile);
                 },
                 child: Text('완료')),
           ],
