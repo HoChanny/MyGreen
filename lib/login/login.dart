@@ -1,4 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'funcs/checking.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,13 +24,38 @@ class _LoginPageState extends State<LoginPage> {
     //비밀번호
     String password = '';
 
-    void validateAndSave() {
+    //토큰
+    bool token = false;
+
+    bool validateAndSave() {
       final form = formKey.currentState;
 
       if (form != null && form.validate()) {
         form.save();
-      } else {}
+        return true;
+      } else {
+        return false;
+      }
     }
+
+    // //로그인 증명
+    // Future<void> doLogin() async {
+    //   final response = await http
+    //       .get(Uri.parse('https://jsonplaceholder.typicode.com/comments'));
+    //   // Wait for the HTTP GET request to complete and store the response in a variable
+
+    //   if (response.statusCode == 200) {
+    //     final jsonData = jsonDecode(response.body);
+    //     print(jsonData);
+    //   } else {
+    //     throw Exception('Failed to load data');
+    //   }
+    // }
+
+    
+
+
+
 
     return Scaffold(
         appBar: AppBar(
@@ -58,8 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextFormField(
                     maxLength: 10,
                     style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
+                     
                     ),
                     decoration: InputDecoration(
                       focusColor: Colors.white,
@@ -68,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                         Icons.person_outline_rounded,
                         color: Colors.grey,
                       ),
-
+hintText: '아이디를 입력하시오',
                       //default border
                       enabledBorder: UnderlineInputBorder(
                           borderSide: const BorderSide(
@@ -84,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return '아이디를 입력해주세요..';
+                        return '아이디를 입력해주세요.';
                       }
                     },
                     onSaved: (value) => id = value!,
@@ -101,6 +130,8 @@ class _LoginPageState extends State<LoginPage> {
                         Icons.key_rounded,
                         color: Colors.grey,
                       ),
+
+                      hintText: '비밀번호를 입력하시오',
 
                       //default border
                       enabledBorder: UnderlineInputBorder(
@@ -119,26 +150,51 @@ class _LoginPageState extends State<LoginPage> {
                       if (value!.isEmpty) {
                         return '비밀번호를 입력해주세요';
                       }
-                      return '';
+                      
                     },
-                    onSaved: (value) {
-                      setState(() {
-                        password = value!;
-                      });
-                    },
+                    
+                        onSaved: (value) => password = value!,
+                      
+                    
                   ),
 
                   // 제출하기 버튼
                   ElevatedButton(
                       onPressed: () {
-                        validateAndSave();
-                        // ignore: avoid_print
+                        if (validateAndSave()) {
                         print('$id $password');
+
+                          if(checkingId(id)){
+                            if(checkingPassword(password)){
+                              token = true;
+                                                      print('로그인 완료');
+
+                              print(token);
+                            }else {
+                              token = false;
+                              print(token);  
+                              ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('비밀번호를 확인해주세요.')));
+                            }
+                            
+                          } else {
+                              token = false;
+                              print(token);  
+                              ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('아이디를 확인해주세요.')));
+                            
+                            
+                          }
+
+                        } else {}
+
+                        
+                        
                       },
                       style: ElevatedButton.styleFrom(),
                       child: const Text(
                         '로그인 하기',
-                      ))
+                      ),)
                 ],
               )),
         ));
