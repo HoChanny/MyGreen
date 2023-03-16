@@ -18,18 +18,7 @@ class Test extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> loadData() async {
-      try {
-        final file = File('./date.json');
-        final contents = await file.readAsString();
-        final jsonData = json.decode(contents);
-        print('Loaded JSON data: $jsonData');
-        // Do something with the JSON data
-      } catch (e) {
-        print('Error loading JSON data: $e');
-      }
-    }
-
+    
     return Scaffold(
         backgroundColor: Colors.amber,
         body: Center(
@@ -57,7 +46,6 @@ class Test extends StatelessWidget {
               ElevatedButton(
                 child: const Text('test'),
                 onPressed: () {
-                  loadData();
                 },
               )
             ])));
