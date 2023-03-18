@@ -1,4 +1,4 @@
-#Thu Mar 16 12:07:16 KST 2023
-base.0=C\:\\Users\\user\\MyGreen\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+#Fri Mar 17 02:09:13 KST 2023
+base.0=D\:\\coding\\MyGreen\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

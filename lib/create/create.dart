@@ -47,7 +47,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         "id": id,
         "password": password,
         "birthday": date.year + date.month + date.day,
-
       };
       final response = await http.post(url,
           headers: {'Content-Type': 'application/json'},
@@ -84,248 +83,247 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           padding: const EdgeInsets.all(16),
 
           child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  //회원 재확인
-                  Container(
-                      //left, top, right 및 bottom
-                      margin: const EdgeInsets.fromLTRB(
-                          18.0, 10.0, 18.0, 10.0), // Set margin for all sides
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                //회원 재확인
+                Container(
+                    //left, top, right 및 bottom
+                    margin: const EdgeInsets.fromLTRB(
+                        18.0, 10.0, 18.0, 10.0), // Set margin for all sides
 
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginPage()));
-                            },
-                            child: const Text(
-                              '이미 회원이신가요 ?',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          )
-                        ],
-                      )),
-
-                  //  아이디 입력
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                    child: TextFormField(
-                      maxLength: 20,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      decoration: InputDecoration(
-                        focusColor: Colors.white,
-                        //add prefix icon
-                        prefixIcon: const Icon(
-                          Icons.person_outline_rounded,
-                          color: Colors.black,
-                        ),
-
-                        //default border
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: const BorderSide(
-                                width: 2, color: Colors.black), //<-- SEE HERE
-                            borderRadius: BorderRadius.circular(0.0)),
-
-                        //focus border
-                        focusedBorder: UnderlineInputBorder(
-                            //<-- SEE HERE
-                            borderSide: const BorderSide(
-                                width: 3, color: Colors.greenAccent),
-                            borderRadius: BorderRadius.circular(0.0)),
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter at least one character.';
-                        } else if (!validId(value)) {
-                          return 'ID format must be between 6 and 18.0 characters.';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) => id = value!,
-                    ),
-                  ),
-
-                  //  패스워드 입력
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                    child: TextFormField(
-                      maxLength: 20,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        focusColor: Colors.white,
-                        //add prefix icon
-                        prefixIcon: const Icon(
-                          Icons.key,
-                          color: Colors.black,
-                        ),
-
-                        //default border
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: const BorderSide(
-                                width: 2, color: Colors.black), //<-- SEE HERE
-                            borderRadius: BorderRadius.circular(0.0)),
-
-                        //focus border
-                        focusedBorder: UnderlineInputBorder(
-                            //<-- SEE HERE
-                            borderSide: const BorderSide(
-                                width: 3, color: Colors.greenAccent),
-                            borderRadius: BorderRadius.circular(0.0)),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter at least one character.';
-                        } else if (!validPassword(value)) {
-                          return 'The password format is at least 4 numbers, at least 1 letter, and at least 1 special character.';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        setState(() {
-                          password = value!;
-                        });
-                      },
-                    ),
-                  ),
-
-                  //이메일 입력
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                    child: TextFormField(
-                      maxLength: 20,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      decoration: InputDecoration(
-                        focusColor: Colors.white,
-                        //add prefix icon
-                        prefixIcon: const Icon(
-                          Icons.email,
-                          color: Colors.black,
-                        ),
-
-                        //default border
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: const BorderSide(
-                                width: 2, color: Colors.black), //<-- SEE HERE
-                            borderRadius: BorderRadius.circular(0.0)),
-
-                        //focus border
-                        focusedBorder: UnderlineInputBorder(
-                            //<-- SEE HERE
-                            borderSide: const BorderSide(
-                                width: 3, color: Colors.greenAccent),
-                            borderRadius: BorderRadius.circular(0.0)),
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter at least one character.';
-                        } else if (!validId(value)) {
-                          return 'ID format must be between 6 and 18.0 characters.';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) => id = value!,
-                    ),
-                  ),
-                  //  생일 입력
-
-                  Container(
-                    margin: const EdgeInsets.all(18.0),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.black,
-                          width: 2,
-                        ),
-                      ),
-                    ),
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        // Set margin for all sides
-                        children: [
-                          const Icon(Icons.cake),
-                          Text(
-                            '${date.year}년 ${date.month}월 ${date.day}일',
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginPage()));
+                          },
+                          child: const Text(
+                            '이미 회원이신가요 ?',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.blue,
+                            ),
                           ),
-                          IconButton(
-                            onPressed: () async {
-                              DateTime? newDate = await showDatePicker(
-                                context: context,
-                                initialDate: date,
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime(2100),
-                              );
+                        )
+                      ],
+                    )),
 
-                              if (newDate == null) return;
-                              setState(() => date = newDate);
-                              print(DateTime.now());
-                            },
-                            icon: const Icon(Icons.calendar_month),
-                          ),
-                        ]),
-                  ),
-
-                  // 제출하기 버튼
-                  Container(
-                    width: 10, // specify the width of the container
-                    height: 50, // specify the height of the container
-                    margin: const EdgeInsets.fromLTRB(100.0, 100.0, 100.0, 0.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        validateAndSave();
-                        print('$id $password $birthDay');
-                        postRequest(id, password, date);
-                        print('${date.year} ${date.month} ${date.day}');
-                      },
-                      style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                        ),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.lightGreen),
-                        fixedSize: MaterialStateProperty.all<Size>(
-                          const Size(1, 50),
-                        ),
-                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                          const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                        ),
+                //  아이디 입력
+                Container(
+                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
+                  child: TextFormField(
+                    maxLength: 20,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    decoration: InputDecoration(
+                      focusColor: Colors.white,
+                      //add prefix icon
+                      prefixIcon: const Icon(
+                        Icons.person,
+                        color: Colors.black,
                       ),
-                      child: const Text(
-                        '회원 가입 하기',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+
+                      //default border
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 2, color: Colors.black), //<-- SEE HERE
+                          borderRadius: BorderRadius.circular(0.0)),
+
+                      //focus border
+                      focusedBorder: UnderlineInputBorder(
+                          //<-- SEE HERE
+                          borderSide: const BorderSide(
+                              width: 3, color: Colors.greenAccent),
+                          borderRadius: BorderRadius.circular(0.0)),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter at least one character.';
+                      } else if (!validId(value)) {
+                        return 'ID format must be between 6 and 18.0 characters.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => id = value!,
+                  ),
+                ),
+
+                //  패스워드 입력
+                Container(
+                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
+                  child: TextFormField(
+                    maxLength: 20,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      focusColor: Colors.white,
+                      //add prefix icon
+                      prefixIcon: const Icon(
+                        Icons.key,
+                        color: Colors.black,
+                      ),
+
+                      //default border
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 2, color: Colors.black), //<-- SEE HERE
+                          borderRadius: BorderRadius.circular(0.0)),
+
+                      //focus border
+                      focusedBorder: UnderlineInputBorder(
+                          //<-- SEE HERE
+                          borderSide: const BorderSide(
+                              width: 3, color: Colors.greenAccent),
+                          borderRadius: BorderRadius.circular(0.0)),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter at least one character.';
+                      } else if (!validPassword(value)) {
+                        return 'The password format is at least 4 numbers, at least 1 letter, and at least 1 special character.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      setState(() {
+                        password = value!;
+                      });
+                    },
+                  ),
+                ),
+
+                //이메일 입력
+                Container(
+                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
+                  child: TextFormField(
+                    maxLength: 20,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    decoration: InputDecoration(
+                      focusColor: Colors.white,
+                      //add prefix icon
+                      prefixIcon: const Icon(
+                        Icons.email,
+                        color: Colors.black,
+                      ),
+
+                      //default border
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 2, color: Colors.black), //<-- SEE HERE
+                          borderRadius: BorderRadius.circular(0.0)),
+
+                      //focus border
+                      focusedBorder: UnderlineInputBorder(
+                          //<-- SEE HERE
+                          borderSide: const BorderSide(
+                              width: 3, color: Colors.greenAccent),
+                          borderRadius: BorderRadius.circular(0.0)),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter at least one character.';
+                      } else if (!validId(value)) {
+                        return 'ID format must be between 6 and 18.0 characters.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => id = value!,
+                  ),
+                ),
+                //  생일 입력
+
+                Container(
+                  margin: const EdgeInsets.all(18.0),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.black,
+                        width: 2,
                       ),
                     ),
                   ),
-                ],
-              ),
-              ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // Set margin for all sides
+                      children: [
+                        const Icon(Icons.cake),
+                        Text(
+                          '${date.year}년 ${date.month}월 ${date.day}일',
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            DateTime? newDate = await showDatePicker(
+                              context: context,
+                              initialDate: date,
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime(2100),
+                            );
+
+                            if (newDate == null) return;
+                            setState(() => date = newDate);
+                            print(DateTime.now());
+                          },
+                          icon: const Icon(Icons.calendar_month),
+                        ),
+                      ]),
+                ),
+
+                // 제출하기 버튼
+                Container(
+                  width: 10, // specify the width of the container
+                  height: 50, // specify the height of the container
+                  margin: const EdgeInsets.fromLTRB(100.0, 100.0, 100.0, 0.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      validateAndSave();
+                      print('$id $password $birthDay');
+                      postRequest(id, password, date);
+                      print('${date.year} ${date.month} ${date.day}');
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                      ),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.lightGreen),
+                      fixedSize: MaterialStateProperty.all<Size>(
+                        const Size(1, 50),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                      ),
+                    ),
+                    child: const Text(
+                      '회원 가입 하기',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ));
   }
 }
