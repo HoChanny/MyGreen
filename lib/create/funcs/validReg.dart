@@ -24,7 +24,8 @@ bool validPassword(input) {
 }
 
 final RegExp emailExp =
-    RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    RegExp( r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+);
 
 bool validEmail(input) {
   if (emailExp.hasMatch(input)) {

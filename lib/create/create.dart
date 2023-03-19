@@ -32,6 +32,12 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     //생일
     String birthDay = '';
 
+    //이름
+    String name = '';
+
+    //이메일
+    String email = '';
+
     void validateAndSave() {
       final form = formKey.currentState;
 
@@ -41,11 +47,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     }
 
 //backend에 입력값 보내기
-    Future<http.Response> postRequest(String id, password, date) async {
-      final url = Uri.parse('https://iotvase.azurewebsites.net/test');
+    Future<http.Response> postRequest(String id, password, name,email, date) async {
+      final url = Uri.parse('https://iotvase.azurewebsites.net/account/create');
       Map<String, dynamic> user = {
         "id": id,
         "password": password,
+        "name" : name,
+        "email" : email,
         "birthday": date.year + date.month + date.day,
       };
       final response = await http.post(url,
@@ -129,7 +137,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         Icons.person,
                         color: Colors.black,
                       ),
-
+                    hintText: '아이디를 입력해주세요',
                       //default border
                       enabledBorder: UnderlineInputBorder(
                           borderSide: const BorderSide(
@@ -164,7 +172,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       fontSize: 20,
                       fontWeight: FontWeight.w400,
                     ),
+                    
                     obscureText: true,
+                    
                     decoration: InputDecoration(
                       focusColor: Colors.white,
                       //add prefix icon
@@ -172,7 +182,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         Icons.key,
                         color: Colors.black,
                       ),
-
+                    hintText: '비밀번호를 입력해주세요',
                       //default border
                       enabledBorder: UnderlineInputBorder(
                           borderSide: const BorderSide(
@@ -202,7 +212,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   ),
                 ),
 
-                //이메일 입력
+                //이름작성
                 Container(
                   margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
                   child: TextFormField(
@@ -215,9 +225,10 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       focusColor: Colors.white,
                       //add prefix icon
                       prefixIcon: const Icon(
-                        Icons.email,
+                        Icons.android,
                         color: Colors.black,
                       ),
+                    hintText: '이름을 입력해주세요',
 
                       //default border
                       enabledBorder: UnderlineInputBorder(
@@ -233,14 +244,55 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           borderRadius: BorderRadius.circular(0.0)),
                     ),
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value == null || value.isEmpty) {
                         return 'Please enter at least one character.';
                       } else if (!validId(value)) {
                         return 'ID format must be between 6 and 18.0 characters.';
                       }
                       return null;
                     },
-                    onSaved: (value) => id = value!,
+                    onSaved: (value) => name = value!,
+                  ),
+                ),
+                //이메일 입력
+                Container(
+                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
+                  child: TextFormField(
+                    maxLength: 20,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    decoration: InputDecoration(
+                      focusColor: Colors.white,
+                      //add prefix icon
+                      prefixIcon: const Icon(
+                        Icons.email,
+                        color: Colors.black,
+                      ),hintText: '이메일 을 입력해주세요',
+
+                      //default border
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 2, color: Colors.black), //<-- SEE HERE
+                          borderRadius: BorderRadius.circular(0.0)),
+
+                      //focus border
+                      focusedBorder: UnderlineInputBorder(
+                          //<-- SEE HERE
+                          borderSide: const BorderSide(
+                              width: 3, color: Colors.greenAccent),
+                          borderRadius: BorderRadius.circular(0.0)),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter at least one character.';
+                      } else if (!validEmail(value)) {
+                        return 'ID format must be between 6 and 18.0 characters.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => email = value!,
                   ),
                 ),
                 //  생일 입력
@@ -291,8 +343,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   child: ElevatedButton(
                     onPressed: () {
                       validateAndSave();
-                      print('$id $password $birthDay');
-                      postRequest(id, password, date);
+                      print('$id $password $name $email $birthDay');
+                      postRequest(id, password,name, email,date);
                       print('${date.year} ${date.month} ${date.day}');
                     },
                     style: ButtonStyle(

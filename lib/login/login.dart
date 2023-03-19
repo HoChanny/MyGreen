@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 
 import 'package:mygreen/create/create.dart';
 
@@ -11,6 +15,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -35,9 +40,22 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
 
-    final screenWidth = MediaQuery.of(context).size.width;
-    final width = screenWidth * 0.5; // 50% of screen width
+//backend에 입력값 보내기
+    Future<http.Response> postRequest(String id, password) async {
+      final url = Uri.parse('https://iotvase.azurewebsites.net/account/login');
+      Map<String, dynamic> user = {
+        "id": id,
+        "password": password,
+        
+      };
+      final response = await http.post(url,
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode(user));
+      print(response.body);
+      print(response.statusCode);
 
+      return response;
+    }
     return Scaffold(
       appBar: AppBar(
         //왼쪽에 배치하기
@@ -197,6 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                 // 제출하기 버튼
                 child: ElevatedButton(
                   onPressed: () {
+                    postRequest(id, password);
                     // if (validateAndSave()) {
                     //   if (checkingId(id)) {
                     //     if (checkingPassword(password)) {
