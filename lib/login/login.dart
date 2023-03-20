@@ -1,9 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'funcs/checking.dart';
+
+import 'package:mygreen/create/create.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -139,29 +136,86 @@ class _LoginPageState extends State<LoginPage> {
                   onSaved: (value) => password = value!,
                 ),
               ),
+
+              Container(
+                  //left, top, right 및 bottom
+                  margin: const EdgeInsets.fromLTRB(
+                      10.0, 0, 10.0, 10.0), // Set margin for all sides
+
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()));
+                        },
+                        child: const Text(
+                          '아이디 찾기     ',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()));
+                        },
+                        child: const Text(
+                          '비밀번호 찾기     ',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CreateAccountPage()));
+                        },
+                        child: const Text(
+                          '회원 가입     ',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      )
+                    ],
+                  )),
+
               Container(
                 // 제출하기 버튼
                 child: ElevatedButton(
                   onPressed: () {
-                    if (validateAndSave()) {
-                      if (checkingId(id)) {
-                        if (checkingPassword(password)) {
-                          token = true;
-                          print('로그인 완료');
-                          print(token);
-                        } else {
-                          token = false;
-                          print(token);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('비밀번호를 확인해주세요.')));
-                        }
-                      } else {
-                        token = false;
-                        print(token);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('아이디를 확인해주세요.')));
-                      }
-                    } else {}
+                    // if (validateAndSave()) {
+                    //   if (checkingId(id)) {
+                    //     if (checkingPassword(password)) {
+                    //       token = true;
+                    //       print('로그인 완료');
+                    //       print(token);
+                    //     } else {
+                    //       token = false;
+                    //       print(token);
+                    //       ScaffoldMessenger.of(context).showSnackBar(
+                    //           SnackBar(content: Text('비밀번호를 확인해주세요.')));
+                    //     }
+                    //   } else {
+                    //     token = false;
+                    //     print(token);
+                    //     ScaffoldMessenger.of(context).showSnackBar(
+                    //         SnackBar(content: Text('아이디를 확인해주세요.')));
+                    //   }
+                    // } else {}
                   },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(

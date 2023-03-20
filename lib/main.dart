@@ -1,12 +1,12 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:mygreen/create/create.dart';
 import 'package:mygreen/login/login.dart';
+import 'package:mygreen/calandar/calandar.dart';
 
-void main() {
+Future<void> main() async {
+  await initializeDateFormatting();
   runApp(const MaterialApp(
     title: '',
     home: Test(),
@@ -18,7 +18,6 @@ class Test extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
         backgroundColor: Colors.amber,
         body: Center(
@@ -46,6 +45,10 @@ class Test extends StatelessWidget {
               ElevatedButton(
                 child: const Text('test'),
                 onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CalendarPage()));
                 },
               )
             ])));
