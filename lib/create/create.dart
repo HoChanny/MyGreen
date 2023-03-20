@@ -254,10 +254,15 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     onSaved: (value) => name = value!,
                   ),
                 ),
+
                 //이메일 입력
                 Container(
+                  width: 200,
                   margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                  child: TextFormField(
+                  child: Row(
+                    children: [
+                      Expanded(
+                    child : TextFormField(
                     maxLength: 20,
                     style: const TextStyle(
                       fontSize: 20,
@@ -294,7 +299,98 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     },
                     onSaved: (value) => email = value!,
                   ),
+                  ),
+                  const SizedBox(width: 20),
+                  ElevatedButton(
+                    onPressed: (){
+
+                    },
+                     
+                     style: ButtonStyle(
+                      
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.lightGreen),
+
+                    ),
+                     child: const Text('인증 하기',
+                     style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),),
+                  ),
+                  ],
                 ),
+                ),
+
+                Container(
+                  width: 200,
+                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                    child : TextFormField(
+                    maxLength: 20,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    decoration: InputDecoration(
+                      focusColor: Colors.white,
+                      //add prefix icon
+                      prefixIcon: const Icon(
+                        Icons.key,
+                        color: Colors.black,
+                      ),
+                      hintText: '인증번호를 입력해주세요',
+
+                      //default border
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 2, color: Colors.black), //<-- SEE HERE
+                          borderRadius: BorderRadius.circular(0.0)),
+
+                      //focus border
+                      focusedBorder: UnderlineInputBorder(
+                          //<-- SEE HERE
+                          borderSide: const BorderSide(
+                              width: 3, color: Colors.greenAccent),
+                          borderRadius: BorderRadius.circular(0.0)),
+                    ),
+                    validator: (value) {
+                      // if (value == null || value.isEmpty) {
+                      //   return 'Please enter at least one character.';
+                      // } else if (!validEmail(value)) {
+                      //   return 'ID format must be between 6 and 18.0 characters.';
+                      // }
+                      return null;
+                    },
+                    // onSaved: (value) => email = value!,
+                  ),
+                  ),
+                  const SizedBox(width: 20),
+                  ElevatedButton(
+                    onPressed: (){
+                      
+                    },
+                     
+                     style: ButtonStyle(
+                      
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.lightGreen),
+
+                    ),
+                     child: const Text('확인 하기',
+                     style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),),
+                  ),
+                  ],
+                ),
+                ),
+
                 //  생일 입력
 
                 Container(
