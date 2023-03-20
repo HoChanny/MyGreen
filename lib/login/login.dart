@@ -29,15 +29,12 @@ class _LoginPageState extends State<LoginPage> {
     //토큰
     bool token = false;
 
-    bool validateAndSave() {
+ void validateAndSave() {
       final form = formKey.currentState;
 
       if (form != null && form.validate()) {
         form.save();
-        return true;
-      } else {
-        return false;
-      }
+      } else {}
     }
 
 //backend에 입력값 보내기
@@ -53,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
           body: json.encode(user));
       print(response.body);
       print(response.statusCode);
-
+      print('$id $password');
       return response;
     }
     return Scaffold(
@@ -113,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return '아이디를 입력해주세요.';
-                  }
+                  } return null;
                 },
                 onSaved: (value) => id = value!,
               )),
@@ -149,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return '비밀번호를 입력해주세요';
-                    }
+                    } return null;
                   },
                   onSaved: (value) => password = value!,
                 ),
@@ -215,7 +212,9 @@ class _LoginPageState extends State<LoginPage> {
                 // 제출하기 버튼
                 child: ElevatedButton(
                   onPressed: () {
+                    validateAndSave();
                     postRequest(id, password);
+                    print('$id $password');
                     // if (validateAndSave()) {
                     //   if (checkingId(id)) {
                     //     if (checkingPassword(password)) {
