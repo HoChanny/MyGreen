@@ -4,15 +4,36 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends StatefulWidget {
-  const CalendarPage({super.key});
+  const CalendarPage({Key? key}) : super(key: key);
 
   @override
-  _CalendarPageState createState() => _CalendarPageState();
+  
+  State<CalendarPage> createState() => _CalendarPageState();
+  
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+    DateTime selectedDay = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+  );  
+
+  DateTime focusedDay = DateTime.now();
+
+   Map<DateTime, List<Event>> events = {
+    DateTime.utc(2023,3,13) : [ Event('title'), Event('title2') ],
+    DateTime.utc(2022,7,14) : [ Event('title3') ],
+  };
+
+  List<Event> _getEventsForDay(DateTime day) {
+    return events[day] ?? [];
+  }
+
   @override
   Widget build(BuildContext context) {
+  
+
     return Scaffold(
       appBar: AppBar(
         //왼쪽에 배치하기
@@ -37,7 +58,18 @@ class _CalendarPageState extends State<CalendarPage> {
 
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
-            focusedDay: DateTime.now(),
+            focusedDay: focusedDay, 
+            onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
+          // 선택된 날짜의 상태를 갱신합니다.	
+          setState((){
+            this.selectedDay = selectedDay;
+            this.focusedDay = focusedDay;
+          });
+        },
+        selectedDayPredicate: (DateTime day) {
+          // selectedDay 와 동일한 날짜의 모양을 바꿔줍니다.	
+          return isSameDay(selectedDay, day);
+        },
             //헤더스타일
             headerStyle: HeaderStyle(
               titleCentered: true,
@@ -49,8 +81,18 @@ class _CalendarPageState extends State<CalendarPage> {
                 color: Colors.blue,
               ),
             ),
-            calendarStyle: CalendarStyle()),
+            calendarStyle: CalendarStyle(markerSize: 10.0,
+          markerDecoration: BoxDecoration(
+            color: Colors.red,
+            shape: BoxShape.circle
+          ),),
+                  eventLoader: _getEventsForDay),
       ),
     );
   }
+}
+class Event {
+  String title;
+
+  Event(this.title);
 }
