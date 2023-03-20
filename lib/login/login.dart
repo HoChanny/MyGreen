@@ -156,7 +156,6 @@ class _LoginPageState extends State<LoginPage> {
                   //left, top, right 및 bottom
                   margin: const EdgeInsets.fromLTRB(
                       10.0, 0, 10.0, 10.0), // Set margin for all sides
-
                   child: Row(
                     children: [
                       GestureDetector(
