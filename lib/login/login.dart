@@ -3,8 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-
 import 'package:mygreen/create/create.dart';
+
+import 'package:mygreen/login/widgets/MyGestureDetector/MyGestureDetector.dart';
+import 'package:mygreen/login/widgets/MyTextFormField/MyTextFormField.dart';
+import 'package:mygreen/login/widgets/MyElevatedButton/MyElevatedButton.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -25,20 +29,18 @@ class _LoginPageState extends State<LoginPage> {
 
     //비밀번호
     String password = '';
-
-    //토큰
-    bool token = false;
+    
 
  void validateAndSave() {
       final form = formKey.currentState;
-
       if (form != null && form.validate()) {
+        print('success');
         form.save();
       } else {}
     }
 
 //backend에 입력값 보내기
-    Future<http.Response> postRequest(String id, password) async {
+    Future<http.Response> postRequest(String id, String password) async {
       final url = Uri.parse('https://iotvase.azurewebsites.net/account/login');
       Map<String, dynamic> user = {
         "id": id,
@@ -48,9 +50,7 @@ class _LoginPageState extends State<LoginPage> {
       final response = await http.post(url,
           headers: {'Content-Type': 'application/json'},
           body: json.encode(user));
-      print(response.body);
       print(response.statusCode);
-      print('$id $password');
       return response;
     }
     return Scaffold(
@@ -81,184 +81,41 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              //  아이디 입력
+              //test
               Container(
-                  child: TextFormField(
-                maxLength: 10,
-                style: const TextStyle(),
-                decoration: InputDecoration(
-                  focusColor: Colors.white,
-                  //add prefix icon
-                  prefixIcon: const Icon(
-                    Icons.person,
-                    color: Colors.black,
-                  ),
-                  hintText: '아이디를 입력하시오',
-                  //default border
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide: const BorderSide(
-                          width: 2, color: Colors.black), //<-- SEE HERE
-                      borderRadius: BorderRadius.circular(0.0)),
-
-                  //focus border
-                  focusedBorder: UnderlineInputBorder(
-                      //<-- SEE HERE
-                      borderSide:
-                          const BorderSide(width: 3, color: Colors.greenAccent),
-                      borderRadius: BorderRadius.circular(0.0)),
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return '아이디를 입력해주세요.';
-                  } return null;
-                },
-                onSaved: (value) => id = value!,
-              )),
-
-              //  패스워드 입력
-              Container(
-                child: TextFormField(
-                  maxLength: 20,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    focusColor: Colors.white,
-                    //add prefix icon
-                    prefixIcon: const Icon(
-                      Icons.key,
-                      color: Colors.black,
-                    ),
-
-                    hintText: '비밀번호를 입력하시오',
-
-                    //default border
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: const BorderSide(
-                            width: 2, color: Colors.black), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(0.0)),
-
-                    //focus border
-                    focusedBorder: UnderlineInputBorder(
-                        //<-- SEE HERE
-                        borderSide: const BorderSide(
-                            width: 3, color: Colors.greenAccent),
-                        borderRadius: BorderRadius.circular(0.0)),
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return '비밀번호를 입력해주세요';
-                    } return null;
-                  },
-                  onSaved: (value) => password = value!,
-                ),
+                child: MyTextFormField(
+                  icon : Icons.person,
+                  hintText: '아이디',
+                  warningMessage: '아이디를 입력하세요.',
+                  formValue: id)
               ),
-
+              Container(
+                child: MyTextFormField(
+                  icon : Icons.key,
+                  hintText: '비밀번호',
+                  warningMessage: '비밀번호를 입력하세요.',
+                  formValue: password)
+              ),
+             
               Container(
                   //left, top, right 및 bottom
                   margin: const EdgeInsets.fromLTRB(
                       10.0, 0, 10.0, 10.0), // Set margin for all sides
                   child: Row(
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginPage()));
-                        },
-                        child: const Text(
-                          '아이디 찾기     ',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginPage()));
-                        },
-                        child: const Text(
-                          '비밀번호 찾기     ',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CreateAccountPage()));
-                        },
-                        child: const Text(
-                          '회원 가입     ',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      )
+                      MyGestureDetector1(text : '아이디 찾기     '),
+                      MyGestureDetector1(text : '비밀번호 찾기     '),
+                      MyGestureDetector2(text : '회원가입 하기     '),
                     ],
                   )),
-
               Container(
-                // 제출하기 버튼
-                child: ElevatedButton(
-                  onPressed: () {
-                    validateAndSave();
-                    postRequest(id, password);
-                    print('$id $password');
-                    // if (validateAndSave()) {
-                    //   if (checkingId(id)) {
-                    //     if (checkingPassword(password)) {
-                    //       token = true;
-                    //       print('로그인 완료');
-                    //       print(token);
-                    //     } else {
-                    //       token = false;
-                    //       print(token);
-                    //       ScaffoldMessenger.of(context).showSnackBar(
-                    //           SnackBar(content: Text('비밀번호를 확인해주세요.')));
-                    //     }
-                    //   } else {
-                    //     token = false;
-                    //     print(token);
-                    //     ScaffoldMessenger.of(context).showSnackBar(
-                    //         SnackBar(content: Text('아이디를 확인해주세요.')));
-                    //   }
-                    // } else {}
-                  },
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                    ),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.lightGreen),
-                    fixedSize: MaterialStateProperty.all<Size>(
-                      const Size(1000, 50),
-                    ),
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    ),
-                  ),
-                  child: const Text(
-                    '로그인 하기',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                child : MyElevatedButton(
+                  id : id ,
+                  password: password,
+                  valid : validateAndSave,
+                  post: postRequest)
               ),
+              
             ],
           ),
         ),

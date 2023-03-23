@@ -2,9 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mygreen/create/widgets/MyElevatedButton/MyElevatedSubmitButton.dart';
 import 'dart:convert';
 import 'package:mygreen/login/login.dart';
 
+import 'package:mygreen/create/widgets/MyTextFormField/MyTextFormField.dart';
+import 'package:mygreen/create/widgets/MyElevatedButton/MyElevatedButton.dart';
 import 'funcs/validReg.dart';
 
 class CreateAccountPage extends StatefulWidget {
@@ -41,13 +44,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     void validateAndSave() {
       final form = formKey.currentState;
 
-      if (form != null && form.validate()) {
+      if (form != null && form.validate() ) {
         form.save();
       } else {}
     }
 
 //backend에 입력값 보내기
-    Future<http.Response> postRequest(String id, password, name,email, date) async {
+    Future<http.Response> postRequest(String id, String password, String name, String email,DateTime date) async {
       final url = Uri.parse('https://iotvase.azurewebsites.net/account/create');
       Map<String, dynamic> user = {
         "id": id,
@@ -59,7 +62,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       final response = await http.post(url,
           headers: {'Content-Type': 'application/json'},
           body: json.encode(user));
-
+      print('$id $password $name $email $birthDay');
       print(response.statusCode);
 
       return response;
@@ -120,139 +123,31 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         )
                       ],
                     )),
-
+                
                 //  아이디 입력
                 Container(
                   margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                  child: TextFormField(
-                    maxLength: 20,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    decoration: InputDecoration(
-                      focusColor: Colors.white,
-                      //add prefix icon
-                      prefixIcon: const Icon(
-                        Icons.person,
-                        color: Colors.black,
-                      ),
-                    hintText: '아이디를 입력해주세요',
-                      //default border
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 2, color: Colors.black), //<-- SEE HERE
-                          borderRadius: BorderRadius.circular(0.0)),
-
-                      //focus border
-                      focusedBorder: UnderlineInputBorder(
-                          //<-- SEE HERE
-                          borderSide: const BorderSide(
-                              width: 3, color: Colors.greenAccent),
-                          borderRadius: BorderRadius.circular(0.0)),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter at least one character.';
-                      } else if (!validId(value)) {
-                        return 'ID format must be between 6 and 18.0 characters.';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) => id = value!,
-                  ),
+                  child: MyTextFormField(
+                    icon : Icons.person,
+                    hintText: '아이디',
+                    warningMessage1: '아이디를 입력해주세요.',
+                    warningMessage2: '아이디는 6~10자 입니다.',
+                    validValue: validId,
+                    formValue: id,
+                  )
                 ),
 
                 //  패스워드 입력
                 Container(
                   margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                  child: TextFormField(
-                    maxLength: 20,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    
-                    obscureText: true,
-                    
-                    decoration: InputDecoration(
-                      focusColor: Colors.white,
-                      //add prefix icon
-                      prefixIcon: const Icon(
-                        Icons.key,
-                        color: Colors.black,
-                      ),
-                    hintText: '비밀번호를 입력해주세요',
-                      //default border
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 2, color: Colors.black), //<-- SEE HERE
-                          borderRadius: BorderRadius.circular(0.0)),
-
-                      //focus border
-                      focusedBorder: UnderlineInputBorder(
-                          //<-- SEE HERE
-                          borderSide: const BorderSide(
-                              width: 3, color: Colors.greenAccent),
-                          borderRadius: BorderRadius.circular(0.0)),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter at least one character.';
-                      } else if (!validPassword(value)) {
-                        return 'The password format is at least 4 numbers, at least 1 letter, and at least 1 special character.';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      setState(() {
-                        password = value!;
-                      });
-                    },
-                  ),
-                ),
-
-                //이름작성
-                Container(
-                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                  child: TextFormField(
-                    maxLength: 20,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    decoration: InputDecoration(
-                      focusColor: Colors.white,
-                      //add prefix icon
-                      prefixIcon: const Icon(
-                        Icons.android,
-                        color: Colors.black,
-                      ),
-                    hintText: '이름을 입력해주세요',
-
-                      //default border
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 2, color: Colors.black), //<-- SEE HERE
-                          borderRadius: BorderRadius.circular(0.0)),
-
-                      //focus border
-                      focusedBorder: UnderlineInputBorder(
-                          //<-- SEE HERE
-                          borderSide: const BorderSide(
-                              width: 3, color: Colors.greenAccent),
-                          borderRadius: BorderRadius.circular(0.0)),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter at least one character.';
-                      } else if (!validId(value)) {
-                        return 'ID format must be between 6 and 18.0 characters.';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) => name = value!,
-                  ),
+                  child: MyTextFormField(
+                    icon : Icons.key,
+                    hintText: '비밀번호',
+                    warningMessage1: '비밀번호를 입력해주세요.',
+                    warningMessage2: '비밀번호는 영문4자, 숫자1자, 특수문자1개 포함입니다.',
+                    validValue: validPassword,
+                    formValue: password,
+                  )
                 ),
 
                 //이메일 입력
@@ -262,63 +157,20 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   child: Row(
                     children: [
                       Expanded(
-                    child : TextFormField(
-                    maxLength: 20,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    decoration: InputDecoration(
-                      focusColor: Colors.white,
-                      //add prefix icon
-                      prefixIcon: const Icon(
-                        Icons.email,
-                        color: Colors.black,
-                      ),hintText: '이메일 을 입력해주세요',
-
-                      //default border
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 2, color: Colors.black), //<-- SEE HERE
-                          borderRadius: BorderRadius.circular(0.0)),
-
-                      //focus border
-                      focusedBorder: UnderlineInputBorder(
-                          //<-- SEE HERE
-                          borderSide: const BorderSide(
-                              width: 3, color: Colors.greenAccent),
-                          borderRadius: BorderRadius.circular(0.0)),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter at least one character.';
-                      } else if (!validEmail(value)) {
-                        return 'ID format must be between 6 and 18.0 characters.';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) => email = value!,
+                    child : MyTextFormField(
+                    icon : Icons.mail,
+                    hintText: '이메일',
+                    warningMessage1: '이메일를 입력해주세요.',
+                    warningMessage2: '이메일 형식을 확인해주세요.',
+                    validValue: validEmail,
+                    formValue: email,
                   ),
                   ),
+
                   const SizedBox(width: 20),
-                  ElevatedButton(
-                    onPressed: (){
 
-                    },
-                     
-                     style: ButtonStyle(
-                      
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.lightGreen),
+                  MyElevatedSubmitButton(Text: '확인하기'),
 
-                    ),
-                     child: const Text('인증 하기',
-                     style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),),
-                  ),
                   ],
                 ),
                 ),
@@ -329,64 +181,21 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   child: Row(
                     children: [
                       Expanded(
-                    child : TextFormField(
-                    maxLength: 20,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
+                      child :
+                      MyTextFormField(
+                        icon : Icons.key,
+                        hintText: '인증번호',
+                        warningMessage1: '인증번호를 입력해주세요.',
+                        warningMessage2: '인증번호를 확인해 주세요.',
+                        //추가해야함
+                        validValue: print,
+                        formValue: '',
                     ),
-                    decoration: InputDecoration(
-                      focusColor: Colors.white,
-                      //add prefix icon
-                      prefixIcon: const Icon(
-                        Icons.key,
-                        color: Colors.black,
-                      ),
-                      hintText: '인증번호를 입력해주세요',
-
-                      //default border
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 2, color: Colors.black), //<-- SEE HERE
-                          borderRadius: BorderRadius.circular(0.0)),
-
-                      //focus border
-                      focusedBorder: UnderlineInputBorder(
-                          //<-- SEE HERE
-                          borderSide: const BorderSide(
-                              width: 3, color: Colors.greenAccent),
-                          borderRadius: BorderRadius.circular(0.0)),
                     ),
-                    validator: (value) {
-                      // if (value == null || value.isEmpty) {
-                      //   return 'Please enter at least one character.';
-                      // } else if (!validEmail(value)) {
-                      //   return 'ID format must be between 6 and 18.0 characters.';
-                      // }
-                      return null;
-                    },
-                    // onSaved: (value) => email = value!,
-                  ),
-                  ),
+
                   const SizedBox(width: 20),
-                  ElevatedButton(
-                    onPressed: (){
-                      
-                    },
-                     
-                     style: ButtonStyle(
-                      
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.lightGreen),
-
-                    ),
-                     child: const Text('확인 하기',
-                     style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),),
-                  ),
+                  
+                  MyElevatedSubmitButton(Text: '확인하기')
                   ],
                 ),
                 ),
@@ -417,7 +226,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           onPressed: () async {
                             DateTime? newDate = await showDatePicker(
                               context: context,
-                              initialDate: date,
+                              initialDate:  DateTime(1900),
                               firstDate: DateTime(1900),
                               lastDate: DateTime(2100),
                             );
@@ -436,37 +245,15 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   width: 10, // specify the width of the container
                   height: 50, // specify the height of the container
                   margin: const EdgeInsets.fromLTRB(100.0, 100.0, 100.0, 0.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      validateAndSave();
-                      print('$id $password $name $email $birthDay');
-                      postRequest(id, password,name, email,date);
-                      print('${date.year} ${date.month} ${date.day}');
-                    },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.lightGreen),
-                      fixedSize: MaterialStateProperty.all<Size>(
-                        const Size(1, 50),
-                      ),
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
-                      ),
-                    ),
-                    child: const Text(
-                      '회원 가입 하기',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
+                  child: MyElevatedButton(
+                    id : id,
+                    password : password,
+                    birthDay : date,
+                    name : name,
+                    email : email,
+                    valid : validateAndSave,
+                    post : postRequest,
+
                   ),
                 ),
               ],
