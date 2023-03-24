@@ -9,7 +9,6 @@ import 'package:mygreen/login/widgets/MyGestureDetector/MyGestureDetector.dart';
 import 'package:mygreen/login/widgets/MyTextFormField/MyTextFormField.dart';
 import 'package:mygreen/login/widgets/MyElevatedButton/MyElevatedButton.dart';
 
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -19,7 +18,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -29,9 +27,8 @@ class _LoginPageState extends State<LoginPage> {
 
     //비밀번호
     String password = '';
-    
 
- void validateAndSave() {
+    void validateAndSave() {
       final form = formKey.currentState;
       if (form != null && form.validate()) {
         print('success');
@@ -45,7 +42,6 @@ class _LoginPageState extends State<LoginPage> {
       Map<String, dynamic> user = {
         "id": id,
         "password": password,
-        
       };
       final response = await http.post(url,
           headers: {'Content-Type': 'application/json'},
@@ -53,18 +49,11 @@ class _LoginPageState extends State<LoginPage> {
       print(response.statusCode);
       return response;
     }
+
     return Scaffold(
       appBar: AppBar(
         //왼쪽에 배치하기
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          tooltip: 'Back',
-          onPressed: () {
-            // ignore: avoid_print
-            print('back button is clicked');
-            Navigator.pop(context);
-          },
-        ),
+        leading: const BackButton(),
 
         title: const Text('Login'),
         //Title Center로 설정
@@ -83,39 +72,35 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               //test
               Container(
-                child: MyTextFormField(
-                  icon : Icons.person,
-                  hintText: '아이디',
-                  warningMessage: '아이디를 입력하세요.',
-                  formValue: id)
-              ),
+                  child: MyTextFormField(
+                      icon: Icons.person,
+                      hintText: '아이디',
+                      warningMessage: '아이디를 입력하세요.',
+                      formValue: id)),
               Container(
-                child: MyTextFormField(
-                  icon : Icons.key,
-                  hintText: '비밀번호',
-                  warningMessage: '비밀번호를 입력하세요.',
-                  formValue: password)
-              ),
-             
+                  child: MyTextFormField(
+                      icon: Icons.key,
+                      hintText: '비밀번호',
+                      warningMessage: '비밀번호를 입력하세요.',
+                      formValue: password)),
+
               Container(
                   //left, top, right 및 bottom
                   margin: const EdgeInsets.fromLTRB(
                       10.0, 0, 10.0, 10.0), // Set margin for all sides
                   child: Row(
                     children: [
-                      MyGestureDetector1(text : '아이디 찾기     '),
-                      MyGestureDetector1(text : '비밀번호 찾기     '),
-                      MyGestureDetector2(text : '회원가입 하기     '),
+                      MyGestureDetector1(text: '아이디 찾기     '),
+                      MyGestureDetector1(text: '비밀번호 찾기     '),
+                      MyGestureDetector2(text: '회원가입 하기     '),
                     ],
                   )),
               Container(
-                child : MyElevatedButton(
-                  id : id ,
-                  password: password,
-                  valid : validateAndSave,
-                  post: postRequest)
-              ),
-              
+                  child: MyElevatedButton(
+                      id: id,
+                      password: password,
+                      valid: validateAndSave,
+                      post: postRequest)),
             ],
           ),
         ),

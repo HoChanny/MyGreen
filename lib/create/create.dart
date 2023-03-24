@@ -44,19 +44,20 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     void validateAndSave() {
       final form = formKey.currentState;
 
-      if (form != null && form.validate() ) {
+      if (form != null && form.validate()) {
         form.save();
       } else {}
     }
 
 //backend에 입력값 보내기
-    Future<http.Response> postRequest(String id, String password, String name, String email,DateTime date) async {
+    Future<http.Response> postRequest(String id, String password, String name,
+        String email, DateTime date) async {
       final url = Uri.parse('https://iotvase.azurewebsites.net/account/create');
       Map<String, dynamic> user = {
         "id": id,
         "password": password,
-        "name" : name,
-        "email" : email,
+        "name": name,
+        "email": email,
         "birthday": date.year + date.month + date.day,
       };
       final response = await http.post(url,
@@ -73,15 +74,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         //상단바
         appBar: AppBar(
           //왼쪽에 배치하기
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            tooltip: 'Back',
-            onPressed: () {
-              //뒤로가기 함수 넣으면 됩니다!!
-              print('back button is clicked');
-              Navigator.pop(context);
-            },
-          ),
+          leading: const BackButton(),
 
           title: const Text('CreateAccount'),
           //Title Center로 설정
@@ -123,32 +116,30 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         )
                       ],
                     )),
-                
+
                 //  아이디 입력
                 Container(
-                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                  child: MyTextFormField(
-                    icon : Icons.person,
-                    hintText: '아이디',
-                    warningMessage1: '아이디를 입력해주세요.',
-                    warningMessage2: '아이디는 6~10자 입니다.',
-                    validValue: validId,
-                    formValue: id,
-                  )
-                ),
+                    margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
+                    child: MyTextFormField(
+                      icon: Icons.person,
+                      hintText: '아이디',
+                      warningMessage1: '아이디를 입력해주세요.',
+                      warningMessage2: '아이디는 6~10자 입니다.',
+                      validValue: validId,
+                      formValue: id,
+                    )),
 
                 //  패스워드 입력
                 Container(
-                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                  child: MyTextFormField(
-                    icon : Icons.key,
-                    hintText: '비밀번호',
-                    warningMessage1: '비밀번호를 입력해주세요.',
-                    warningMessage2: '비밀번호는 영문4자, 숫자1자, 특수문자1개 포함입니다.',
-                    validValue: validPassword,
-                    formValue: password,
-                  )
-                ),
+                    margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
+                    child: MyTextFormField(
+                      icon: Icons.key,
+                      hintText: '비밀번호',
+                      warningMessage1: '비밀번호를 입력해주세요.',
+                      warningMessage2: '비밀번호는 영문4자, 숫자1자, 특수문자1개 포함입니다.',
+                      validValue: validPassword,
+                      formValue: password,
+                    )),
 
                 //이메일 입력
                 Container(
@@ -157,22 +148,19 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   child: Row(
                     children: [
                       Expanded(
-                    child : MyTextFormField(
-                    icon : Icons.mail,
-                    hintText: '이메일',
-                    warningMessage1: '이메일를 입력해주세요.',
-                    warningMessage2: '이메일 형식을 확인해주세요.',
-                    validValue: validEmail,
-                    formValue: email,
+                        child: MyTextFormField(
+                          icon: Icons.mail,
+                          hintText: '이메일',
+                          warningMessage1: '이메일를 입력해주세요.',
+                          warningMessage2: '이메일 형식을 확인해주세요.',
+                          validValue: validEmail,
+                          formValue: email,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      MyElevatedSubmitButton(Text: '확인하기'),
+                    ],
                   ),
-                  ),
-
-                  const SizedBox(width: 20),
-
-                  MyElevatedSubmitButton(Text: '확인하기'),
-
-                  ],
-                ),
                 ),
 
                 Container(
@@ -181,23 +169,20 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   child: Row(
                     children: [
                       Expanded(
-                      child :
-                      MyTextFormField(
-                        icon : Icons.key,
-                        hintText: '인증번호',
-                        warningMessage1: '인증번호를 입력해주세요.',
-                        warningMessage2: '인증번호를 확인해 주세요.',
-                        //추가해야함
-                        validValue: print,
-                        formValue: '',
-                    ),
-                    ),
-
-                  const SizedBox(width: 20),
-                  
-                  MyElevatedSubmitButton(Text: '확인하기')
-                  ],
-                ),
+                        child: MyTextFormField(
+                          icon: Icons.key,
+                          hintText: '인증번호',
+                          warningMessage1: '인증번호를 입력해주세요.',
+                          warningMessage2: '인증번호를 확인해 주세요.',
+                          //추가해야함
+                          validValue: print,
+                          formValue: '',
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      MyElevatedSubmitButton(Text: '확인하기')
+                    ],
+                  ),
                 ),
 
                 //  생일 입력
@@ -226,7 +211,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           onPressed: () async {
                             DateTime? newDate = await showDatePicker(
                               context: context,
-                              initialDate:  DateTime(1900),
+                              initialDate: DateTime(1900),
                               firstDate: DateTime(1900),
                               lastDate: DateTime(2100),
                             );
@@ -246,14 +231,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   height: 50, // specify the height of the container
                   margin: const EdgeInsets.fromLTRB(100.0, 100.0, 100.0, 0.0),
                   child: MyElevatedButton(
-                    id : id,
-                    password : password,
-                    birthDay : date,
-                    name : name,
-                    email : email,
-                    valid : validateAndSave,
-                    post : postRequest,
-
+                    id: id,
+                    password: password,
+                    birthDay: date,
+                    name: name,
+                    email: email,
+                    valid: validateAndSave,
+                    post: postRequest,
                   ),
                 ),
               ],

@@ -3,7 +3,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:mygreen/create/create.dart';
 import 'package:mygreen/login/login.dart';
-import 'package:mygreen/calandar/calandar.dart';
+import 'package:mygreen/calendar/calendar.dart';
 
 Future<void> main() async {
   await initializeDateFormatting();
