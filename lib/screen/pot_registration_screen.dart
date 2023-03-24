@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -13,7 +15,7 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  XFile? _pickedFile ;
+  XFile? _pickedFile;
   Color profileColor = Colors.lightGreen;
   var potProfile = Map();
   var potName;
@@ -156,7 +158,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   potProfile['color'] = profileColor;
                   potProfile['temperature'] = properTemperature;
                   potProfile['wateringCycle'] = wateringCycle;
-                  print(potProfile);
+
+                  sendDataToServer(_pickedFile, potName, properTemperature, wateringCycle);
+                  Navigator.pop(context);
                 },
                 child: Text('완료')),
           ],
@@ -246,5 +250,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ],
           );
         });
+  }
+
+  void sendDataToServer(XFile? pickedFile, String potName,
+      String properTemperature, String wateringCycle) async {
+    var url = Uri.parse('https://example.com/register_pot');
+    var request = http.MultipartRequest('POST', url);
+    request.files
+        .add(await http.MultipartFile.fromPath('image', pickedFile!.path));
+    request.fields['name'] = potName;
+    request.fields['temperature'] = properTemperature;
+    request.fields['watering_cycle'] = wateringCycle;
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      print('Success!');
+    } else {
+      print('Failed with status ${response.statusCode}');
+    }
   }
 }
