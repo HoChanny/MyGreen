@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainPage extends StatelessWidget { //Main page
+class MainPage extends StatelessWidget { //Main page`
   const MainPage({ Key? key }) : super(key: key);
   final isLogin = false;
 
