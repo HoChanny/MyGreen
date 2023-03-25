@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-
-import 'package:mygreen/login/login.dart';
 
 class MyElevatedSubmitButton extends StatefulWidget {
 

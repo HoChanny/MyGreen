@@ -94,8 +94,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 //회원 재확인
                 Container(
                     //left, top, right 및 bottom
-                    margin: const EdgeInsets.fromLTRB(
-                        18.0, 10.0, 18.0, 10.0), // Set margin for all sides
+                    margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0), // Set margin for all sides
 
                     child: Row(
                       children: [
@@ -123,6 +122,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     child: MyTextFormField(
                       icon: Icons.person,
                       hintText: '아이디',
+                      obscureText: false,
                       warningMessage1: '아이디를 입력해주세요.',
                       warningMessage2: '아이디는 6~10자 입니다.',
                       validValue: validId,
@@ -135,6 +135,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     child: MyTextFormField(
                       icon: Icons.key,
                       hintText: '비밀번호',
+                      obscureText: true,
                       warningMessage1: '비밀번호를 입력해주세요.',
                       warningMessage2: '비밀번호는 영문4자, 숫자1자, 특수문자1개 포함입니다.',
                       validValue: validPassword,
@@ -151,6 +152,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         child: MyTextFormField(
                           icon: Icons.mail,
                           hintText: '이메일',
+                          obscureText: false,
                           warningMessage1: '이메일를 입력해주세요.',
                           warningMessage2: '이메일 형식을 확인해주세요.',
                           validValue: validEmail,
@@ -163,6 +165,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   ),
                 ),
 
+                //인증번호
                 Container(
                   width: 200,
                   margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
@@ -172,6 +175,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         child: MyTextFormField(
                           icon: Icons.key,
                           hintText: '인증번호',
+                          obscureText: false,
                           warningMessage1: '인증번호를 입력해주세요.',
                           warningMessage2: '인증번호를 확인해 주세요.',
                           //추가해야함
@@ -186,7 +190,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 ),
 
                 //  생일 입력
-
                 Container(
                   margin: const EdgeInsets.all(18.0),
                   decoration: const BoxDecoration(

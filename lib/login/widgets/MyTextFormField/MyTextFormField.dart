@@ -6,11 +6,12 @@ class MyTextFormField extends StatefulWidget {
   final String hintText;
   IconData icon;
   String formValue;
-
+  bool obscureText;
   MyTextFormField({Key? key, 
    required this.icon,
    required this.hintText,
    required this.warningMessage,
+   required this.obscureText,
    required this.formValue}) : super(key: key);
 
   _MyTextFormField createState() => _MyTextFormField();
@@ -22,7 +23,7 @@ class MyTextFormField extends StatefulWidget {
   Widget build(BuildContext context){
     return TextFormField(
                   maxLength: 20,
-                  obscureText: true,
+                  obscureText: widget.obscureText,
                   decoration: InputDecoration(
                     focusColor: Colors.white,
                     //add prefix icon

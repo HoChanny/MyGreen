@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:mygreen/create/create.dart';
-
 import 'package:mygreen/login/widgets/MyGestureDetector/MyGestureDetector.dart';
 import 'package:mygreen/login/widgets/MyTextFormField/MyTextFormField.dart';
 import 'package:mygreen/login/widgets/MyElevatedButton/MyElevatedButton.dart';
@@ -31,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
     void validateAndSave() {
       final form = formKey.currentState;
       if (form != null && form.validate()) {
-        print('success');
         form.save();
       } else {}
     }
@@ -70,20 +67,27 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              //test
-              Container(
+              //아이디 입력
+              Container( 
+                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
                   child: MyTextFormField(
                       icon: Icons.person,
                       hintText: '아이디',
                       warningMessage: '아이디를 입력하세요.',
-                      formValue: id)),
+                      formValue: id,
+                      obscureText: false,)),
+
+              //비밀번호 입력
               Container(
+                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),                
                   child: MyTextFormField(
                       icon: Icons.key,
                       hintText: '비밀번호',
                       warningMessage: '비밀번호를 입력하세요.',
-                      formValue: password)),
+                      formValue: password,
+                      obscureText: true)),
 
+              //네이비게이션
               Container(
                   //left, top, right 및 bottom
                   margin: const EdgeInsets.fromLTRB(
@@ -95,7 +99,11 @@ class _LoginPageState extends State<LoginPage> {
                       MyGestureDetector2(text: '회원가입 하기     '),
                     ],
                   )),
+
+              //제출하기
               Container(
+                margin: const EdgeInsets.fromLTRB(
+                      0,0,0,0,),
                   child: MyElevatedButton(
                       id: id,
                       password: password,

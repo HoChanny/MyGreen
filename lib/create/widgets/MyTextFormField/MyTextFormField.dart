@@ -3,6 +3,7 @@
 
   class MyTextFormField extends StatefulWidget {
     IconData icon;
+    bool obscureText;
     final String hintText;
     //입력이 아무것도 없을때
     final String warningMessage1;
@@ -16,6 +17,8 @@
     MyTextFormField({Key? key, 
     required this.icon,
     required this.hintText,
+    required this.obscureText,
+
     required this.warningMessage1,
     required this.warningMessage2,
     required this.validValue,
@@ -37,7 +40,7 @@
                         fontWeight: FontWeight.w400,
                       ),
                       
-                      obscureText: true,
+                      obscureText: widget.obscureText,
                       
                       decoration: InputDecoration(
                         focusColor: Colors.white,
