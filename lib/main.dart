@@ -6,8 +6,8 @@ import 'package:mygreen/login/login.dart';
 import 'package:mygreen/calendar/calendar.dart';
 import 'package:mygreen/screen/pot_registration_screen.dart';
 
-Future<void> main() async {
-  await initializeDateFormatting();
+void main()  {
+  // await initializeDateFormatting();
   runApp(const MaterialApp(
     title: '',
     home: Test(),

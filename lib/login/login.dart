@@ -35,7 +35,11 @@ class _LoginPageState extends State<LoginPage> {
 
 //backend에 입력값 보내기
     Future<http.Response> postRequest(String id, String password) async {
-      final url = Uri.parse('https://iotvase.azurewebsites.net/account/login');
+      //  설이 주소임
+      // final url = Uri.parse('https://iotvase.azurewebsites.net/account/create');
+
+      // 윤상이 주소임
+      final url = Uri.parse('https://mygreengood.azurewebsites.net');
       Map<String, dynamic> user = {
         "id": id,
         "password": password,
@@ -58,11 +62,11 @@ class _LoginPageState extends State<LoginPage> {
       ),
 
       //바디
-      body: Container(
+      body: SingleChildScrollView ( child : Container(
         //패딩값 16
         padding: const EdgeInsets.all(16),
-
-        child: Form(
+        
+        child: Form(  
           key: formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -113,6 +117,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    ),
     );
   }
 }
