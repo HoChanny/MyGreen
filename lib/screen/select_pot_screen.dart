@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:mygreen/screen/pot_registration_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class SelectPotScreen extends StatefulWidget {
+  const SelectPotScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SelectPotScreen> createState() => _SelectPotScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SelectPotScreenState extends State<SelectPotScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text("내 화분"),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [

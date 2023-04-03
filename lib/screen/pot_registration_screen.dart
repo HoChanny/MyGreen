@@ -160,7 +160,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   potProfile['wateringCycle'] = wateringCycle;
 
                   sendDataToServer(_pickedFile, potName, properTemperature, wateringCycle);
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
                 },
                 child: Text('완료')),
           ],
@@ -252,20 +252,39 @@ class _RegistrationPageState extends State<RegistrationPage> {
         });
   }
 
-  void sendDataToServer(XFile? pickedFile, String potName,
-      String properTemperature, String wateringCycle) async {
-    var url = Uri.parse('https://example.com/register_pot');
-    var request = http.MultipartRequest('POST', url);
-    request.files
-        .add(await http.MultipartFile.fromPath('image', pickedFile!.path));
-    request.fields['name'] = potName;
-    request.fields['temperature'] = properTemperature;
-    request.fields['watering_cycle'] = wateringCycle;
-    var response = await request.send();
-    if (response.statusCode == 200) {
-      print('Success!');
-    } else {
-      print('Failed with status ${response.statusCode}');
-    }
+  Future<void> sendDataToServer(XFile? pickedFile, String? potName, String? properTemperature, String? wateringCycle) async {
+  final uri = Uri.parse('http://mygreengood-mygreen.azurewebsites.net');
+  
+  // convert image to base64 string
+  String base64Image = '';
+  if (pickedFile != null) {
+    final bytes = await pickedFile.readAsBytes();
+    base64Image = base64Encode(bytes);
   }
+  
+  // create JSON object
+  final data = {
+    'name': potName,
+    'image': base64Image,
+    'temperature': properTemperature,
+    'wateringCycle': wateringCycle,
+  };
+  final jsonData = jsonEncode(data);
+  
+  // send POST request to server
+  final response = await http.post(
+    uri,
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+    },
+    body: jsonData,
+  );
+  
+  if (response.statusCode == 200) {
+    print('Data sent successfully');
+  } else {
+    print('Failed to send data. Error code: ${response.statusCode}');
+  }
+}
+
 }
