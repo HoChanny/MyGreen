@@ -66,7 +66,7 @@
                       validator: (value) {
                         if (value!.isEmpty) {
                           return widget.warningMessage1;
-                        } else if (!widget.validValue(widget.formValue)) {
+                        } else if (widget.validValue(widget.formValue)) {
                           return widget.warningMessage2;
                         }
                         return null;

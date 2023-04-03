@@ -3,6 +3,7 @@ import 'package:mygreen/calendar/widgets/AddButton.dart';
 import 'package:mygreen/calendar/widgets/SearchButton.dart';
 
 import 'package:mygreen/calendar/widgets/MyCalendar.dart';
+import 'package:mygreen/calendar/widgets/List.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
@@ -12,6 +13,8 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  List<String> fruits = ['appaaale', 'banana', 'orange'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +27,27 @@ class _CalendarPageState extends State<CalendarPage> {
         actions: [AddButton(), SearchButton()],
         centerTitle: true,
       ),
-      body: Container(padding: const EdgeInsets.all(16), child: MyCalendar()),
+      body: Container(
+        padding: const EdgeInsets.all(16),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(   
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 0), // Set margin for all sides
+                  child: MyCalendar(),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0), // Set margin for all sides
+                  child: ListV(lst : fruits),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
