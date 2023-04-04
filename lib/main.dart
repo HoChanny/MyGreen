@@ -6,8 +6,8 @@ import 'package:mygreen/login/login.dart';
 import 'package:mygreen/calendar/calendar.dart';
 import 'package:mygreen/screen/pot_registration_screen.dart';
 
-void main()  {
-  // await initializeDateFormatting();
+Future<void> main() async {
+  await initializeDateFormatting();
   runApp(const MaterialApp(
     title: '',
     home: Test(),
@@ -19,7 +19,6 @@ class Test extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Colors.amber,
       body: Center(
