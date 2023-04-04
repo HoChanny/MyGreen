@@ -52,7 +52,12 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 //backend에 입력값 보내기
     Future<http.Response> postRequest(String id, String password, String name,
         String email, DateTime date) async {
-      final url = Uri.parse('https://iotvase.azurewebsites.net/account/create');
+
+      //  설이 주소임
+      // final url = Uri.parse('https://iotvase.azurewebsites.net/account/create');
+
+      // 윤상이 주소임
+      final url = Uri.parse('https://mygreengood.azurewebsites.net');
       Map<String, dynamic> user = {
         "id": id,
         "password": password,
@@ -82,7 +87,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         ),
 
         //바디
-        body: Container(
+        body: SingleChildScrollView (child: Container(
           //패딩값 16
           padding: const EdgeInsets.all(16),
 
@@ -179,7 +184,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           warningMessage1: '인증번호를 입력해주세요.',
                           warningMessage2: '인증번호를 확인해 주세요.',
                           //추가해야함
-                          validValue: print,
+                          validValue: validAccept,
                           formValue: '',
                         ),
                       ),
@@ -214,8 +219,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           onPressed: () async {
                             DateTime? newDate = await showDatePicker(
                               context: context,
-                              initialDate: DateTime(1900),
-                              firstDate: DateTime(1900),
+                              initialDate: DateTime(2000),
+                              firstDate: DateTime(2000),
                               lastDate: DateTime(2100),
                             );
 
@@ -246,6 +251,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               ],
             ),
           ),
-        ));
+        ),
+        ),
+        );
   }
 }
