@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mygreen/create/widgets/MyElevatedButton/MyElevatedSubmitButton.dart';
+import 'package:mygreen/create/widgets/my_elevated_submitButton.dart';
 import 'dart:convert';
 import 'package:mygreen/login/login.dart';
 
-import 'package:mygreen/create/widgets/MyTextFormField/MyTextFormField.dart';
-import 'package:mygreen/create/widgets/MyElevatedButton/MyElevatedButton.dart';
+import 'package:mygreen/create/widgets/my_textFormField.dart';
+import 'package:mygreen/create/widgets/my_elevated_button.dart';
 import 'funcs/validReg.dart';
 
 class CreateAccountPage extends StatefulWidget {
@@ -52,12 +52,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 //backend에 입력값 보내기
     Future<http.Response> postRequest(String id, String password, String name,
         String email, DateTime date) async {
-
-      //  설이 주소임
-      // final url = Uri.parse('https://iotvase.azurewebsites.net/account/create');
-
-      // 윤상이 주소임
-      final url = Uri.parse('https://mygreengood.azurewebsites.net');
+      final url = Uri.parse('https://iotvase.azurewebsites.net/account/create');
       Map<String, dynamic> user = {
         "id": id,
         "password": password,
@@ -87,7 +82,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         ),
 
         //바디
-        body: SingleChildScrollView (child: Container(
+        body: Container(
           //패딩값 16
           padding: const EdgeInsets.all(16),
 
@@ -99,7 +94,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 //회원 재확인
                 Container(
                     //left, top, right 및 bottom
-                    margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0), // Set margin for all sides
+                    margin: const EdgeInsets.fromLTRB(
+                        18.0, 10.0, 18.0, 10.0), // Set margin for all sides
 
                     child: Row(
                       children: [
@@ -184,7 +180,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           warningMessage1: '인증번호를 입력해주세요.',
                           warningMessage2: '인증번호를 확인해 주세요.',
                           //추가해야함
-                          validValue: validAccept,
+                          validValue: print,
                           formValue: '',
                         ),
                       ),
@@ -219,8 +215,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           onPressed: () async {
                             DateTime? newDate = await showDatePicker(
                               context: context,
-                              initialDate: DateTime(2000),
-                              firstDate: DateTime(2000),
+                              initialDate: DateTime(1900),
+                              firstDate: DateTime(1900),
                               lastDate: DateTime(2100),
                             );
 
@@ -251,8 +247,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               ],
             ),
           ),
-        ),
-        ),
-        );
+        ));
   }
 }

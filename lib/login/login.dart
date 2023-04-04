@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:mygreen/login/widgets/MyGestureDetector/MyGestureDetector.dart';
-import 'package:mygreen/login/widgets/MyTextFormField/MyTextFormField.dart';
-import 'package:mygreen/login/widgets/MyElevatedButton/MyElevatedButton.dart';
+import 'package:mygreen/login/widgets/my_gesture_detector.dart';
+import 'package:mygreen/login/widgets/my_textFormField.dart';
+import 'package:mygreen/login/widgets/my_elevated_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -35,11 +35,7 @@ class _LoginPageState extends State<LoginPage> {
 
 //backend에 입력값 보내기
     Future<http.Response> postRequest(String id, String password) async {
-      //  설이 주소임
-      // final url = Uri.parse('https://iotvase.azurewebsites.net/account/create');
-
-      // 윤상이 주소임
-      final url = Uri.parse('https://mygreengood.azurewebsites.net');
+      final url = Uri.parse('https://iotvase.azurewebsites.net/account/login');
       Map<String, dynamic> user = {
         "id": id,
         "password": password,
@@ -62,28 +58,29 @@ class _LoginPageState extends State<LoginPage> {
       ),
 
       //바디
-      body: SingleChildScrollView ( child : Container(
+      body: Container(
         //패딩값 16
         padding: const EdgeInsets.all(16),
-        
-        child: Form(  
+
+        child: Form(
           key: formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               //아이디 입력
-              Container( 
+              Container(
                   margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
                   child: MyTextFormField(
-                      icon: Icons.person,
-                      hintText: '아이디',
-                      warningMessage: '아이디를 입력하세요.',
-                      formValue: id,
-                      obscureText: false,)),
+                    icon: Icons.person,
+                    hintText: '아이디',
+                    warningMessage: '아이디를 입력하세요.',
+                    formValue: id,
+                    obscureText: false,
+                  )),
 
               //비밀번호 입력
               Container(
-                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),                
+                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
                   child: MyTextFormField(
                       icon: Icons.key,
                       hintText: '비밀번호',
@@ -106,8 +103,12 @@ class _LoginPageState extends State<LoginPage> {
 
               //제출하기
               Container(
-                margin: const EdgeInsets.fromLTRB(
-                      0,0,0,0,),
+                  margin: const EdgeInsets.fromLTRB(
+                    0,
+                    0,
+                    0,
+                    0,
+                  ),
                   child: MyElevatedButton(
                       id: id,
                       password: password,
@@ -117,7 +118,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-    ),
     );
   }
 }

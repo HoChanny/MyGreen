@@ -31,16 +31,11 @@ class _CalendarPageState extends State<CalendarPage> {
         child: SafeArea(
           child: Column(
             children: [
-              Expanded(   
-                child: Container(
-                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 0), // Set margin for all sides
-                  child: MyCalendar(),
-                ),
-              ),
               Expanded(
                 child: Container(
-                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0), // Set margin for all sides
-                  child: ListV(lst : fruits),
+                  margin: const EdgeInsets.fromLTRB(
+                      0, 0, 0, 0), // Set margin for all sides
+                  child: MyCalendar(),
                 ),
               ),
             ],
