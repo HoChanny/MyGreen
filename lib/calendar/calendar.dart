@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mygreen/calendar/widgets/AddButton.dart';
-import 'package:mygreen/calendar/widgets/SearchButton.dart';
+import 'package:mygreen/calendar/widgets/add_button.dart';
+import 'package:mygreen/calendar/widgets/search_button.dart';
 
-import 'package:mygreen/calendar/widgets/MyCalendar.dart';
-import 'package:mygreen/calendar/widgets/List.dart';
+import 'package:mygreen/calendar/widgets/my_calendar.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
