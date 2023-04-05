@@ -86,12 +86,10 @@ class _MyCalendarState extends State<MyCalendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Column(
         children: [
           TableCalendar<Event>(
-                    locale: 'ko_KR', 
-
+            locale: 'ko_KR',
             firstDay: kFirstDay,
             lastDay: kLastDay,
             focusedDay: _focusedDay,
@@ -103,20 +101,20 @@ class _MyCalendarState extends State<MyCalendar> {
             eventLoader: _getEventsForDay,
             startingDayOfWeek: StartingDayOfWeek.monday,
             headerStyle: HeaderStyle(
-          titleCentered: true,
-          titleTextFormatter: (date, locale) =>
-              DateFormat.yMMMMd(locale).format(date),
-          formatButtonVisible: false,
-          titleTextStyle: const TextStyle(
-            fontSize: 20.0,
-            color: Colors.blue,
-          ),
-        ),
+              titleCentered: true,
+              titleTextFormatter: (date, locale) =>
+                  DateFormat.yMMMMd(locale).format(date),
+              formatButtonVisible: false,
+              titleTextStyle: const TextStyle(
+                fontSize: 20.0,
+                color: Colors.blue,
+              ),
+            ),
             calendarStyle: const CalendarStyle(
-          markerSize: 10.0,
-          markerDecoration:
-              BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-        ),
+              markerSize: 10.0,
+              markerDecoration:
+                  BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+            ),
             onDaySelected: _onDaySelected,
             onRangeSelected: _onRangeSelected,
             onFormatChanged: (format) {
@@ -148,8 +146,12 @@ class _MyCalendarState extends State<MyCalendar> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: ListTile(
+                        //클릭시 이벤트 발생
                         onTap: () => print('${value[index]}'),
+                        //제목
                         title: Text('${value[index]}'),
+                        //내용
+                        subtitle: Text('${value[index].content}'),
                       ),
                     );
                   },
