@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:mygreen/screen/create_account_screen.dart';
-import 'package:mygreen/screen/log_in.dart';
+import 'package:mygreen/screen/login.dart';
 import 'package:mygreen/screen/calendar.dart';
 import 'package:mygreen/screen/pot_registration_screen.dart';
 
