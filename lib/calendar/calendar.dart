@@ -3,6 +3,7 @@ import 'package:mygreen/calendar/widgets/add_button.dart';
 import 'package:mygreen/calendar/widgets/search_button.dart';
 
 import 'package:mygreen/calendar/widgets/my_calendar.dart';
+import 'package:mygreen/utils.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
@@ -12,10 +13,11 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  List<String> fruits = ['appaaale', 'banana', 'orange'];
 
   @override
+  
   Widget build(BuildContext context) {
+    print(' kEvents : $kEvents \n');
     return Scaffold(
       appBar: AppBar(
         //왼쪽에 배치하기

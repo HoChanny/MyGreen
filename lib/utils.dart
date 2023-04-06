@@ -16,80 +16,18 @@ class Event {
   @override
   String toString() => title;
 }
-
+Map<DateTime,dynamic> eventSource = {
+ 
+  DateTime(2023,4,18) : [Event('기분좋음','맛있는 음식을 먹었다.'),Event('자기 셀카 올리기','식물이랑 같이 찍은 내 사진')],
+  DateTime(2023,4,20) : [Event('5분 기도하기','내일 시험 잘보게 해주세요')],
+  DateTime(2023,4,21) : [Event('5분 명상하기','시험 화이팅'),Event('가족과 저녁식사 하기','맛있었다.')]
+};
 /// Example events.
 ///
 /// Using a [LinkedHashMap] is highly recommended if you decide to use a map.
-final kEvents = LinkedHashMap<DateTime, List<Event>>(
+final kEvents = LinkedHashMap(
   equals: isSameDay,
-  hashCode: getHashCode,
-)..addAll(_kEventSource);
-
-Map<String, Map<String, dynamic>> e = {
-  'start': {},
-  '1': {
-    'title': 'first',
-    'content': 'first events',
-    'year': 2023,
-    'month': 4,
-    'day': 6,
-  },
-  '2': {
-    'title': 'second',
-    'content': 'second events',
-    'year': 2023,
-    'month': 4,
-    'day': 15,
-  },
-  '3': {
-    'title': '3',
-    'content': '3',
-    'year': 2023,
-    'month': 4,
-    'day': 13,
-  },
-  '4': {
-    'title': '4',
-    'content': '4',
-    'year': 2023,
-    'month': 4,
-    'day': 17,
-  },
-  '5': {
-    'title': '5',
-    'content': '5 events',
-    'year': 2023,
-    'month': 4,
-    'day': 25,
-  },
-  '6': {
-    'title': '5',
-    'content': '555 events',
-    'year': 2023,
-    'month': 4,
-    'day': 25,
-  },
-  'end': {}
-};
-const int list =1;
-// ignore: prefer_for_elements_to_map_fromiterable
-final _kEventSource = Map.fromIterable(
-
-    //generate [0,1,2,3,4]
-    List.generate(e.length, (index) => index),
-    //item [0,1,2,3,4]
-    key: (item) => DateTime.utc(
-          e[item.toString()]?['year'] ?? 1,
-          e[item.toString()]?['month'] ?? 1,
-          e[item.toString()]?['day'] ?? 1,
-        ),
-    value: (item) => List.generate(
-        list,
-        (index) => Event('${e[item.toString()]?['title']}',
-            '${e[item.toString()]?['content']}')))
-  ..addAll({
-    kToday: [],
-  });
+)..addAll(eventSource);
 
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;
