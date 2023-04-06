@@ -62,9 +62,16 @@ Map<String, Map<String, dynamic>> e = {
     'month': 4,
     'day': 25,
   },
+  '6': {
+    'title': '5',
+    'content': '555 events',
+    'year': 2023,
+    'month': 4,
+    'day': 25,
+  },
   'end': {}
 };
-
+const int list =1;
 // ignore: prefer_for_elements_to_map_fromiterable
 final _kEventSource = Map.fromIterable(
 
@@ -77,7 +84,7 @@ final _kEventSource = Map.fromIterable(
           e[item.toString()]?['day'] ?? 1,
         ),
     value: (item) => List.generate(
-        item,
+        list,
         (index) => Event('${e[item.toString()]?['title']}',
             '${e[item.toString()]?['content']}')))
   ..addAll({
