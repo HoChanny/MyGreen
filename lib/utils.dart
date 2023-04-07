@@ -16,12 +16,19 @@ class Event {
   @override
   String toString() => title;
 }
-Map<DateTime,dynamic> eventSource = {
- 
-  DateTime(2023,4,18) : [Event('기분좋음','맛있는 음식을 먹었다.'),Event('자기 셀카 올리기','식물이랑 같이 찍은 내 사진')],
-  DateTime(2023,4,20) : [Event('5분 기도하기','내일 시험 잘보게 해주세요')],
-  DateTime(2023,4,21) : [Event('5분 명상하기','시험 화이팅'),Event('가족과 저녁식사 하기','맛있었다.')]
+
+Map<DateTime, dynamic> eventSource = {
+  DateTime(2023, 4, 18): [
+    Event('기분좋음', '맛있는 음식을 먹었다.'),
+    Event('자기 셀카 올리기', '식물이랑 같이 찍은 내 사진')
+  ],
+  DateTime(2023, 4, 20): [Event('5분 기도하기', '내일 시험 잘보게 해주세요')],
+  DateTime(2023, 4, 21): [
+    Event('5분 명상하기', '시험 화이팅'),
+    Event('가족과 저녁식사 하기', '맛있었다.')
+  ]
 };
+
 /// Example events.
 ///
 /// Using a [LinkedHashMap] is highly recommended if you decide to use a map.

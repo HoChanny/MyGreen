@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mygreen/screen/log_in.dart';
+import 'package:mygreen/screen/login.dart';
 import 'package:mygreen/screen/create_account_screen.dart';
 
 class MyGestureDetector1 extends StatefulWidget {
@@ -68,4 +68,3 @@ class _MyGestureDetector2State extends State<MyGestureDetector2> {
     );
   }
 }
-

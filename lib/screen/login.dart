@@ -16,27 +16,31 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final formKey = GlobalKey<FormState>();
+
+  //아이디
+  String id = '';
+
+  //비밀번호
+  String password = '';
+
+  final TextEditingController controllerId = TextEditingController();
+  final TextEditingController controllerPassword = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-
-    //아이디
-    String id = '';
-
-    //비밀번호
-    String password = '';
-
-    void validateAndSave() {
-      final form = formKey.currentState;
-      if (form != null && form.validate()) {
-        form.save();
-      } else {}
+    bool valid() {
+      if (formKey.currentState!.validate()) {
+        formKey.currentState!.save();
+        return true;
+      } else {
+        return false;
+      }
     }
 
 //backend에 입력값 보내기
     Future<http.Response> postRequest(String id, String password) async {
       final url = Uri.parse('https://iotvase.azurewebsites.net/account/login');
-      Map<String, dynamic> user = {
+      Map<String, String> user = {
         "id": id,
         "password": password,
       };
@@ -49,9 +53,6 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
-        //왼쪽에 배치하기
-        leading: const BackButton(),
-
         title: const Text('Login'),
         //Title Center로 설정
         centerTitle: true,
@@ -76,17 +77,20 @@ class _LoginPageState extends State<LoginPage> {
                     warningMessage: '아이디를 입력하세요.',
                     formValue: id,
                     obscureText: false,
+                    controller: controllerId,
                   )),
 
               //비밀번호 입력
               Container(
                   margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
                   child: MyTextFormField(
-                      icon: Icons.key,
-                      hintText: '비밀번호',
-                      warningMessage: '비밀번호를 입력하세요.',
-                      formValue: password,
-                      obscureText: true)),
+                    icon: Icons.key,
+                    hintText: '비밀번호',
+                    warningMessage: '비밀번호를 입력하세요.',
+                    formValue: password,
+                    obscureText: true,
+                    controller: controllerPassword,
+                  )),
 
               //네이비게이션
               Container(
@@ -103,17 +107,18 @@ class _LoginPageState extends State<LoginPage> {
 
               //제출하기
               Container(
-                  margin: const EdgeInsets.fromLTRB(
-                    0,
-                    0,
-                    0,
-                    0,
-                  ),
-                  child: MyElevatedButton(
-                      id: id,
-                      password: password,
-                      valid: validateAndSave,
-                      post: postRequest)),
+                margin: const EdgeInsets.fromLTRB(
+                  0,
+                  0,
+                  0,
+                  0,
+                ),
+                child: MyElevatedButton(
+                    id: controllerId,
+                    password: controllerPassword,
+                    valid: valid,
+                    post: postRequest),
+              ),
             ],
           ),
         ),
