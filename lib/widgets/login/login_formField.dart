@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class MyTextFormField extends StatefulWidget {
-  final String warningMessage;
-  final String hintText;
   IconData icon;
-  String formValue;
+  final String hintText;
+
+  final String warningMessage;
   bool obscureText;
+
+  String formValue;
+  TextEditingController controller;
+
   MyTextFormField(
       {Key? key,
       required this.icon,
       required this.hintText,
       required this.warningMessage,
       required this.obscureText,
-      required this.formValue})
+      required this.formValue,
+      required this.controller})
       : super(key: key);
 
   _MyTextFormField createState() => _MyTextFormField();
@@ -43,13 +49,17 @@ class _MyTextFormField extends State<MyTextFormField> {
             borderSide: const BorderSide(width: 3, color: Colors.greenAccent),
             borderRadius: BorderRadius.circular(0.0)),
       ),
+      controller: widget.controller,
       validator: (value) {
         if (value!.isEmpty) {
           return widget.warningMessage;
         }
         return null;
       },
-      onSaved: (value) => widget.formValue = value!,
+      onSaved: (value) {
+        widget.formValue = value!;
+        print('formValue : ${widget.formValue}');
+      },
     );
   }
 }

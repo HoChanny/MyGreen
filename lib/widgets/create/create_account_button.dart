@@ -5,24 +5,30 @@ import 'package:http/http.dart';
 
 import 'package:mygreen/screen/login.dart';
 
+import 'package:mygreen/utilites/validReg.dart';
+
 class MyElevatedButton extends StatefulWidget {
+  //아이디
   final String id;
+  //비밀번호
   final String password;
+  //생일
   final DateTime birthDay;
-  final String name;
+
+  //이메일
   final String email;
 
+  //인증번호
   final Function valid;
 
-  final Future<Response> Function(String id, String password, String name,
-      String email, DateTime birthDay) post;
+  final Future<Response> Function(
+      String id, String password, String email, DateTime birthDay) post;
 
   MyElevatedButton(
       {Key? key,
       required this.id,
       required this.password,
       required this.birthDay,
-      required this.name,
       required this.email,
       required this.valid,
       required this.post})
@@ -37,8 +43,19 @@ class _MyElevatedButton extends State<MyElevatedButton> {
     return ElevatedButton(
       onPressed: () {
         widget.valid();
-        widget.post(widget.id, widget.password, widget.name, widget.email,
-            widget.birthDay);
+
+        //인증번호는 빼둠
+        if (validId(widget.id) &&
+            validPassword(widget.password) &&
+            validEmail(widget.email)) {
+          widget.post(
+              widget.id, widget.password, widget.email, widget.birthDay);
+          print('seccess');
+
+          if (widget.id == '' && widget.password == '' && widget.email == '') {
+            print('fafafa');
+          }
+        }
       },
       style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(

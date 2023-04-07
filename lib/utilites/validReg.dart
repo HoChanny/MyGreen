@@ -23,9 +23,9 @@ bool validPassword(input) {
   }
 }
 
+//이메일 형식 aaa@naver.com
 final RegExp emailExp =
-    RegExp( r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-);
+    RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
 
 bool validEmail(input) {
   if (emailExp.hasMatch(input)) {
@@ -35,11 +35,10 @@ bool validEmail(input) {
   }
 }
 
-bool validAccept(input){
-  if(input.length > 3){
+bool validAccept(input) {
+  if (input.length > 3) {
     return true;
   } else {
     return false;
-
   }
 }

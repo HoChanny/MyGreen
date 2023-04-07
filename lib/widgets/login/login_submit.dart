@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class MyElevatedButton extends StatefulWidget {
-  final String id;
-  final String password;
+  TextEditingController id;
+  TextEditingController password;
   final Function() valid;
   final Future<Response> Function(String id, String password) post;
 
@@ -25,7 +25,9 @@ class _MyElevatedButton extends State<MyElevatedButton> {
     return ElevatedButton(
       onPressed: () {
         widget.valid();
-        widget.post(widget.id, widget.password);
+        widget.post(widget.id.text, widget.password.text);
+        print(widget.id.text);
+        print(widget.password.text);
       },
       style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(

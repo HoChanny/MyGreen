@@ -13,15 +13,11 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-
   @override
-  
   Widget build(BuildContext context) {
     print(' kEvents : $kEvents \n');
     return Scaffold(
       appBar: AppBar(
-        //왼쪽에 배치하기
-        leading: const BackButton(),
         //Title Center로 설정
         title: const Text('Calander'),
 
