@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+//  일기 목록
 import '../../utils.dart';
+//  일기 상세 페이지
+import 'package:mygreen/screen/diary.dart';
 
 class MyCalendar extends StatefulWidget {
   @override
@@ -147,7 +150,17 @@ class _MyCalendarState extends State<MyCalendar> {
                       ),
                       child: ListTile(
                         //클릭시 이벤트 발생
-                        onTap: () => print('${value[index]}'),
+                        onTap: () {
+                          print('${value[index]}');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DiaryPage(
+                                      title: value[index].title,
+                                      content: value[index].content,
+                                    )),
+                          );
+                        },
                         //제목
                         title: Text('${value[index]}'),
                         //내용
