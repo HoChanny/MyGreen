@@ -1,7 +1,6 @@
 //아이디, 비밀번호 체크하는 함수 모음입니다.
-
+// 필요없을듯
 import 'dart:convert';
-
 
 //더미 데이터
 String jsonString = '''
@@ -21,14 +20,12 @@ String jsonString = '''
 ]
 }
 ''';
-    
-    List<Map<String, dynamic>> products =
-      List<Map<String, dynamic>>.from(json.decode(jsonString)['product']);
 
+List<Map<String, dynamic>> products =
+    List<Map<String, dynamic>>.from(json.decode(jsonString)['product']);
 
 bool checkingId(String id) {
   for (var product in products) {
-
     if (id == product['id']) {
       return true; // exit function if id is found
     }
@@ -39,11 +36,10 @@ bool checkingId(String id) {
 
 bool checkingPassword(String password) {
   for (var product in products) {
-
     if (password == product['password']) {
       return true; // exit function if password is found
     }
   }
-  
+
   return false;
 }
