@@ -69,19 +69,19 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     }
 
     return Scaffold(
+      //상단바
+      appBar: AppBar(
+        title: const Text('CreateAccount'),
+        //Title Center로 설정
+        centerTitle: true,
+      ),
 
-        //상단바
-        appBar: AppBar(
-          title: const Text('CreateAccount'),
-          //Title Center로 설정
-          centerTitle: true,
-        ),
+      //바디
+      body: Container(
+        //패딩값 16
+        padding: const EdgeInsets.all(16),
 
-        //바디
-        body: Container(
-          //패딩값 16
-          padding: const EdgeInsets.all(16),
-
+        child: SingleChildScrollView(
           child: Form(
             key: formKey,
             child: Column(
@@ -245,6 +245,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

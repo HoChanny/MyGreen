@@ -63,63 +63,65 @@ class _LoginPageState extends State<LoginPage> {
         //패딩값 16
         padding: const EdgeInsets.all(16),
 
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              //아이디 입력
-              Container(
-                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                  child: MyTextFormField(
-                    icon: Icons.person,
-                    hintText: '아이디',
-                    warningMessage: '아이디를 입력하세요.',
-                    formValue: id,
-                    obscureText: false,
-                    controller: controllerId,
-                  )),
+        child: SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                //아이디 입력
+                Container(
+                    margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
+                    child: MyTextFormField(
+                      icon: Icons.person,
+                      hintText: '아이디',
+                      warningMessage: '아이디를 입력하세요.',
+                      formValue: id,
+                      obscureText: false,
+                      controller: controllerId,
+                    )),
 
-              //비밀번호 입력
-              Container(
-                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                  child: MyTextFormField(
-                    icon: Icons.key,
-                    hintText: '비밀번호',
-                    warningMessage: '비밀번호를 입력하세요.',
-                    formValue: password,
-                    obscureText: true,
-                    controller: controllerPassword,
-                  )),
+                //비밀번호 입력
+                Container(
+                    margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
+                    child: MyTextFormField(
+                      icon: Icons.key,
+                      hintText: '비밀번호',
+                      warningMessage: '비밀번호를 입력하세요.',
+                      formValue: password,
+                      obscureText: true,
+                      controller: controllerPassword,
+                    )),
 
-              //네이비게이션
-              Container(
-                  //left, top, right 및 bottom
+                //네이비게이션
+                Container(
+                    //left, top, right 및 bottom
+                    margin: const EdgeInsets.fromLTRB(
+                        10.0, 0, 10.0, 10.0), // Set margin for all sides
+                    child: Row(
+                      children: [
+                        MyGestureDetector1(text: '아이디 찾기     '),
+                        MyGestureDetector1(text: '비밀번호 찾기     '),
+                        MyGestureDetector2(text: '회원가입 하기     '),
+                      ],
+                    )),
+
+                //제출하기
+                Container(
                   margin: const EdgeInsets.fromLTRB(
-                      10.0, 0, 10.0, 10.0), // Set margin for all sides
-                  child: Row(
-                    children: [
-                      MyGestureDetector1(text: '아이디 찾기     '),
-                      MyGestureDetector1(text: '비밀번호 찾기     '),
-                      MyGestureDetector2(text: '회원가입 하기     '),
-                    ],
-                  )),
-
-              //제출하기
-              Container(
-                margin: const EdgeInsets.fromLTRB(
-                  0,
-                  0,
-                  0,
-                  0,
+                    0,
+                    0,
+                    0,
+                    0,
+                  ),
+                  child: MyElevatedButton(
+                      id: controllerId,
+                      password: controllerPassword,
+                      valid: valid,
+                      post: postRequest),
                 ),
-                child: MyElevatedButton(
-                    id: controllerId,
-                    password: controllerPassword,
-                    valid: valid,
-                    post: postRequest),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
