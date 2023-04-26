@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:mygreen/screen/pot_registration_screen.dart';
 //import 'package:mygreen/screen/select_pot_screen.dart';
-import 'package:mygreen/screen/log_in.dart';
+import 'package:mygreen/screen/login_screen.dart';
 void main() {
   runApp(const MyApp());
 }

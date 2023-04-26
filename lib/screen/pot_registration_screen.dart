@@ -253,7 +253,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Future<void> sendDataToServer(XFile? pickedFile, String? potName, String? properTemperature, String? wateringCycle) async {
-  final uri = Uri.parse('http://mygreengood-mygreen.azurewebsites.net');
+  final uri = Uri.parse('https://mygreengood-mygreen.azurewebsites.net/account/login');
   
   // convert image to base64 string
   String base64Image = '';
@@ -265,10 +265,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
   // create JSON object
   final data = {
     'name': potName,
-    'image': base64Image,
     'temperature': properTemperature,
     'wateringCycle': wateringCycle,
+    'image': base64Image,
   };
+  print(data);
   final jsonData = jsonEncode(data);
   
   // send POST request to server

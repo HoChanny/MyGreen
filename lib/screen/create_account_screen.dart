@@ -3,12 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 //import 'package:mygreen/widgets/MyElevatedButton.dart';
-import 'package:mygreen/widgets/create_account_button.dart';
-import 'package:mygreen/widgets/create_account_formfield.dart';
-import 'package:mygreen/widgets/create_account_summit.dart';
+import 'package:mygreen/widgets/create_account/create_account_button.dart';
+import 'package:mygreen/widgets/create_account/create_account_formfield.dart';
 import 'dart:convert';
-import 'package:mygreen/screen/log_in.dart';
-
 
 import 'package:mygreen/utilites/validReg.dart';
 
@@ -27,17 +24,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-
-    //아이디
     String id = '';
-
-    //비밀번호
     String password = '';
-
-    //생일
     String birthDay = '';
-
-    //이름
     String name = '';
 
     //이메일
@@ -46,20 +35,20 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     void validateAndSave() {
       final form = formKey.currentState;
 
-      if (form != null && form.validate()) {
+      if (form!.validate()) {
         form.save();
       } else {}
     }
 
 //backend에 입력값 보내기
-    Future<http.Response> postRequest(String id, String password, String name,
-        String email, DateTime date) async {
-      final url = Uri.parse('https://iotvase.azurewebsites.net/account/create');
+    Future<http.Response> postRequest(
+        String id, String password, String name, DateTime date) async {
+      final url = Uri.parse(
+          'https://mygreengood-mygreen.azurewebsites.net/account/create');
       Map<String, dynamic> user = {
+        "name": name,
         "id": id,
         "password": password,
-        "name": name,
-        "email": email,
         "birthday": date.year + date.month + date.day,
       };
       final response = await http.post(url,
@@ -72,18 +61,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     }
 
     return Scaffold(
-
-        //상단바
-        appBar: AppBar(
-          //왼쪽에 배치하기
-          leading: const BackButton(),
-
-          title: const Text('CreateAccount'),
-          //Title Center로 설정
-          centerTitle: true,
-        ),
-
-        //바디
+        appBar: AppBar(title: const Text('회원가입')),
         body: Container(
           //패딩값 16
           padding: const EdgeInsets.all(16),
@@ -92,31 +70,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
+              children: [
                 //회원 재확인
                 Container(
-                    //left, top, right 및 bottom
-                    margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0), // Set margin for all sides
-
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const LogInScreen()));
-                          },
-                          child: const Text(
-                            '이미 회원이신가요 ?',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        )
-                      ],
-                    )),
+                  //left, top, right 및 bottom
+                  margin: const EdgeInsets.fromLTRB(
+                      18.0, 10.0, 18.0, 10.0), // Set margin for all sides
+                ),
 
                 //  아이디 입력
                 Container(
@@ -131,6 +91,32 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       formValue: id,
                     )),
 
+                Container(
+                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
+                  child: TextFormField(
+                    maxLength: 20,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: Colors.black,
+                      ),
+                      focusColor: Colors.white,
+                      hintText: "아이디",
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 2, color: Colors.black)),
+                      focusedBorder: UnderlineInputBorder(
+                           borderSide: BorderSide(
+                               width: 3, 
+                               color: Colors.greenAccent),
+                    ),
+                  ),
+                )),
+
                 //  패스워드 입력
                 Container(
                     margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
@@ -143,54 +129,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       validValue: validPassword,
                       formValue: password,
                     )),
-
-                //이메일 입력
-                Container(
-                  width: 200,
-                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: MyTextFormField(
-                          icon: Icons.mail,
-                          hintText: '이메일',
-                          obscureText: false,
-                          warningMessage1: '이메일를 입력해주세요.',
-                          warningMessage2: '이메일 형식을 확인해주세요.',
-                          validValue: validEmail,
-                          formValue: email,
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      MyElevatedSubmitButton(Text: '확인하기'),
-                    ],
-                  ),
-                ),
-
-                //인증번호
-                Container(
-                  width: 200,
-                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: MyTextFormField(
-                          icon: Icons.key,
-                          hintText: '인증번호',
-                          obscureText: false,
-                          warningMessage1: '인증번호를 입력해주세요.',
-                          warningMessage2: '인증번호를 확인해 주세요.',
-                          //추가해야함
-                          validValue: print,
-                          formValue: '',
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      MyElevatedSubmitButton(Text: '확인하기')
-                    ],
-                  ),
-                ),
-
                 //  생일 입력
                 Container(
                   margin: const EdgeInsets.all(18.0),
@@ -231,20 +169,20 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 ),
 
                 // 제출하기 버튼
-                Container(
-                  width: 10, // specify the width of the container
-                  height: 50, // specify the height of the container
-                  margin: const EdgeInsets.fromLTRB(100.0, 100.0, 100.0, 0.0),
-                  child: MyElevatedButton(
-                    id: id,
-                    password: password,
-                    birthDay: date,
-                    name: name,
-                    email: email,
-                    valid: validateAndSave,
-                    post: postRequest,
-                  ),
-                ),
+                // Container(
+                //   width: 10, // specify the width of the container
+                //   height: 50, // specify the height of the container
+                //   margin: const EdgeInsets.fromLTRB(100.0, 100.0, 100.0, 0.0),
+                //   child: MyElevatedButton(
+                //     id: id,
+                //     password: password,
+                //     birthDay: date,
+                //     name: name,
+                //     email: email,
+                //     valid: validateAndSave,
+                //     post: postRequest,
+                //   ),
+                // ),
               ],
             ),
           ),
