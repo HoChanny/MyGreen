@@ -2,6 +2,7 @@
 
 import 'dart:collection';
 
+import 'package:flutter/widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 /// Example event class.
@@ -11,22 +12,32 @@ class Event {
 
   //이벤트 내용
   final String content;
-  const Event(this.title, this.content);
 
+  //마커 색상
+  final String color;
+
+  const Event(this.title, this.content,this.color);
+
+  String toColor(){
+    return color;
+  }
   @override
-  String toString() => title;
+  String toString() => color;
+
+
+  
 }
 
 Map<DateTime, dynamic> eventSource = {
   DateTime(2023, 4, 18): [
-    Event('기분좋음', '맛있는 음식을 먹었다.'),
-    Event('자기 셀카 올리기', '식물이랑 같이 찍은 내 사진')
+    const Event('기분좋음', '맛있는 음식을 먹었다.','FF00FF'),
+    const Event('자기 셀카 올리기', '식물이랑 같이 찍은 내 사진','000000')
   ],
-  DateTime(2023, 4, 20): [Event('5분 기도하기', '내일 시험 잘보게 해주세요')],
-  DateTime(2023, 4, 21): [
-    Event('5분 명상하기', '시험 화이팅'),
-    Event('가족과 저녁식사 하기', '맛있었다.')
-  ]
+  // DateTime(2023, 4, 20): [Event('5분 기도하기', '내일 시험 잘보게 해주세요')],
+  // DateTime(2023, 4, 21): [
+  //   Event('5분 명상하기', '시험 화이팅'),
+  //   Event('가족과 저녁식사 하기', '맛있었다.')
+  // ]
 };
 
 /// Example events.

@@ -6,10 +6,14 @@ class DiaryPage extends StatefulWidget {
   final String title;
   //일기 내용
   final String content;
+  //일기 날짜
+  final dynamic date;
+
   const DiaryPage({
     Key? key,
     required this.title,
     required this.content,
+    required this.date,
   }) : super(key: key);
 
   @override
@@ -19,6 +23,7 @@ class DiaryPage extends StatefulWidget {
 class _DiaryPageState extends State<DiaryPage> {
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
         appBar: AppBar(
           //Title Center로 설정
@@ -27,9 +32,18 @@ class _DiaryPageState extends State<DiaryPage> {
           centerTitle: true,
         ),
         body: SingleChildScrollView(
-          child: Container(
-            child: Text(widget.content),
+          child: Column(children: [
+            Container(
+              child: Text(widget.content),
+            
           ),
-        ));
+            Container(
+              child: Text(widget.date.toString()),
+            )
+          ],
+          
+        ),
+        ),
+        );
   }
 }

@@ -86,51 +86,100 @@ class _MyCalendarState extends State<MyCalendar> {
     }
   }
 
+  dynamic returnDate(value,index){
+    for (DateTime key in eventSource.keys) {
+      for (Event event in eventSource[key]) {
+        if(event == value[index]){
+        
+        String formattedDate = DateFormat('yyyy-MM-dd').format(key);
+        print(formattedDate);
+        return formattedDate;
+        }
+  }
+}
+
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          TableCalendar<Event>(
-            locale: 'ko_KR',
-            firstDay: kFirstDay,
-            lastDay: kLastDay,
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            rangeStartDay: _rangeStart,
-            rangeEndDay: _rangeEnd,
-            calendarFormat: _calendarFormat,
-            rangeSelectionMode: _rangeSelectionMode,
-            eventLoader: _getEventsForDay,
-            startingDayOfWeek: StartingDayOfWeek.monday,
-            headerStyle: HeaderStyle(
-              titleCentered: true,
-              titleTextFormatter: (date, locale) =>
-                  DateFormat.yMMMMd(locale).format(date),
-              formatButtonVisible: false,
-              titleTextStyle: const TextStyle(
-                fontSize: 20.0,
-                color: Colors.blue,
+          TableCalendar(
+      calendarBuilders: CalendarBuilders(
+        markerBuilder: (context, day, events) {
+          if (events.isEmpty) return SizedBox();
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: events.length,
+            itemBuilder: (context, index) {
+
+              Color convertColor = Color(int.parse("0xFF${events[index].toString()}")); // 16진수 문자열을 Color로 변환
+
+              return Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:[ 
+                    
+                    Container(
+                    height:10,
+                  width:10,
+                    decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    shape: BoxShape.rectangle,
+                    color: convertColor,
               ),
-            ),
-            calendarStyle: const CalendarStyle(
-              markerSize: 10.0,
-              markerDecoration:
-                  BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-            ),
-            onDaySelected: _onDaySelected,
-            onRangeSelected: _onRangeSelected,
-            onFormatChanged: (format) {
-              if (_calendarFormat != format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              }
+                  ),
+                  ],
+                    
+                  
+                ),
+                );
             },
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
-            },
-          ),
+          );
+        },
+        // selectedBuilder: (context, date, events) => Container(
+        //   margin: const EdgeInsets.all(4.0),
+        //   alignment: Alignment.center,
+        //   decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(10.0)),
+        //   child: Text(
+        //     date.day.toString(),
+        //     style: TextStyle(color: Colors.white),
+        //   ),
+        // ),
+      ),
+      locale: 'ko-KR',
+      headerStyle: HeaderStyle(
+        titleTextFormatter: (date, locale) => DateFormat.yMMMM(locale).format(date),
+        titleCentered: true,
+        formatButtonVisible: false,
+        titleTextStyle: const TextStyle(
+          color: Colors.black,
+          fontSize: 20,
+          fontFamily: 'NanumSquareOTF',
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      calendarStyle: const CalendarStyle(
+        outsideDaysVisible: true,
+
+      ),
+      firstDay: kFirstDay,
+      lastDay: kLastDay,
+      focusedDay: _focusedDay,
+      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+      rangeStartDay: _rangeStart,
+      rangeEndDay: _rangeEnd,
+      calendarFormat: _calendarFormat,
+      rangeSelectionMode: _rangeSelectionMode,
+      eventLoader: _getEventsForDay,
+      startingDayOfWeek: StartingDayOfWeek.sunday,
+      onDaySelected: _onDaySelected,
+      onRangeSelected: _onRangeSelected,
+      onPageChanged: (focusedDay) {
+        _focusedDay = focusedDay;
+      },
+    ),
           const SizedBox(height: 8.0),
           Expanded(
             child: ValueListenableBuilder<List<Event>>(
@@ -151,18 +200,19 @@ class _MyCalendarState extends State<MyCalendar> {
                       child: ListTile(
                         //클릭시 이벤트 발생
                         onTap: () {
-                          print('${value[index]}');
+                          
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => DiaryPage(
                                       title: value[index].title,
                                       content: value[index].content,
+                                      date : returnDate(value,index),
                                     )),
                           );
                         },
                         //제목
-                        title: Text('${value[index]}'),
+                        title: Text('${value[index].title}'),
                         //내용
                         subtitle: Text('${value[index].content}'),
                       ),
