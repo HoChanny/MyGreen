@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mygreen/screen/home_screen.dart';
-
+import 'package:mygreen/screen/login_page.dart';
+import 'package:get/get.dart';
 void main() {
-  runApp(const MyApp());
+  runApp(const GetMaterialApp(home:MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +26,7 @@ class MainPage extends StatelessWidget { //Main page`
           primary: Colors.lightGreen,
         )
       ),
-      home:  const HomeScreen(),
+      home:  const LoginPage(),
     );
   }
 }
