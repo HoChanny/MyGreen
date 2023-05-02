@@ -2,12 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-//import 'package:mygreen/widgets/MyElevatedButton.dart';
-import 'package:mygreen/widgets/create_account/create_account_button.dart';
-import 'package:mygreen/widgets/create_account/create_account_formfield.dart';
 import 'dart:convert';
-
-import 'package:mygreen/utilites/validReg.dart';
+import 'package:mygreen/widgets/create_account/create_account_formField.dart';
+import 'package:mygreen/widgets/create_account/create_account_button.dart';
+import '../utilites/validReg.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({super.key});
@@ -20,64 +18,62 @@ class CreateAccountPage extends StatefulWidget {
 class _CreateAccountPageState extends State<CreateAccountPage> {
   //날짜
   DateTime date = DateTime(2000, 01, 01);
+  final formKey = GlobalKey<FormState>();
 
+  String id = '';
+  String password = '';
+  String birthDay = '';
+  String name = "";
+
+  final TextEditingController controllerId = TextEditingController();
+  final TextEditingController controllerPassword = TextEditingController();
+  final TextEditingController controllerName = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    String id = '';
-    String password = '';
-    String birthDay = '';
-    String name = '';
-
-    //이메일
-    String email = '';
-
-    void validateAndSave() {
-      final form = formKey.currentState;
-
-      if (form!.validate()) {
-        form.save();
-      } else {}
+    bool valid() {
+      if (formKey.currentState!.validate()) {
+        formKey.currentState!.save();
+        return true;
+      } else {
+        return false;
+      }
     }
 
 //backend에 입력값 보내기
     Future<http.Response> postRequest(
         String id, String password, String name, DateTime date) async {
-      final url = Uri.parse(
-          'https://mygreengood-mygreen.azurewebsites.net/account/create');
+      final url = Uri.parse('https://iotvase.azurewebsites.net/account/create');
       Map<String, dynamic> user = {
-        "name": name,
         "id": id,
         "password": password,
-        "birthday": date.year + date.month + date.day,
+        "username": name,
+        "birthday":
+            date.year.toString() + date.month.toString() + date.day.toString(),
       };
+      print(user);
       final response = await http.post(url,
           headers: {'Content-Type': 'application/json'},
           body: json.encode(user));
-      print('$id $password $name $email $birthDay');
       print(response.statusCode);
-
+      if (response.statusCode == 200){
+        Navigator.pop(context);
+      }
       return response;
     }
 
     return Scaffold(
-        appBar: AppBar(title: const Text('회원가입')),
-        body: Container(
-          //패딩값 16
-          padding: const EdgeInsets.all(16),
+      appBar: AppBar(
+        title: const Text('CreateAccount'),
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(16),
 
+        child: SingleChildScrollView(
           child: Form(
             key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                //회원 재확인
-                Container(
-                  //left, top, right 및 bottom
-                  margin: const EdgeInsets.fromLTRB(
-                      18.0, 10.0, 18.0, 10.0), // Set margin for all sides
-                ),
-
+              children: <Widget>[
                 //  아이디 입력
                 Container(
                     margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
@@ -89,33 +85,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       warningMessage2: '아이디는 6~10자 입니다.',
                       validValue: validId,
                       formValue: id,
+                      controller: controllerId,
                     )),
-
-                Container(
-                  margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
-                  child: TextFormField(
-                    maxLength: 20,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.person,
-                        color: Colors.black,
-                      ),
-                      focusColor: Colors.white,
-                      hintText: "아이디",
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(width: 2, color: Colors.black)),
-                      focusedBorder: UnderlineInputBorder(
-                           borderSide: BorderSide(
-                               width: 3, 
-                               color: Colors.greenAccent),
-                    ),
-                  ),
-                )),
 
                 //  패스워드 입력
                 Container(
@@ -128,6 +99,20 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       warningMessage2: '비밀번호는 영문4자, 숫자1자, 특수문자1개 포함입니다.',
                       validValue: validPassword,
                       formValue: password,
+                      controller: controllerPassword,
+                    )),
+
+                Container(
+                    margin: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 10.0),
+                    child: MyTextFormField(
+                      icon: Icons.person,
+                      hintText: '이름',
+                      obscureText: false,
+                      warningMessage1: '이름을 입력해주세요.',
+                      warningMessage2: '',
+                      validValue: validName,
+                      formValue: name,
+                      controller: controllerName,
                     )),
                 //  생일 입력
                 Container(
@@ -169,23 +154,24 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 ),
 
                 // 제출하기 버튼
-                // Container(
-                //   width: 10, // specify the width of the container
-                //   height: 50, // specify the height of the container
-                //   margin: const EdgeInsets.fromLTRB(100.0, 100.0, 100.0, 0.0),
-                //   child: MyElevatedButton(
-                //     id: id,
-                //     password: password,
-                //     birthDay: date,
-                //     name: name,
-                //     email: email,
-                //     valid: validateAndSave,
-                //     post: postRequest,
-                //   ),
-                // ),
+                Container(
+                  width: 10, // specify the width of the container
+                  height: 50, // specify the height of the container
+                  margin: const EdgeInsets.fromLTRB(100.0, 100.0, 100.0, 0.0),
+                  child: MyElevatedButton(
+                    id: controllerId,
+                    password: controllerPassword,
+                    name: controllerName,
+                    birthDay: date,
+                    valid: valid,
+                    post: postRequest,
+                  ),
+                ),
               ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

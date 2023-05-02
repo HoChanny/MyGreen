@@ -11,6 +11,12 @@ bool validId(input) {
   }
 }
 
+final RegExp nameExp = RegExp(r'^[a-zA-Z0-9]{2,}$');
+
+bool validName(input){
+  return false;
+}
+
 //4 numbers,1 letter, 1 special character.
 final RegExp passwordExp =
     RegExp(r'^(?=.*\d{4,})(?=.*[a-zA-Z])(?=.*[@$!%*?&])[a-zA-Z\d@$!%*?&]+$');

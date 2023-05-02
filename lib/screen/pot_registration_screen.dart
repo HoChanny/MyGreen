@@ -6,6 +6,8 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'package:mygreen/provider/cookie_provider.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  final cookieController = Get.put(LoginCookie());
   XFile? _pickedFile;
   Color profileColor = Colors.lightGreen;
   var potProfile = Map();
@@ -163,6 +166,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   //Navigator.pop(context);
                 },
                 child: Text('완료')),
+
+                TextButton(onPressed: (){
+                  print(cookieController.cookie);
+                }, child: Text("쿠키확인"))
           ],
         ),
       ),
@@ -253,7 +260,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Future<void> sendDataToServer(XFile? pickedFile, String? potName, String? properTemperature, String? wateringCycle) async {
-  final uri = Uri.parse('https://mygreengood-mygreen.azurewebsites.net/account/login');
+  final url = Uri.parse('https://iotvase.azurewebsites.net/green');
   
   // convert image to base64 string
   String base64Image = '';
@@ -264,25 +271,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
   
   // create JSON object
   final data = {
-    'name': potName,
-    'temperature': properTemperature,
-    'wateringCycle': wateringCycle,
-    'image': base64Image,
+    'plant_name': potName,
+    // 'temperature': properTemperature,
+    // 'wateringCycle': wateringCycle,
+    //'image': base64Image,
   };
   print(data);
-  final jsonData = jsonEncode(data);
   
   // send POST request to server
-  final response = await http.post(
-    uri,
-    headers: {
-      HttpHeaders.contentTypeHeader: 'application/json',
-    },
-    body: jsonData,
-  );
-  
+  final response = await http.post(url,
+          headers: {'Content-Type': 'application/json', 'Cookie': cookieController.cookie+";"},
+          body: json.encode(data));
   if (response.statusCode == 200) {
     print('Data sent successfully');
+    Navigator.pop(context);
   } else {
     print('Failed to send data. Error code: ${response.statusCode}');
   }

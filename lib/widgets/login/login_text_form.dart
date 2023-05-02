@@ -1,44 +1,65 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
-// class CustomTextFormField extends StatefulWidget {
-//   final String hintText;
-//   final IconData prefixIcon;
-//   final Function()? validator;
-//   final Function()? onSaved;
+class MyTextFormField extends StatefulWidget {
+  IconData icon;
+  final String hintText;
 
-//   const CustomTextFormField({
-//     Key? key,
-//     required this.hintText,
-//     required this.prefixIcon,
-//     this.validator,
-//     this.onSaved,
-//   }) : super(key: key);
+  final String warningMessage;
+  bool obscureText;
 
-//   @override
-//   _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
-// }
+  String formValue;
+  TextEditingController controller;
 
-// class _CustomTextFormFieldState extends State<CustomTextFormField> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextFormField(
-//       decoration: InputDecoration(
-//         focusColor: Colors.white,
-//         prefixIcon: Icon(widget.prefixIcon),
-//         hintText: widget.hintText,
-//         enabledBorder: UnderlineInputBorder(
-//           borderSide: BorderSide(width: 2, color: Colors.black),
-//           borderRadius: BorderRadius.circular(0.0),
-//         ),
+  MyTextFormField(
+      {Key? key,
+      required this.icon,
+      required this.hintText,
+      required this.warningMessage,
+      required this.obscureText,
+      required this.formValue,
+      required this.controller})
+      : super(key: key);
 
-//         //focus border
-//         focusedBorder: UnderlineInputBorder(
-//           borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-//           borderRadius: BorderRadius.circular(0.0),
-//         ),
-//       ),
-//       validator: widget.validator,
-//       onSaved: widget.onSaved,
-//     );
-//   }
-// }
+  _MyTextFormField createState() => _MyTextFormField();
+}
+
+class _MyTextFormField extends State<MyTextFormField> {
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      maxLength: 20,
+      obscureText: widget.obscureText,
+      decoration: InputDecoration(
+        focusColor: Colors.white,
+        //add prefix icon
+        prefixIcon: Icon(widget.icon, color: Colors.black),
+
+        hintText: widget.hintText,
+
+        //default border
+        enabledBorder: UnderlineInputBorder(
+            borderSide:
+                const BorderSide(width: 2, color: Colors.black), //<-- SEE HERE
+            borderRadius: BorderRadius.circular(0.0)),
+
+        //focus border
+        focusedBorder: UnderlineInputBorder(
+            //<-- SEE HERE
+            borderSide: const BorderSide(width: 3, color: Colors.greenAccent),
+            borderRadius: BorderRadius.circular(0.0)),
+      ),
+      controller: widget.controller,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return widget.warningMessage;
+        }
+        return null;
+      },
+      onSaved: (value) {
+        widget.formValue = value!;
+        //print('formValue : ${widget.formValue}');
+      },
+    );
+  }
+}

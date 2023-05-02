@@ -1,36 +1,24 @@
-//서버단으로 데이터 보내는 버튼
-
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:mygreen/utilites/validReg.dart';
 
 class MyElevatedButton extends StatefulWidget {
   TextEditingController id;
   TextEditingController password;
-  TextEditingController name;
-  //생일
-  final DateTime birthDay;
+  final Function() valid;
+  final Future<Response> Function(String id, String password) post;
 
-  //이메일
-
-  //인증번호
-  final Function valid;
-
-  final Future<Response> Function(
-      String id, String password, String name, DateTime birthDay) post;
-
-  MyElevatedButton(
-      {Key? key,
-      required this.id,
-      required this.password,
-      required this.name,
-      required this.birthDay,
-      required this.valid,
-      required this.post})
-      : super(key: key);
+  MyElevatedButton({
+    Key? key,
+    required this.id,
+    required this.password,
+    required this.valid,
+    required this.post,
+  }) : super(key: key);
 
   _MyElevatedButton createState() => _MyElevatedButton();
 }
+//final url = 'https://iotvase.azurewebsites.net/account/login';
 
 class _MyElevatedButton extends State<MyElevatedButton> {
   @override
@@ -38,14 +26,7 @@ class _MyElevatedButton extends State<MyElevatedButton> {
     return ElevatedButton(
       onPressed: () {
         widget.valid();
-
-        //인증번호는 빼둠
-        // if (validId(widget.id) &&
-        //     validPassword(widget.password)) {
-        //   widget.post(
-        //       widget.id.text, widget.password.text, widget.name.text, widget.birthDay);
-        // }
-        var response =widget.post(widget.id.text, widget.password.text, widget.name.text, widget.birthDay);
+        widget.post(widget.id.text, widget.password.text);
       },
       style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -55,14 +36,14 @@ class _MyElevatedButton extends State<MyElevatedButton> {
         ),
         backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen),
         fixedSize: MaterialStateProperty.all<Size>(
-          const Size(1, 50),
+          const Size(1000, 50),
         ),
         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
           const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         ),
       ),
       child: const Text(
-        '시작하기',
+        '로그인',
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
