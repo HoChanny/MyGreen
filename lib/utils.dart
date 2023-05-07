@@ -16,28 +16,26 @@ class Event {
   //마커 색상
   final String color;
 
-  const Event(this.title, this.content,this.color);
+  const Event(this.title, this.content, this.color);
 
-  String toColor(){
+  String toColor() {
     return color;
   }
+
   @override
   String toString() => color;
-
-
-  
 }
 
 Map<DateTime, dynamic> eventSource = {
-  DateTime(2023, 4, 18): [
-    const Event('기분좋음', '맛있는 음식을 먹었다.','FF00FF'),
-    const Event('자기 셀카 올리기', '식물이랑 같이 찍은 내 사진','000000')
+  DateTime(2023, 5, 18): [
+    const Event('최고의 하루 !', '맛있는 음식을 먹었다.', 'FF00FF'),
+    const Event('자기 셀카 올리기', '식물이랑 같이 찍은 내 사진', '000000')
   ],
-  // DateTime(2023, 4, 20): [Event('5분 기도하기', '내일 시험 잘보게 해주세요')],
-  // DateTime(2023, 4, 21): [
-  //   Event('5분 명상하기', '시험 화이팅'),
-  //   Event('가족과 저녁식사 하기', '맛있었다.')
-  // ]
+  DateTime(2023, 4, 20): [Event('5분 기도하기', '내일 시험 잘보게 해주세요', 'FF22FF')],
+  DateTime(2023, 4, 21): [
+    Event('5분 명상하기', '시험 화이팅', 'FF00FF'),
+    Event('가족과 저녁식사 하기', '맛있었다.', 'FF00FF'),
+  ]
 };
 
 /// Example events.

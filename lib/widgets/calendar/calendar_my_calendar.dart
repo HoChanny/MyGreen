@@ -86,100 +86,105 @@ class _MyCalendarState extends State<MyCalendar> {
     }
   }
 
-  dynamic returnDate(value,index){
+  dynamic returnDate(value, index) {
     for (DateTime key in eventSource.keys) {
       for (Event event in eventSource[key]) {
-        if(event == value[index]){
-        
-        String formattedDate = DateFormat('yyyy-MM-dd').format(key);
-        print(formattedDate);
-        return formattedDate;
+        if (event == value[index]) {
+          String formattedDate = DateFormat('yyyy-MM-dd').format(key);
+          print(formattedDate);
+          return formattedDate;
         }
+      }
+    }
   }
-}
 
-  }
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           TableCalendar(
-      calendarBuilders: CalendarBuilders(
-        markerBuilder: (context, day, events) {
-          if (events.isEmpty) return SizedBox();
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: events.length,
-            itemBuilder: (context, index) {
-
-              Color convertColor = Color(int.parse("0xFF${events[index].toString()}")); // 16진수 문자열을 Color로 변환
-
-              return Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children:[ 
-                    
-                    Container(
-                    height:10,
-                  width:10,
-                    decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    shape: BoxShape.rectangle,
-                    color: convertColor,
-              ),
-                  ),
+            // marker 색 변경
+            calendarBuilders: CalendarBuilders(
+              markerBuilder: (context, day, events) {
+                if (events.isEmpty) return SizedBox();
+                return Row(
+                  children: [
+                    SizedBox(
+                      height: 10,
+                      width: 50, // set the width to the screen width
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection:
+                            Axis.horizontal, // set the direction to horizontal
+                        itemCount: events.length,
+                        itemBuilder: (context, index) {
+                          // 색상 변환
+                          Color convertColor = Color(int.parse(
+                              "0xFF${events[index].toString()}")); // 16진수 문자열을 Color로 변환
+                          return SizedBox(
+                            height: 10,
+                            width: 10,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                shape: BoxShape.rectangle,
+                                color: convertColor,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ],
-                    
-                  
-                ),
                 );
-            },
-          );
-        },
-        // selectedBuilder: (context, date, events) => Container(
-        //   margin: const EdgeInsets.all(4.0),
-        //   alignment: Alignment.center,
-        //   decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(10.0)),
-        //   child: Text(
-        //     date.day.toString(),
-        //     style: TextStyle(color: Colors.white),
-        //   ),
-        // ),
-      ),
-      locale: 'ko-KR',
-      headerStyle: HeaderStyle(
-        titleTextFormatter: (date, locale) => DateFormat.yMMMM(locale).format(date),
-        titleCentered: true,
-        formatButtonVisible: false,
-        titleTextStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-          fontFamily: 'NanumSquareOTF',
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-      calendarStyle: const CalendarStyle(
-        outsideDaysVisible: true,
+              },
 
-      ),
-      firstDay: kFirstDay,
-      lastDay: kLastDay,
-      focusedDay: _focusedDay,
-      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-      rangeStartDay: _rangeStart,
-      rangeEndDay: _rangeEnd,
-      calendarFormat: _calendarFormat,
-      rangeSelectionMode: _rangeSelectionMode,
-      eventLoader: _getEventsForDay,
-      startingDayOfWeek: StartingDayOfWeek.sunday,
-      onDaySelected: _onDaySelected,
-      onRangeSelected: _onRangeSelected,
-      onPageChanged: (focusedDay) {
-        _focusedDay = focusedDay;
-      },
-    ),
+              //현재 선택 날짜
+              selectedBuilder: (context, date, events) => Container(
+                margin: const EdgeInsets.all(4.0),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: Text(
+                  date.day.toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+            locale: 'ko-KR',
+            headerStyle: HeaderStyle(
+              titleTextFormatter: (date, locale) =>
+                  DateFormat.yMMMM(locale).format(date),
+              titleCentered: true,
+              formatButtonVisible: false,
+              titleTextStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontFamily: 'NanumSquareOTF',
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            calendarStyle: const CalendarStyle(
+              outsideDaysVisible: true,
+            ),
+            firstDay: kFirstDay,
+            lastDay: kLastDay,
+            focusedDay: _focusedDay,
+            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+            rangeStartDay: _rangeStart,
+            rangeEndDay: _rangeEnd,
+            calendarFormat: _calendarFormat,
+            rangeSelectionMode: _rangeSelectionMode,
+            eventLoader: _getEventsForDay,
+            startingDayOfWeek: StartingDayOfWeek.sunday,
+            onDaySelected: _onDaySelected,
+            onRangeSelected: _onRangeSelected,
+            onPageChanged: (focusedDay) {
+              _focusedDay = focusedDay;
+            },
+          ),
           const SizedBox(height: 8.0),
           Expanded(
             child: ValueListenableBuilder<List<Event>>(
@@ -200,14 +205,14 @@ class _MyCalendarState extends State<MyCalendar> {
                       child: ListTile(
                         //클릭시 이벤트 발생
                         onTap: () {
-                          
+                          //diary 페이지에 넘기는 데이터 값들
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => DiaryPage(
                                       title: value[index].title,
                                       content: value[index].content,
-                                      date : returnDate(value,index),
+                                      date: returnDate(value, index),
                                     )),
                           );
                         },
