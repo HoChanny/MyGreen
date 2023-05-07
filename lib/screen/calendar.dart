@@ -15,7 +15,7 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
-    print(' kEvents : $kEvents \n');
+    
     return Scaffold(
       appBar: AppBar(
         //Title Center로 설정
