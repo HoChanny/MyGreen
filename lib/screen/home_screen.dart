@@ -18,8 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Center(
               child: Container(
-                width: MediaQuery.of(context).size.width*0.8,
-                height: MediaQuery.of(context).size.width*0.25,
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: MediaQuery.of(context).size.width * 0.25,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   //color: ,
@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => const RegistrationPage()));
                   },
                   child: const Icon(Icons.add),
-                 
                 ),
               ),
             ),
@@ -43,4 +42,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
