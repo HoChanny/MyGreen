@@ -36,7 +36,7 @@ class _MyDropdownMenuState extends State<MyDropdownMenu> {
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValue = newValue!;
-                  widget.onValueChanged(newValue);
+                  widget.onValueChanged(newValue!);
                   
                 });
               },
