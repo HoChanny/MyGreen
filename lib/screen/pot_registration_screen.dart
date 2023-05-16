@@ -254,7 +254,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   void sendDataToServer(XFile? pickedFile, String potName,
       String properTemperature, String wateringCycle) async {
-    var url = Uri.parse('https://example.com/register_pot');
+    var url = Uri.parse('https://green');
     var request = http.MultipartRequest('POST', url);
     request.files
         .add(await http.MultipartFile.fromPath('image', pickedFile!.path));

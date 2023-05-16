@@ -5,6 +5,7 @@ import 'package:mygreen/screen/create_account_screen.dart';
 import 'package:mygreen/screen/login.dart';
 import 'package:mygreen/screen/calendar.dart';
 import 'package:mygreen/screen/pot_registration_screen.dart';
+import 'package:mygreen/screen/registration_diary.dart';
 
 Future<void> main() async {
   await initializeDateFormatting();
