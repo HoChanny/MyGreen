@@ -7,11 +7,10 @@ import 'package:http/http.dart' as http;
 
 import 'package:mygreen/widgets/diary/diary_datePicker.dart';
 import 'package:mygreen/widgets/diary/diary_dropdownMenu.dart';
-import 'package:mygreen/widgets/diary/diary_title.dart';
+import 'package:mygreen/widgets/diary/diary_form.dart';
 import 'package:mygreen/widgets/diary/diary_submitButton.dart';
 
 import 'package:mygreen/utilites/dropdownValue.dart';
-
 
 class Registration_Diary extends StatefulWidget {
   const Registration_Diary({Key? key}) : super(key: key);
@@ -20,9 +19,7 @@ class Registration_Diary extends StatefulWidget {
   State<Registration_Diary> createState() => _Registration_DiaryState();
 }
 
-
 class _Registration_DiaryState extends State<Registration_Diary> {
-
   String handleDropdownValue(String value) {
     // 선택된 값(value)을 이용하여 원하는 동작을 수행합니다.
     return value;
@@ -55,80 +52,91 @@ class _Registration_DiaryState extends State<Registration_Diary> {
         appBar: AppBar(
           title: const Text('일기 쓰기'),
           centerTitle: true,
-
         ),
         body: Container(
-          child : SingleChildScrollView(
-            child : Column(
-              key : formKey,
-
+          child: SingleChildScrollView(
+            child: Column(
+              key: formKey,
               children: <Widget>[
-            
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 10),
-                ),
-                width: imageSize,
-                height: imageSize,
-                child: GestureDetector(
-                    onTap: () {
-                      Permission.camera.request();
-                      Permission.photos.request();
-                      selectImage();
-                    },
-                    child: _pickedFile != null
-                        ? Center(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: FileImage(File(_pickedFile!.path)),
-                                    fit: BoxFit.cover),
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 10),
+                    ),
+                    width: imageSize,
+                    height: imageSize,
+                    child: GestureDetector(
+                      onTap: () {
+                        Permission.camera.request();
+                        Permission.photos.request();
+                        selectImage();
+                      },
+                      child: _pickedFile != null
+                          ? Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: FileImage(File(_pickedFile!.path)),
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                            ) //Image.file(File(_pickedFile!.path))
+                          : Center(
+                              child: Icon(
+                                const IconData(0xee39,
+                                    fontFamily: 'MaterialIcons'),
+                                size: imageSize * 0.4,
                               ),
                             ),
-                          ) //Image.file(File(_pickedFile!.path))
-                        : Center(
-                            child: Icon(
-                            const IconData(0xee39, fontFamily: 'MaterialIcons'),
-                            size: imageSize * 0.4,
-                          ),
-                          ),
-                          ),
-              ),
-            ),
-            //일기 쓸 식물 선택
-            Center(child : MyDropdownMenu(
-                    onValueChanged: handleDropdownValue, // 콜백 함수 전달
-              ),      
-            ),
-            //일기 제목 작성하기
-            Center(child : DiaryTitle(
-              hintText : '제목',
-              warningMessage: '위험',
-              formValue : title,
-              controller : controllerTitle,),
-              ),
-            //일기 내용 작성하기
-            Center(child : DiaryTitle(
-              hintText : '내용',
-              warningMessage: '위험',
-              formValue : content,
-              controller : controllerContent,),
-              ),
-
-            //날짜 선택
-            Center(child: DatePickerScreen()),
-
-            //제출 버튼
-            Center(child: DiarySubmitButton(
-              pickedFile: _pickedFile,
-              dropdownValue: 'a',
-              title : controllerTitle,
-              content: controllerContent,
-              date: date,
-              postDiaryData : postDiaryData
+                    ),
                   ),
+                ),
+                //일기 쓸 식물 선택
+                Center(
+                  child: MyDropdownMenu(
+                    onValueChanged: handleDropdownValue, // 콜백 함수 전달
+                  ),
+                ),
+                //일기 제목 작성하기
+                Container(
+                  margin: EdgeInsets.only(
+                      left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
+                  child: DiaryForm(
+                    maxLines: 1,
+                    hintText: '제목을 입력해주세요.',
+                    labelText: '제목',
+                    warningMessage: '위험',
+                    formValue: title,
+                    controller: controllerTitle,
+                  ),
+                ),
+                //일기 내용 작성하기
+                Container(
+                  margin: EdgeInsets.only(
+                      left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
+                  child: DiaryForm(
+                    maxLines: 4,
+                    hintText: '내용을 입력해주세요.',
+                    labelText: '내용',
+                    warningMessage: '위험',
+                    formValue: content,
+                    controller: controllerContent,
+                  ),
+                ),
+
+                //날짜 선택
+                Center(child: DatePickerScreen()),
+
+                //제출 버튼
+                Center(
+                  child: DiarySubmitButton(
+                      pickedFile: _pickedFile,
+                      dropdownValue: 'a',
+                      title: controllerTitle,
+                      content: controllerContent,
+                      date: date,
+                      postDiaryData: postDiaryData),
                 ),
               ],
             ),
@@ -143,6 +151,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
     print(value);
     // You can perform any other actions with the updated value
   }
+
   selectImage() {
     return showDialog(
       context: context,
@@ -200,37 +209,35 @@ class _Registration_DiaryState extends State<Registration_Diary> {
     }
   }
 
- Future<void> postDiaryData(XFile? pickedFile, String dropdownValue, String title, String content, DateTime date) async {
-  var request = http.MultipartRequest(
-    'POST',
-    Uri.parse('https://iotvase.azurewebsites.net/green/diary'),
-  );
+  Future<void> postDiaryData(XFile? pickedFile, String dropdownValue,
+      String title, String content, DateTime date) async {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('https://iotvase.azurewebsites.net/green/diary'),
+    );
 
-  // Add form fields
-  request.fields['name'] = 'a';
-  request.fields['title'] = title;
-  request.fields['content'] = content;
-  request.fields['date'] = date.toString();
+    // Add form fields
+    request.fields['name'] = 'a';
+    request.fields['title'] = title;
+    request.fields['content'] = content;
+    request.fields['date'] = date.toString();
 
-  // Add image file
-  if (pickedFile != null) {
-    var file = await http.MultipartFile.fromPath('image', pickedFile.path);
-    request.files.add(file);
+    // Add image file
+    if (pickedFile != null) {
+      var file = await http.MultipartFile.fromPath('image', pickedFile.path);
+      request.files.add(file);
+    }
+
+    // Send the HTTP request
+    var response = await request.send();
+
+    // Handle the response
+    if (response.statusCode == 200) {
+      // Request successful, do something with the response
+      print('Response: ${await response.stream.bytesToString()}');
+    } else {
+      // Request failed, handle the error
+      print('Error: ${response.statusCode}');
+    }
   }
-
-  // Send the HTTP request
-  var response = await request.send();
-
-  // Handle the response
-  if (response.statusCode == 200) {
-    // Request successful, do something with the response
-    print('Response: ${await response.stream.bytesToString()}');
-  } else {
-    // Request failed, handle the error
-    print('Error: ${response.statusCode}');
-  }
-}
-
-
-
 }
