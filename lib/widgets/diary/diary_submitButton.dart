@@ -29,8 +29,14 @@ class _DiarySubmitButtonState extends State<DiarySubmitButton> {
     return ElevatedButton(
         child: Text('일기 작성 하기'),
         onPressed: (){
+          if (widget.pickedFile != null &&
+              widget.dropdownValue != null &&
+              widget.title.text.isNotEmpty &&
+              widget.content.text.isNotEmpty &&
+              widget.date != null) {
           print('${widget.pickedFile!.path} , ${widget.dropdownValue} , ${widget.title.text} , ${widget.content.text} , ${widget.date}');
           widget.postDiaryData(widget.pickedFile,widget.dropdownValue,widget.title.text,widget.content.text,widget.date);
+          }
         }
       
     );
