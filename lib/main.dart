@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mygreen/screen/login_page.dart';
 import 'package:get/get.dart';
+
 void main() {
   runApp(const GetMaterialApp(home:MyApp()));
 }

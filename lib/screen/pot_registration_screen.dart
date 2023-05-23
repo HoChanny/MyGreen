@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:mygreen/provider/cookie_provider.dart';
 
+
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
 
@@ -41,7 +42,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         body: Column(
           children: [
             const SizedBox(
-              height: 20,
+              height: 40,
             ),
             Center(
               child: Container(
@@ -81,6 +82,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 onPressed: () {
                   _selectColor();
+                  print(profileColor);
                 },
                 child: const Text("프로필색상 선택")),
             Form(
@@ -156,13 +158,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   if (tempFormKeyState!.validate()) {
                     tempFormKeyState.save();
                   }
-                  potProfile['name'] = potName;
-                  potProfile['image'] = _pickedFile;
-                  potProfile['color'] = profileColor;
-                  potProfile['temperature'] = properTemperature;
-                  potProfile['wateringCycle'] = wateringCycle;
-
-                  sendDataToServer(_pickedFile, potName, properTemperature, wateringCycle);
+                
+                  sendDataToServer(File(_pickedFile!.path), potName, properTemperature, wateringCycle, profileColor, cookieController.cookie);
                   //Navigator.pop(context);
                 },
                 child: Text('완료')),
@@ -259,35 +256,29 @@ class _RegistrationPageState extends State<RegistrationPage> {
         });
   }
 
-  Future<void> sendDataToServer(XFile? pickedFile, String? potName, String? properTemperature, String? wateringCycle) async {
+}
+
+
+
+Future<void> sendDataToServer(File imageFile, String potName, String properTemperature, String wateringCycle, Color profileColor, String cookie) async {
   final url = Uri.parse('https://iotvase.azurewebsites.net/green');
-  
-  // convert image to base64 string
-  String base64Image = '';
-  if (pickedFile != null) {
-    final bytes = await pickedFile.readAsBytes();
-    base64Image = base64Encode(bytes);
-  }
-  
-  // create JSON object
-  final data = {
-    'plant_name': potName,
-    // 'temperature': properTemperature,
-    // 'wateringCycle': wateringCycle,
-    //'image': base64Image,
-  };
-  print(data);
-  
-  // send POST request to server
-  final response = await http.post(url,
-          headers: {'Content-Type': 'application/json', 'Cookie': cookieController.cookie+";"},
-          body: json.encode(data));
+
+  var request = http.MultipartRequest('POST', url);
+
+  request.headers['Cookie'] = cookie;
+
+  request.fields['plant_name'] = potName;
+  request.fields['temperature'] = properTemperature;
+  request.fields['wateringCycle'] = wateringCycle;
+  request.fields['color'] = profileColor.toString();
+
+  var imagePart = await http.MultipartFile.fromPath('profile', imageFile.path);
+  request.files.add(imagePart);
+
+  var response = await request.send();
   if (response.statusCode == 200) {
     print('Data sent successfully');
-    Navigator.pop(context);
   } else {
     print('Failed to send data. Error code: ${response.statusCode}');
   }
-}
-
 }
