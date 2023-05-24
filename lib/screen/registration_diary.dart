@@ -10,7 +10,6 @@ import 'package:mygreen/widgets/diary/diary_dropdownMenu.dart';
 import 'package:mygreen/widgets/diary/diary_form.dart';
 import 'package:mygreen/widgets/diary/diary_submitButton.dart';
 
-
 class Registration_Diary extends StatefulWidget {
   const Registration_Diary({Key? key}) : super(key: key);
 
@@ -34,7 +33,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
   //컨트롤러 제목
   final TextEditingController controllerTitle = TextEditingController();
   String title = '';
-  
+
   // 내용
   final TextEditingController controllerContent = TextEditingController();
   String content = '';
@@ -49,8 +48,6 @@ class _Registration_DiaryState extends State<Registration_Diary> {
   @override
   Widget build(BuildContext context) {
     final imageSize = MediaQuery.of(context).size.width / 3;
-    
-    
 
     return SafeArea(
       child: Scaffold(
@@ -98,28 +95,27 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                   ),
                 ),
                 //일기 쓸 식물 선택
-               Center(
-                child: Column(
-                  children: [
-                    
-                    // Step 2.
-                    DropdownButton(
-                      value: selectedDropdown,
-                      items: dropdownList.map((String item) {
-                        return DropdownMenuItem<String>(
-                          child: Text('$item'),
-                          value: item,
-                        );
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        setState(() {
-                          selectedDropdown = value;
-                        });
-                      },
-                    ),
-                  ],
+                Center(
+                  child: Column(
+                    children: [
+                      // Step 2.
+                      DropdownButton(
+                        value: selectedDropdown,
+                        items: dropdownList.map((String item) {
+                          return DropdownMenuItem<String>(
+                            child: Text('$item'),
+                            value: item,
+                          );
+                        }).toList(),
+                        onChanged: (dynamic value) {
+                          setState(() {
+                            selectedDropdown = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-            ),
                 //일기 제목 작성하기
                 Container(
                   margin: EdgeInsets.only(
