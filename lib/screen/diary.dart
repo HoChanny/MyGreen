@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mygreen/utils.dart';
 
+import 'package:mygreen/widgets/diary/diary_emotion.dart';
+
 class DiaryPage extends StatefulWidget {
   //식물 이름
   final String plant_name;
@@ -56,10 +58,6 @@ class _DiaryPageState extends State<DiaryPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              //이름
-              Container(
-                child: Text('${widget.plant_name}'),
-              ),
               //날짜
               Container(
                 padding: EdgeInsets.only(
@@ -68,7 +66,7 @@ class _DiaryPageState extends State<DiaryPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '날짜 ; ${month}월 ${day}일',
+                      ' ${month}월 ${day}일',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -80,36 +78,42 @@ class _DiaryPageState extends State<DiaryPage> {
                 ),
               ),
               //이미지 -> widget값을 받아와서 뿌려야할듯.
-              Wrap(
-                children: List.generate(3, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      'assets/image/test$index.png',
-                      width: 100,
-                      height: 100,
-                    ),
-                  );
-                }),
+              Container(
+                child: Image.asset(
+                  'assets/image/test.png',
+                  width: 100,
+                  height: 100,
+                ),
+              ),
+              //이름
+              Container(
+                child: Text('${widget.plant_name}'),
               ),
               //제목
               Container(
+                width: MediaQuery.of(context).size.width *
+                    0.8, // Set as a fraction of the screen width
+                height: 100,
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.05),
-                child: Text('제목 : ${widget.title}',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontFamily: '',
-                    )),
+                child: Text(
+                  '${widget.title}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontFamily: '',
+                  ),
+                ),
               ),
               // 내용
               Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.02),
+                width: MediaQuery.of(context).size.width *
+                    0.8, // Set as a fraction of the screen width
+                height: 100,
+
                 child: Text(
-                  '내용 : ${widget.content}',
+                  '${widget.content}',
                   style: const TextStyle(
                     fontSize: 15,
                     color: Colors.black,
@@ -118,9 +122,7 @@ class _DiaryPageState extends State<DiaryPage> {
                 ),
               ),
               //감정
-              Container(
-                child: Text('감정 : ${widget.emotion}'),
-              )
+              Container(child: DiaryEmotion(emotion: widget.emotion)),
             ],
           ),
         ),

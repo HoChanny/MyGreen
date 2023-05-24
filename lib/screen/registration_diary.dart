@@ -10,8 +10,6 @@ import 'package:mygreen/widgets/diary/diary_dropdownMenu.dart';
 import 'package:mygreen/widgets/diary/diary_form.dart';
 import 'package:mygreen/widgets/diary/diary_submitButton.dart';
 
-import 'package:mygreen/utilites/dropdownValue.dart';
-
 class Registration_Diary extends StatefulWidget {
   const Registration_Diary({Key? key}) : super(key: key);
 
@@ -42,6 +40,14 @@ class _Registration_DiaryState extends State<Registration_Diary> {
 
   //날짜 선택하기
   DateTime date = DateTime.now();
+
+  //드롭다운 식물 메뉴
+  List<String> dropdownListPlant = ['먀몸미', '설이'];
+  String selectedDropdownPlant = '먀몸미';
+
+  //드롭다운 감정 메뉴
+  List<String> dropdownListEmotion = ['😡', '😠', '😮', '😀', '😍'];
+  String selectedDropdownEmotion = '😡';
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +100,33 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                 ),
                 //일기 쓸 식물 선택
                 Center(
-                  child: MyDropdownMenu(
-                    onValueChanged: handleDropdownValue, // 콜백 함수 전달
+                  child: Column(
+                    children: [
+                      // Step 2.
+                      DropdownButton(
+                        value: selectedDropdownPlant,
+                        items: dropdownListPlant.map((String item) {
+                          return DropdownMenuItem<String>(
+                            child: Text('$item'),
+                            value: item,
+                          );
+                        }).toList(),
+                        onChanged: (dynamic value) {
+                          setState(() {
+                            selectedDropdownPlant = value;
+                          });
+                        },
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        underline: Container(
+                          height: 0,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 //일기 제목 작성하기
@@ -127,12 +158,43 @@ class _Registration_DiaryState extends State<Registration_Diary> {
 
                 //날짜 선택
                 Center(child: DatePickerScreen()),
-
+//감정 선택
+                Center(
+                  child: Column(
+                    children: [
+                      // Step 2.
+                      DropdownButton(
+                        value: selectedDropdownEmotion,
+                        items: dropdownListEmotion.map((String item) {
+                          return DropdownMenuItem<String>(
+                            child: Text('$item'),
+                            value: item,
+                          );
+                        }).toList(),
+                        onChanged: (dynamic value) {
+                          setState(() {
+                            selectedDropdownEmotion = value;
+                          });
+                        },
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        underline: Container(
+                          height: 0,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 //제출 버튼
                 Center(
                   child: DiarySubmitButton(
                       pickedFile: _pickedFile,
-                      dropdownValue: 'a',
+                      dropdownValuePlant: selectedDropdownPlant,
+                      dropdownValueEmotion: selectedDropdownEmotion,
                       title: controllerTitle,
                       content: controllerContent,
                       date: date,
@@ -209,24 +271,30 @@ class _Registration_DiaryState extends State<Registration_Diary> {
     }
   }
 
-  Future<void> postDiaryData(XFile? pickedFile, String dropdownValue,
-      String title, String content, DateTime date) async {
+  Future<void> postDiaryData(
+      XFile? pickedFile,
+      String dropdownValuePlant,
+      String dropdownValueEmotion,
+      String title,
+      String content,
+      DateTime date) async {
     var request = http.MultipartRequest(
       'POST',
       Uri.parse('https://iotvase.azurewebsites.net/green/diary'),
     );
-
-    // Add form fields
-    request.fields['name'] = 'a';
-    request.fields['title'] = title;
-    request.fields['content'] = content;
-    request.fields['date'] = date.toString();
 
     // Add image file
     if (pickedFile != null) {
       var file = await http.MultipartFile.fromPath('image', pickedFile.path);
       request.files.add(file);
     }
+
+    // Add form fields
+    request.fields['name'] = dropdownValuePlant;
+    request.fields['emotion'] = dropdownValueEmotion;
+    request.fields['title'] = title;
+    request.fields['content'] = content;
+    request.fields['date'] = date.toString();
 
     // Send the HTTP request
     var response = await request.send();
