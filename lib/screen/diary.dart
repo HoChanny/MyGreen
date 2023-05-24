@@ -68,7 +68,7 @@ class _DiaryPageState extends State<DiaryPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '날짜 ; ${month}월 ${day}일',
+                      ' ${month}월 ${day}일',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -80,17 +80,12 @@ class _DiaryPageState extends State<DiaryPage> {
                 ),
               ),
               //이미지 -> widget값을 받아와서 뿌려야할듯.
-              Wrap(
-                children: List.generate(3, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      'assets/image/test$index.png',
-                      width: 100,
-                      height: 100,
-                    ),
-                  );
-                }),
+              Container(
+                child: Image.asset(
+                  'assets/image/test.png',
+                  width: 100,
+                  height: 100,
+                ),
               ),
               //제목
               Container(
