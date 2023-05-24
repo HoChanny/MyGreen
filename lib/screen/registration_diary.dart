@@ -116,6 +116,15 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                             selectedDropdownPlant = value;
                           });
                         },
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        underline: Container(
+                          height: 0,
+                          color: Colors.black,
+                        ),
                       ),
                     ],
                   ),
@@ -167,6 +176,15 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                             selectedDropdownEmotion = value;
                           });
                         },
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        underline: Container(
+                          height: 0,
+                          color: Colors.black,
+                        ),
                       ),
                     ],
                   ),
