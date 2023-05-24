@@ -41,9 +41,13 @@ class _Registration_DiaryState extends State<Registration_Diary> {
   //날짜 선택하기
   DateTime date = DateTime.now();
 
-  //드롭다운 메뉴
-  List<String> dropdownList = ['먀몸미', '설이'];
-  String selectedDropdown = '먀몸미';
+  //드롭다운 식물 메뉴
+  List<String> dropdownListPlant = ['먀몸미', '설이'];
+  String selectedDropdownPlant = '먀몸미';
+
+  //드롭다운 감정 메뉴
+  List<String> dropdownListEmotion = ['😡', '😠', '😮', '😀', '😍'];
+  String selectedDropdownEmotion = '😡';
 
   @override
   Widget build(BuildContext context) {
@@ -100,8 +104,8 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                     children: [
                       // Step 2.
                       DropdownButton(
-                        value: selectedDropdown,
-                        items: dropdownList.map((String item) {
+                        value: selectedDropdownPlant,
+                        items: dropdownListPlant.map((String item) {
                           return DropdownMenuItem<String>(
                             child: Text('$item'),
                             value: item,
@@ -109,7 +113,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                         }).toList(),
                         onChanged: (dynamic value) {
                           setState(() {
-                            selectedDropdown = value;
+                            selectedDropdownPlant = value;
                           });
                         },
                       ),
@@ -145,12 +149,34 @@ class _Registration_DiaryState extends State<Registration_Diary> {
 
                 //날짜 선택
                 Center(child: DatePickerScreen()),
-
+//감정 선택
+                Center(
+                  child: Column(
+                    children: [
+                      // Step 2.
+                      DropdownButton(
+                        value: selectedDropdownEmotion,
+                        items: dropdownListEmotion.map((String item) {
+                          return DropdownMenuItem<String>(
+                            child: Text('$item'),
+                            value: item,
+                          );
+                        }).toList(),
+                        onChanged: (dynamic value) {
+                          setState(() {
+                            selectedDropdownEmotion = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 //제출 버튼
                 Center(
                   child: DiarySubmitButton(
                       pickedFile: _pickedFile,
-                      dropdownValue: selectedDropdown,
+                      dropdownValuePlant: selectedDropdownPlant,
+                      dropdownValueEmotion: selectedDropdownEmotion,
                       title: controllerTitle,
                       content: controllerContent,
                       date: date,
@@ -227,24 +253,30 @@ class _Registration_DiaryState extends State<Registration_Diary> {
     }
   }
 
-  Future<void> postDiaryData(XFile? pickedFile, String dropdownValue,
-      String title, String content, DateTime date) async {
+  Future<void> postDiaryData(
+      XFile? pickedFile,
+      String dropdownValuePlant,
+      String dropdownValueEmotion,
+      String title,
+      String content,
+      DateTime date) async {
     var request = http.MultipartRequest(
       'POST',
       Uri.parse('https://iotvase.azurewebsites.net/green/diary'),
     );
-
-    // Add form fields
-    request.fields['name'] = 'a';
-    request.fields['title'] = title;
-    request.fields['content'] = content;
-    request.fields['date'] = date.toString();
 
     // Add image file
     if (pickedFile != null) {
       var file = await http.MultipartFile.fromPath('image', pickedFile.path);
       request.files.add(file);
     }
+
+    // Add form fields
+    request.fields['name'] = dropdownValuePlant;
+    request.fields['emotion'] = dropdownValueEmotion;
+    request.fields['title'] = title;
+    request.fields['content'] = content;
+    request.fields['date'] = date.toString();
 
     // Send the HTTP request
     var response = await request.send();
