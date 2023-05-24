@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mygreen/screen/pot_registration_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
-import 'package:mygreen/provider/cookie_provider.dart';
+import 'package:mygreen/provider/global_state.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:mygreen/screen/view_my_pot_screen.dart';
@@ -15,7 +15,7 @@ class SelectPotScreen extends StatefulWidget {
 }
 
 class _SelectPotScreenState extends State<SelectPotScreen> {
-  final profileController = Get.put(LoginCookie());
+  final profileController = Get.put(GlobalState());
   // 예시 데이터
   List<Map<String, dynamic>> potData = [];
 
@@ -43,6 +43,13 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
     } catch (error) {
       print('Error while fetching data: $error');
     }
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void refreshData() {
+    fetchDataFromServer();
   }
 
   Color getColor(String rawColor) {
@@ -62,46 +69,58 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
   }
 
   Widget decodeBase64Image(String base64String) {
-  Uint8List bytes = base64Decode(base64String);
-  return CircleAvatar(
-    backgroundImage: MemoryImage(bytes),
-    radius: 50,
-  );
-}
+    Uint8List bytes = base64Decode(base64String);
+    return CircleAvatar(
+      backgroundImage: MemoryImage(bytes),
+      radius: 50,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("내 화분"),
+        actions: [
+          IconButton(
+              iconSize: 40,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RegistrationPage(),
+                  ),
+                ).then((value) {
+                  if (value == true) {
+                    refreshData();
+                  }
+                });
+              },
+              icon: Icon(Icons.add))
+        ],
       ),
-      body: 
-        // Column(
-        //   children: [
-        //     SizedBox(height: 20),
-            ListView.builder(
-              
-              shrinkWrap: true,
-              itemCount: potData.length,
-              itemBuilder: (context, i) {
-                var data = potData[i];
-                return (
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => 
-                          ViewMyPotPage(
-                            name:data['plant_name'],
-                            color: getColor(data['color']),
-                            image:MemoryImage(base64Decode(data['profile'])),
-                            temperature: data['temperature'],
-                            wateringCycle: data['wateringCycle']
-                            )));
-                      print(MemoryImage(base64Decode(data['profile'])).runtimeType);
-                    },
-                    child: Container(
+      body: Center(
+        child: Expanded(
+          child: ListView.builder(
+            itemCount: potData.length,
+            itemBuilder: (context, i) {
+              var data = potData[i];
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ViewMyPotPage(
+                        name: data['plant_name'],
+                        color: getColor(data['color']),
+                        image: MemoryImage(base64Decode(data['profile'])),
+                        temperature: data['temperature'],
+                        wateringCycle: data['wateringCycle'],
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   height: MediaQuery.of(context).size.width * 0.32,
                   padding: const EdgeInsets.all(20),
@@ -113,46 +132,30 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
                   child: Row(
                     children: [
                       CircleAvatar(
-                        backgroundImage: MemoryImage(base64Decode(data['profile'])),
+                        backgroundImage:
+                            MemoryImage(base64Decode(data['profile'])),
                         radius: 50,
                       ),
                       Column(
                         children: [
-                          Text(data['plant_name'], 
-                          style: const TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold
-                          ),),
-                          Text('화분 상태 보여질 자리')
+                          Text(
+                            data['plant_name'],
+                            style: const TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text('화분 상태 보여질 자리'),
                         ],
-                      )
-                    ]
-                )
+                      ),
+                    ],
+                  ),
                 ),
-                  )
-                  
-                );
-              },
-            ),
-        //     GestureDetector(
-        //         onTap: () {
-        //           Navigator.push(
-        //               context,
-        //               MaterialPageRoute(
-        //                   builder: (context) => const RegistrationPage()));
-        //         },
-        //         child: Container(
-        //           width: MediaQuery.of(context).size.width * 0.9,
-        //           height: MediaQuery.of(context).size.width * 0.32,
-        //           decoration: BoxDecoration(
-        //             color: Colors.lightGreen,
-        //             borderRadius: BorderRadius.circular(100),
-        //           ),
-        //           child: const Icon(Icons.add),
-        //         )),
-        //   ],
-        // ),
-      
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }
@@ -166,7 +169,6 @@ Future<void> getDataFromServer(String cookie) async {
   if (response.statusCode == 200) {
     // Parse the response
     final data = response.body;
-    final parsedData = json.decode(data);
     // Process the data as needed
     print('Received data: $data');
   } else {

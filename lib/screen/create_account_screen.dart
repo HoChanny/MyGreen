@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -46,8 +44,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       Map<String, dynamic> user = {
         "id": id,
         "password": password,
-        "username": name,
-        "birthday":
+        "name": name,
+        "birth":
             date.year.toString() + date.month.toString() + date.day.toString(),
       };
       print(user);

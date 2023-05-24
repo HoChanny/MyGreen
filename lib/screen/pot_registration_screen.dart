@@ -4,10 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
-import 'package:mygreen/provider/cookie_provider.dart';
+import 'package:mygreen/provider/global_state.dart';
 
 
 class RegistrationPage extends StatefulWidget {
@@ -18,7 +17,7 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  final cookieController = Get.put(LoginCookie());
+  final cookieController = Get.put(GlobalState());
   XFile? _pickedFile;
   Color profileColor = Colors.lightGreen;
   var potProfile = Map();
@@ -56,7 +55,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     onTap: () {
                       Permission.camera.request();
                       Permission.photos.request();
-                      selectImage();
+                      selectImage(context);
                     },
                     child: _pickedFile != null
                         ? Center(
@@ -82,7 +81,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 onPressed: () {
                   _selectColor();
-                  print(profileColor);
                 },
                 child: const Text("프로필색상 선택")),
             Form(
@@ -159,8 +157,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     tempFormKeyState.save();
                   }
                 
-                  sendDataToServer(File(_pickedFile!.path), potName, properTemperature, wateringCycle, profileColor, cookieController.cookie);
-                  //Navigator.pop(context);
+                  var result =sendDataToServer(context, File(_pickedFile!.path), potName, properTemperature, wateringCycle, profileColor, cookieController.cookie);
+                  if (result == 200){
+                    Navigator.pop(context, true);
+                  }
+                  
                 },
                 child: Text('완료')),
 
@@ -173,7 +174,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
-  selectImage() {
+  selectImage(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -260,7 +261,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
 
 
-Future<void> sendDataToServer(File imageFile, String potName, String properTemperature, String wateringCycle, Color profileColor, String cookie) async {
+Future<int> sendDataToServer(BuildContext context, File imageFile, String potName, String properTemperature, String wateringCycle, Color profileColor, String cookie) async {
   final url = Uri.parse('https://iotvase.azurewebsites.net/green');
 
   var request = http.MultipartRequest('POST', url);
@@ -278,7 +279,10 @@ Future<void> sendDataToServer(File imageFile, String potName, String properTempe
   var response = await request.send();
   if (response.statusCode == 200) {
     print('Data sent successfully');
+    Navigator.pop(context, true);
   } else {
     print('Failed to send data. Error code: ${response.statusCode}');
   }
+
+  return response.statusCode;
 }

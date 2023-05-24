@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:mygreen/screen/create_account_screen.dart';
 import 'package:mygreen/screen/select_pot_screen.dart';
-import 'package:mygreen/provider/cookie_provider.dart';
+import 'package:mygreen/provider/global_state.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,25 +16,31 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final cookieController = Get.put(LoginCookie());
-  bool _isLogin = false;
+  final cookieController = Get.put(GlobalState());
+  bool _isLoading = false;
 
   void _login() async {
     setState(() {
-      _isLogin = true;
+      _isLoading = true;
     });
-    final sessionToken = await _requestSessionToken(_idController.text, _passwordController.text);
-  
+    final sessionToken = await _requestSessionToken(
+        _idController.text, _passwordController.text);
+
     if (sessionToken != null) {
       // 로그인 성공
-      
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (BuildContext context) => SelectPotScreen())
+      _isLoading = false;
+      _idController.clear();
+      _passwordController.clear();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SelectPotScreen(),
+        ),
       );
     } else {
       // 로그인 실패
       setState(() {
-        _isLogin = false;
+        _isLoading = false;
       });
 
       showDialog(
@@ -56,36 +62,31 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
   }
-  
+
   Future<String?> _requestSessionToken(String id, String password) async {
-  final url = Uri.parse('https://iotvase.azurewebsites.net/account/login'); // 서버 주소
-  Map<String, dynamic> account = {
-    'id':id,
-    'password':password
-  };
-  final response = await http.post(url,
-          headers: {'Content-Type': 'application/json'},
-          body: json.encode(account));
-  
-  print(response.statusCode);
- 
-  if (response.statusCode == 200) {
-    //cookieJar.saveFromResponse(url, response.headers['set-cookie']);
-    final cookies = response.headers['set-cookie'];
-    
-    
-    if (cookies != null){
-      final cookie = cookies.split(';')[0];
-      cookieController.setCookie(cookie);
-      print(cookieController.cookie);
-      return cookie;
+    final url =
+        Uri.parse('https://iotvase.azurewebsites.net/account/login'); // 서버 주소
+    Map<String, dynamic> account = {'id': id, 'password': password};
+    final response = await http.post(url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(account));
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      //cookieJar.saveFromResponse(url, response.headers['set-cookie']);
+      final cookies = response.headers['set-cookie'];
+
+      if (cookies != null) {
+        final cookie = cookies.split(';')[0];
+        cookieController.setCookie(cookie);
+        print(cookieController.cookie);
+        return cookie;
+      }
+    } else {
+      return null;
     }
-    //return cookie;    
-  } else {
-    return null;
-    throw Exception('로그인에 실패했습니다.');
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -118,15 +119,15 @@ class _LoginPageState extends State<LoginPage> {
                   // 클릭할 때마다 키보드 숨김
                   onTap: () => FocusScope.of(context).unfocus(),
                   // 로딩 중일 때 로그인 버튼 비활성화
-                  enabled: !_isLogin,
+                  enabled: !_isLoading,
                 ),
                 const SizedBox(height: 16.0),
-                
                 ElevatedButton(
-                  onPressed: _isLogin ? null : _login,
-                  child: _isLogin ? const CircularProgressIndicator() : const Text('로그인'),
+                  onPressed: _isLoading ? null : _login,
+                  child: _isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text('로그인'),
                 ),
-
                 TextButton(
                     onPressed: () {
                       Navigator.push(
