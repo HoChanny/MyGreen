@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:mygreen/utils.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/foundation.dart';
@@ -39,7 +41,8 @@ class _Registration_DiaryState extends State<Registration_Diary> {
   String content = '';
 
   //날짜 선택하기
-  DateTime date = DateTime.now();
+
+  String _selectedDate = (DateFormat.yMd()).format(DateTime.now());
 
   //드롭다운 식물 메뉴
   List<String> dropdownListPlant = ['먀몸미', '설이'];
@@ -47,7 +50,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
 
   //드롭다운 감정 메뉴
   List<String> dropdownListEmotion = ['😡', '😠', '😮', '😀', '😍'];
-  String selectedDropdownEmotion = '😡';
+  String selectedDropdownEmotion = '😮';
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +160,26 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                 ),
 
                 //날짜 선택
-                Center(child: DatePickerScreen()),
+                Center(
+                  child: Container(
+                    padding: EdgeInsets.all(24.0),
+                    child: Center(
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            _selectedDate,
+                            style: TextStyle(fontSize: 24),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.date_range),
+                            onPressed: () => _selectDate(context),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Center(child: Text('${_selectedDate}')),
 //감정 선택
                 Center(
                   child: Column(
@@ -197,9 +219,20 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                       dropdownValueEmotion: selectedDropdownEmotion,
                       title: controllerTitle,
                       content: controllerContent,
-                      date: date,
+                      date: _selectedDate,
                       postDiaryData: postDiaryData),
                 ),
+                Center(
+                    child: ElevatedButton(
+                  child: Text('a'),
+                  onPressed: () {
+                    if (eventSource.keys == _selectedDate) {
+                      print('${eventSource.keys} ${_selectedDate}');
+                    } else {
+                      print('${eventSource.keys} ${_selectedDate}');
+                    }
+                  },
+                )),
               ],
             ),
           ),
@@ -277,7 +310,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
       String dropdownValueEmotion,
       String title,
       String content,
-      DateTime date) async {
+      String date) async {
     var request = http.MultipartRequest(
       'POST',
       Uri.parse('https://iotvase.azurewebsites.net/green/diary'),
@@ -306,6 +339,20 @@ class _Registration_DiaryState extends State<Registration_Diary> {
     } else {
       // Request failed, handle the error
       print('Error: ${response.statusCode}');
+    }
+  }
+
+  Future _selectDate(BuildContext context) async {
+    final DateTime? selected = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (selected != null) {
+      setState(() {
+        _selectedDate = (DateFormat.yMd()).format(selected);
+      });
     }
   }
 }

@@ -7,14 +7,14 @@ class DiarySubmitButton extends StatefulWidget {
   String dropdownValueEmotion;
   TextEditingController title;
   TextEditingController content;
-  DateTime date;
+  String date;
   final Future<void> Function(
       XFile? pickedFile,
       String dropdownValuePlant,
       String dropdownValueEmotion,
       String title,
       String content,
-      DateTime date) postDiaryData;
+      String date) postDiaryData;
 
   DiarySubmitButton({
     Key? key,
@@ -44,7 +44,7 @@ class _DiarySubmitButtonState extends State<DiarySubmitButton> {
               widget.content.text.isNotEmpty &&
               widget.date != null) {
             print(
-                '${widget.pickedFile!.path} , ${widget.dropdownValuePlant} , ${widget.dropdownValueEmotion} , ${widget.title.text} , ${widget.content.text} , ${widget.date}');
+                '${widget.pickedFile!.path} , ${widget.dropdownValuePlant} , ${widget.dropdownValueEmotion} , ${widget.title.text} , ${widget.content.text} , date : ${widget.date}');
             widget.postDiaryData(
                 widget.pickedFile,
                 widget.dropdownValuePlant,

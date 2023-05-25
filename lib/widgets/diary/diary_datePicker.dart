@@ -11,29 +11,26 @@ class DatePickerScreen extends StatefulWidget {
 }
 
 class _DatePickerScreenState extends State<DatePickerScreen> {
-  String _selectedDate = '';
+  String _selectedDate = (DateFormat.yMMMd()).format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
-    return 
-      
-      Container(
-        padding: EdgeInsets.all(24.0),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Text(
-                _selectedDate,
-                style: TextStyle(fontSize: 24),
-              ),
-              IconButton(
-                icon: Icon(Icons.date_range),
-                onPressed: () => _selectDate(context),
-              )
-            ],
-          ),
+    return Container(
+      padding: EdgeInsets.all(24.0),
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            Text(
+              _selectedDate,
+              style: TextStyle(fontSize: 24),
+            ),
+            IconButton(
+              icon: Icon(Icons.date_range),
+              onPressed: () => _selectDate(context),
+            )
+          ],
         ),
-      
+      ),
     );
   }
 
