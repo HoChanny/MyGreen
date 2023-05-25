@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:mygreen/screen/create_account_screen.dart';
 import 'package:mygreen/screen/select_pot_screen.dart';
 import 'package:mygreen/provider/global_state.dart';
+import 'package:mygreen/screen/calendar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -133,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const CreateAccountPage()));
+                              builder: (context) => const CalendarPage()));
                     },
                     child: const Text("회원가입"))
               ],

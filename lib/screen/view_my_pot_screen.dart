@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
+import 'package:mygreen/screen/calendar.dart';
+
 class ViewMyPotPage extends StatefulWidget {
   final String name;
   final Color color;
@@ -8,13 +10,13 @@ class ViewMyPotPage extends StatefulWidget {
   final String temperature;
   final String wateringCycle;
 
-  const ViewMyPotPage({
-    required this.name,
-    required this.color,
-    required this.image,
-    required this.temperature,
-    required this.wateringCycle,
-     super.key});
+  const ViewMyPotPage(
+      {required this.name,
+      required this.color,
+      required this.image,
+      required this.temperature,
+      required this.wateringCycle,
+      super.key});
 
   @override
   State<ViewMyPotPage> createState() => _ViewMyPotPageState();
@@ -39,8 +41,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                 Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(
-                          width: 10, color: widget.color)),
+                      border: Border.all(width: 10, color: widget.color)),
                   child: CircleAvatar(
                     backgroundImage: widget.image,
                     radius: 50,
@@ -60,6 +61,16 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
             ),
           ),
           ElevatedButton(onPressed: () {}, child: Text("프로필 수정")),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CalendarPage(),
+                  ),
+                );
+              },
+              child: Text("일기 작성")),
         ],
       ),
     );
