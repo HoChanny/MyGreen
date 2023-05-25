@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mygreen/utils.dart';
@@ -12,6 +15,8 @@ import 'package:mygreen/widgets/diary/diary_dropdownMenu.dart';
 import 'package:mygreen/widgets/diary/diary_form.dart';
 import 'package:mygreen/widgets/diary/diary_submitButton.dart';
 
+import '../provider/global_state.dart';
+
 class Registration_Diary extends StatefulWidget {
   const Registration_Diary({Key? key}) : super(key: key);
 
@@ -20,12 +25,6 @@ class Registration_Diary extends StatefulWidget {
 }
 
 class _Registration_DiaryState extends State<Registration_Diary> {
-  String handleDropdownValue(String value) {
-    // 선택된 값(value)을 이용하여 원하는 동작을 수행합니다.
-    return value;
-    // 여기에 처리 로직을 추가하세요.
-  }
-
   final formKey = GlobalKey<FormState>();
 
   //사진 선택하기
@@ -45,8 +44,43 @@ class _Registration_DiaryState extends State<Registration_Diary> {
   String _selectedDate = (DateFormat.yMd()).format(DateTime.now());
 
   //드롭다운 식물 메뉴
-  List<String> dropdownListPlant = ['먀몸미', '설이'];
-  String selectedDropdownPlant = '먀몸미';
+  final profileController = Get.put(GlobalState());
+  // 예시 데이터
+  List<String> dropdownList = [];
+  String selectedDropdownPlant = '';
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromServer();
+  }
+
+  Future<void> fetchDataFromServer() async {
+    try {
+      final url = Uri.parse('https://iotvase.azurewebsites.net/green');
+      final response =
+          await http.get(url, headers: {'Cookie': profileController.cookie});
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = jsonDecode(response.body);
+        setState(() {
+          dropdownList =
+              jsonData.map((data) => data['plant_name'] as String).toList();
+          selectedDropdownPlant = dropdownList[0];
+        });
+      } else {
+        print('Failed to fetch data. Error code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error while fetching data: $error');
+    }
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void refreshData() {
+    fetchDataFromServer();
+  }
 
   //드롭다운 감정 메뉴
   List<String> dropdownListEmotion = ['😡', '😠', '😮', '😀', '😍'];
@@ -55,7 +89,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
   @override
   Widget build(BuildContext context) {
     final imageSize = MediaQuery.of(context).size.width / 3;
-
+    print('dropdownList : ${dropdownList}');
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -67,6 +101,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
             child: Column(
               key: formKey,
               children: <Widget>[
+                //aas
                 Center(
                   child: Container(
                     decoration: BoxDecoration(
@@ -108,8 +143,8 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                       // Step 2.
                       DropdownButton(
                         value: selectedDropdownPlant,
-                        items: dropdownListPlant.map((String item) {
-                          return DropdownMenuItem<String>(
+                        items: dropdownList.map((dynamic item) {
+                          return DropdownMenuItem<dynamic>(
                             child: Text('$item'),
                             value: item,
                           );
@@ -241,12 +276,6 @@ class _Registration_DiaryState extends State<Registration_Diary> {
     );
   }
 
-  void onDropdownValueChanged(String value) {
-    // Handle the updated dropdown value here
-    print(value);
-    // You can perform any other actions with the updated value
-  }
-
   selectImage() {
     return showDialog(
       context: context,
@@ -354,5 +383,21 @@ class _Registration_DiaryState extends State<Registration_Diary> {
         _selectedDate = (DateFormat.yMd()).format(selected);
       });
     }
+  }
+}
+
+Future<void> getDataFromServer(String cookie) async {
+  final url = Uri.parse('https://iotvase.azurewebsites.net/green');
+
+  // Send GET request to server
+  final response = await http.get(url, headers: {'Cookie': cookie});
+
+  if (response.statusCode == 200) {
+    // Parse the response
+    final data = response.body;
+    // Process the data as needed
+    print('Received data: $data');
+  } else {
+    print('Failed to get data. Error code: ${response.statusCode}');
   }
 }

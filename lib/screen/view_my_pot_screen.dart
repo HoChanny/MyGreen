@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 
 import 'package:mygreen/screen/calendar.dart';
+import 'package:mygreen/screen/diary.dart';
 
 class ViewMyPotPage extends StatefulWidget {
   final String name;

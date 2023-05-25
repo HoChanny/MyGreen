@@ -43,31 +43,15 @@ class Event {
 
 //Event('plant_name , title , date , emotion , images , content)
 Map<DateTime, dynamic> eventSource = {
-  DateTime(2023, 5, 12): [
-    const Event(
-      '먀몸미',
-      '오운완 ~!',
-      4,
-      '0022FF',
-      '렛풀다운을 재밌게 완료했다.',
-    ),
-  ],
-  DateTime(2023, 5, 18): [
-    const Event(
-      '몽글이',
-      '최고의 하루 !',
-      5,
-      'FF00FF',
-      '맛있는 음식을 먹었다.',
-    ),
-    const Event(
-      '몽글이',
-      '최악의 하루 !',
-      1,
-      'FF00FF',
-      '핸드폰 액정이 깨졌다 으아악ㄱ',
-    ),
-  ],
+  // DateTime(2023, 5, 12): [
+  //   const Event(
+  //     'Pot1',
+  //     '오운완 ~!',
+  //     4,
+  //     '0022FF',
+  //     '렛풀다운을 재밌게 완료했다.',
+  //   ),
+  // ],
 };
 
 /// Example events.
