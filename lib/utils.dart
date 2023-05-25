@@ -33,25 +33,41 @@ class Event {
     this.content,
   );
 
-  String toColor() {
-    return color;
+  String toName() {
+    return plant_name;
   }
 
   @override
-  String toString() => color;
+  String toString() => plant_name;
 }
 
 //Event('plant_name , title , date , emotion , images , content)
 Map<DateTime, dynamic> eventSource = {
-  // DateTime(2023, 5, 12): [
-  //   const Event(
-  //     'Pot1',
-  //     '오운완 ~!',
-  //     4,
-  //     '0022FF',
-  //     '렛풀다운을 재밌게 완료했다.',
-  //   ),
-  // ],
+  DateTime(2023, 5, 12): [
+    const Event(
+      'Pot1',
+      '오운완 ~!',
+      4,
+      '0022FF ',
+      '렛풀다운을 재밌게 완료했다.',
+    ),
+    const Event(
+      'Pot2',
+      '오운완1111 ~!',
+      4,
+      '0022FF ',
+      '렛풀다운을 재밌게 완료했다.',
+    ),
+  ],
+  DateTime(2023, 5, 14): [
+    const Event(
+      'Pot1',
+      '오운완 ~!',
+      4,
+      '0022FF ',
+      '렛풀다운을 재밌게 완료했다.',
+    ),
+  ],
 };
 
 /// Example events.

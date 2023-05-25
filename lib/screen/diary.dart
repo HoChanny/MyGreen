@@ -1,7 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:mygreen/utils.dart';
 
 import 'package:mygreen/widgets/diary/diary_emotion.dart';
+import 'package:http/http.dart' as http;
+
+import '../provider/global_state.dart';
 
 class DiaryPage extends StatefulWidget {
   //식물 이름
@@ -34,7 +41,41 @@ class DiaryPage extends StatefulWidget {
 //일단 보기좋게 나열해놓음
 
 class _DiaryPageState extends State<DiaryPage> {
+  final profileController = Get.put(GlobalState());
+
   @override
+  void initState() {
+    super.initState();
+    fetchDataFromServer();
+  }
+
+  Future<void> fetchDataFromServer() async {
+    try {
+      final url = Uri.parse('https://iotvase.azurewebsites.net/green');
+      var profileController;
+      final response =
+          await http.get(url, headers: {'Cookie': profileController.cookie});
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = jsonDecode(response.body);
+        setState(() {
+          //데이터받아오는것!
+        });
+      } else {
+        print('Failed to fetch data. Error code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error while fetching data: $error');
+    }
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void refreshData() {
+    fetchDataFromServer();
+  }
+
   Widget build(BuildContext context) {
     //날짜 월 / 일 분리
     String dateString = widget.date.toString();
@@ -47,6 +88,7 @@ class _DiaryPageState extends State<DiaryPage> {
         Color(int.parse("0xFF${widget.color}")); // 16진수 문자열을 Color로 변환
 
     print(convertColor);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: convertColor,

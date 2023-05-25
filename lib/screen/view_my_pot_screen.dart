@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 import 'package:mygreen/screen/calendar.dart';
 import 'package:mygreen/screen/diary.dart';
+
+import 'package:mygreen/utils.dart';
 
 class ViewMyPotPage extends StatefulWidget {
   final String name;
@@ -27,7 +30,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
-
+    print(eventSource[0]);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name),
@@ -72,6 +75,52 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                 );
               },
               child: Text("일기 작성")),
+          Expanded(
+            child: ListView.builder(
+              itemCount: eventSource.length,
+              itemBuilder: (BuildContext context, int index) {
+                DateTime date = eventSource.keys.elementAt(index);
+                List<Event> events = eventSource[date];
+                int length = events.length;
+
+                for (int i = 0; i < length; i++) {
+                  if (events[i].plant_name == widget.name) {
+                    print(events[i].title);
+                    print(events[i].plant_name);
+
+                    return Column(
+                      children: [
+                        Text(
+                          (DateFormat.yMMMd()).format(date),
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 4.0,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: ListTile(
+                            // 클릭시 이벤트 발생
+                            // 제목
+                            title: Text(events[i].title),
+                            // 내용
+                            subtitle: Text(events[i].content),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                }
+              },
+            ),
+          ),
         ],
       ),
     );

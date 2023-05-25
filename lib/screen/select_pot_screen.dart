@@ -7,6 +7,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:mygreen/screen/view_my_pot_screen.dart';
 
+import 'package:mygreen/utils.dart';
+
 class SelectPotScreen extends StatefulWidget {
   const SelectPotScreen({Key? key}) : super(key: key);
 
@@ -18,7 +20,6 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
   final profileController = Get.put(GlobalState());
   // 예시 데이터
   List<Map<String, dynamic>> potData = [];
-  List<String> test = [];
   @override
   void initState() {
     super.initState();
@@ -36,7 +37,6 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
         setState(() {
           potData =
               jsonData.map((data) => data as Map<String, dynamic>).toList();
-          test = jsonData.map((data) => data['plant_name'] as String).toList();
         });
       } else {
         print('Failed to fetch data. Error code: ${response.statusCode}');
@@ -79,7 +79,6 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('${test} :test');
     return Scaffold(
       appBar: AppBar(
         title: const Text("내 화분"),
