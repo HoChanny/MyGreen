@@ -27,6 +27,18 @@ class ViewMyPotPage extends StatefulWidget {
 }
 
 class _ViewMyPotPageState extends State<ViewMyPotPage> {
+  dynamic returnDate(value, index) {
+    for (DateTime key in eventSource.keys) {
+      for (Event event in eventSource[key]) {
+        if (event == value[index]) {
+          String formattedDate = DateFormat('yyyy-MM-dd').format(key);
+          print(formattedDate);
+          return formattedDate;
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
@@ -107,7 +119,22 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           child: ListTile(
-                            // 클릭시 이벤트 발생
+                            onTap: () {
+                              //diary 페이지에 넘기는 데이터 값들
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DiaryPage(
+                                    plant_name: events[i].plant_name,
+                                    title: events[i].title,
+                                    date: returnDate(events, i),
+                                    emotion: events[i].emotion,
+                                    color: events[i].color,
+                                    content: events[i].content,
+                                  ),
+                                ),
+                              );
+                            }, // 클릭시 이벤트 발생
                             // 제목
                             title: Text(events[i].title),
                             // 내용

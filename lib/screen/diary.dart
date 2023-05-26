@@ -121,11 +121,7 @@ class _DiaryPageState extends State<DiaryPage> {
               ),
               //이미지 -> widget값을 받아와서 뿌려야할듯.
               Container(
-                child: Image.asset(
-                  'assets/image/test.png',
-                  width: 100,
-                  height: 100,
-                ),
+                child: Text('사진'),
               ),
               //이름
               Container(
