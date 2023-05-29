@@ -152,8 +152,8 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
                     ],
                   ),
                 ),
-              );
-            },
+              );} 
+            
           ),
         ),
       ),

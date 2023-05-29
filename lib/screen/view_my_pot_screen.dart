@@ -42,7 +42,14 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
-    print(eventSource[0]);
+    
+
+    //일기 날짜 최신순으로 정렬
+    Map<DateTime, dynamic> sortedEventSource = Map.fromEntries(
+  eventSource.entries.toList()
+    ..sort((b,a) => a.key.compareTo(b.key))
+);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name),
@@ -87,20 +94,20 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                 );
               },
               child: Text("일기 작성")),
+
           Expanded(
             child: ListView.builder(
-              itemCount: eventSource.length,
-              itemBuilder: (BuildContext context, int index) {
-                DateTime date = eventSource.keys.elementAt(index);
-                List<Event> events = eventSource[date];
+              itemCount: sortedEventSource.length,
+              itemBuilder: (context, i) {
+
+                DateTime date = sortedEventSource.keys.elementAt(i);
+                List<Event> events = sortedEventSource[date];
                 int length = events.length;
-
+                
                 for (int i = 0; i < length; i++) {
-                  if (events[i].plant_name == widget.name) {
-                    print(events[i].title);
-                    print(events[i].plant_name);
-
-                    return Column(
+                  if (events[i].plant_name == widget.name ) {
+                  
+                  return Column(
                       children: [
                         Text(
                           (DateFormat.yMMMd()).format(date),
@@ -143,8 +150,10 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                         ),
                       ],
                     );
-                  }
+                    
+                  } 
                 }
+                return const SizedBox(height: 0,);
               },
             ),
           ),
