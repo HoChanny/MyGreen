@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DiaryEmotion extends StatefulWidget {
-  final int emotion;
+  final String emotion;
 
   DiaryEmotion({
     required this.emotion,

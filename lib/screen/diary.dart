@@ -18,7 +18,7 @@ class DiaryPage extends StatefulWidget {
   //일기 날짜
   final String date;
   //감정
-  final int emotion;
+  final String emotion;
   //색상
   final String color;
   //일기 내용
