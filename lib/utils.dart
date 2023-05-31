@@ -17,7 +17,7 @@ class Event {
   // final DateTime date;
 
   //감정(1~5 로 해서 숫자에 해당하는 그림 출력해주면 될듯.)
-  final int emotion;
+  final String emotion;
 
   //마커 색상
   final String color;
@@ -47,24 +47,23 @@ Map<DateTime, dynamic> eventSource = {
     const Event(
       'Pot1',
       '오운완 ~!',
-      4,
+      '😀',
       '0022FF ',
       '렛풀다운을 재밌게 완료했다.',
     ),
-
   ],
   DateTime(2023, 5, 14): [
     const Event(
       'Pot1',
-      '오운완 ~!',
-      4,
+      '오운ss완 ~!',
+      '😀',
       '0022FF ',
       '렛풀다운을 재밌게 완료했다.',
-    ),   
-     const Event(
+    ),
+    const Event(
       'Pot2',
       '오운완1111 ~!',
-      4,
+      '😀',
       '0022FF ',
       '렛풀다운을 재밌게 완료했다.',
     ),
