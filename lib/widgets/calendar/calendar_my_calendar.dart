@@ -119,6 +119,9 @@ class _MyCalendarState extends State<MyCalendar> {
                             Axis.horizontal, // set the direction to horizontal
                         itemCount: events.length,
                         itemBuilder: (context, index) {
+                          // 색상 변환
+                          Color convertColor = Color(int.parse(
+                              "0xFF${events[index].toString()}")); // 16진수 문자열을 Color로 변환
                           return SizedBox(
                             height: 10,
                             width: 10,
@@ -126,6 +129,7 @@ class _MyCalendarState extends State<MyCalendar> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 shape: BoxShape.rectangle,
+                                color: convertColor,
                               ),
                             ),
                           );

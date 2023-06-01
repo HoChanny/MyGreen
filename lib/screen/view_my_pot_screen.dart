@@ -41,6 +41,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
     Map<DateTime, dynamic> sortedEventSource = Map.fromEntries(
         eventSource.entries.toList()..sort((a, b) => a.key.compareTo(b.key)));
 
+    //최신 일기 출력해주기
     String plant_name = '';
     String title = '';
     DateTime dates = DateTime.now();
@@ -53,7 +54,6 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
     for (int i = 0; i < itemCount; i++) {
       DateTime date = sortedEventSource.keys.elementAt(i);
       List<Event> events = sortedEventSource[date];
-      print(events);
       int length = events.length;
       for (int i = 0; i < length; i++) {
         if (events[i].plant_name == widget.name) {
@@ -67,6 +67,28 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
         }
       }
     }
+
+    // 새로운 이벤트 생성
+    Event newEvent = const Event(
+      'Pot3',
+      '새로운 이벤트입니다.',
+      '🎉',
+      'FF0000',
+      '새로운 이벤트를 추가했습니다.',
+    );
+
+    // 이벤트를 추가할 날짜
+    DateTime eventDate = DateTime(2023, 5, 16);
+
+    // eventDate 키가 이미 존재하는지 확인
+    if (eventSource.containsKey(eventDate)) {
+      // 이미 해당 날짜에 이벤트가 있는 경우, 기존 이벤트 목록에 새로운 이벤트를 추가
+      eventSource[eventDate].add(newEvent);
+    } else {
+      // 해당 날짜에 이벤트가 없는 경우, 새로운 이벤트 목록을 생성하여 추가
+      eventSource[eventDate] = [newEvent];
+    }
+    //이벤트 추가 -> 정렬 -> 출력하기 로직
 
     return Scaffold(
       appBar: AppBar(
@@ -162,71 +184,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                     ),
                 ],
               ),
-            ), // child: ListView.builder(
-            //   itemCount: sortedEventSource.length,
-            //   itemBuilder: (context, i) {
-            //     DateTime date = sortedEventSource.keys.elementAt(i);
-            //     List<Event> events = sortedEventSource[date];
-            //     int length = events.length;
-            //     print(events);
-            //     bool itemReturned =
-            //         false; // Flag to track if an item has been returned
-
-            //     for (int i = 0; i < length; i++) {
-            //       if (events[i].plant_name == widget.name) {
-            //         itemReturned =
-            //             true; // Set flag to true as an item will be returned
-            //         return Column(
-            //           children: [
-            //             Text(
-            //               (DateFormat.yMMMd()).format(date),
-            //               style: const TextStyle(
-            //                 fontSize: 16.0,
-            //                 fontWeight: FontWeight.bold,
-            //               ),
-            //             ),
-            //             Container(
-            //               margin: const EdgeInsets.symmetric(
-            //                 horizontal: 12.0,
-            //                 vertical: 4.0,
-            //               ),
-            //               decoration: BoxDecoration(
-            //                 border: Border.all(),
-            //                 borderRadius: BorderRadius.circular(12.0),
-            //               ),
-            //               child: ListTile(
-            //                 onTap: () {
-            //                   // Diary 페이지에 넘기는 데이터 값들
-            //                   Navigator.push(
-            //                     context,
-            //                     MaterialPageRoute(
-            //                       builder: (context) => DiaryPage(
-            //                         plant_name: events[i].plant_name,
-            //                         title: events[i].title,
-            //                         date: returnDate(events, i),
-            //                         emotion: events[i].emotion,
-            //                         color: events[i].color,
-            //                         content: events[i].content,
-            //                       ),
-            //                     ),
-            //                   );
-            //                 }, // 클릭 시 이벤트 발생
-            //                 // 제목
-            //                 title: Text(events[i].title),
-            //                 // 내용
-            //                 subtitle: Text(events[i].content),
-            //               ),
-            //             ),
-            //           ],
-            //         );
-            //       }
-            //     }
-
-            //     if (!itemReturned) {
-            //       return const SizedBox(height: 0);
-            //     }
-            //   },
-            // ),
+            ),
           ),
         ],
       ),

@@ -38,7 +38,7 @@ class Event {
   }
 
   @override
-  String toString() => plant_name;
+  String toString() => color;
 }
 
 //Event('plant_name , title , date , emotion , images , content)
