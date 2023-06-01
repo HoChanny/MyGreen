@@ -46,7 +46,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
     String title = '';
     DateTime dates = DateTime.now();
     String emotion = '';
-    String color = '';
+    Color color = widget.color;
     String content = '';
 
     int itemCount = sortedEventSource.length;
@@ -67,7 +67,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
         }
       }
     }
-
+    print(widget.color);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name),
@@ -107,7 +107,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const CalendarPage(),
+                    builder: (context) => CalendarPage(),
                   ),
                 );
               },
@@ -116,7 +116,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
             child: Container(
               child: Column(
                 children: [
-                  if (true)
+                  if (plant_name.isNotEmpty)
                     Column(
                       children: [
                         Text(

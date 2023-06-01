@@ -20,7 +20,7 @@ class Event {
   final String emotion;
 
   //마커 색상
-  final String color;
+  final Color color;
 
   //이벤트 내용
   final String content;
@@ -38,37 +38,11 @@ class Event {
   }
 
   @override
-  String toString() => color;
+  String toString() => plant_name;
 }
 
 //Event('plant_name , title , date , emotion , images , content)
-Map<DateTime, dynamic> eventSource = {
-  DateTime(2023, 5, 12): [
-    const Event(
-      'Pot1',
-      '오운완 ~!',
-      '😀',
-      '0022FF ',
-      '렛풀다운을 재밌게 완료했다.',
-    ),
-  ],
-  DateTime(2023, 5, 14): [
-    const Event(
-      'Pot1',
-      '오운ss완 ~!',
-      '😀',
-      '0022FF ',
-      '렛풀다운을 재밌게 완료했다.',
-    ),
-    const Event(
-      'Pot2',
-      '오운완1111 ~!',
-      '😀',
-      '0022FF ',
-      '렛풀다운을 재밌게 완료했다.',
-    ),
-  ],
-};
+Map<DateTime, dynamic> eventSource = {};
 
 /// Example events.
 ///

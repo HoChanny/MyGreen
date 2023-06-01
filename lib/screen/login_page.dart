@@ -134,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const CalendarPage()));
+                              builder: (context) => const CreateAccountPage()));
                     },
                     child: const Text("회원가입"))
               ],

@@ -20,7 +20,7 @@ class DiaryPage extends StatefulWidget {
   //감정
   final String emotion;
   //색상
-  final String color;
+  final Color color;
   //일기 내용
   final String content;
 
@@ -83,15 +83,9 @@ class _DiaryPageState extends State<DiaryPage> {
     int month = dateTime.month;
     int day = dateTime.day;
 
-    // 색상 변환
-    Color convertColor =
-        Color(int.parse("0xFF${widget.color}")); // 16진수 문자열을 Color로 변환
-
-    print(convertColor);
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: convertColor,
+        backgroundColor: widget.color,
         //Title Center로 설정
         title: Text('Diary'),
         centerTitle: true,
@@ -160,7 +154,16 @@ class _DiaryPageState extends State<DiaryPage> {
                 ),
               ),
               //감정
-              Container(child: DiaryEmotion(emotion: widget.emotion)),
+              Container(
+                child: Text(
+                  widget.emotion,
+                  style: const TextStyle(
+                    fontSize: 50,
+                    color: Colors.black,
+                    fontFamily: '',
+                  ),
+                ),
+              ),
             ],
           ),
         ),

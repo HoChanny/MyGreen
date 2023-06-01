@@ -47,11 +47,30 @@ class _Registration_DiaryState extends State<Registration_Diary> {
   final profileController = Get.put(GlobalState());
   // 예시 데이터
   List<String> dropdownList = [];
+  List<String> colorList = [];
   String selectedDropdownPlant = '';
+  String color = '';
+  Color convertColor = Colors.lightGreen;
   @override
   void initState() {
     super.initState();
     fetchDataFromServer();
+  }
+
+  Color getColor(String rawColor) {
+    RegExp regExp = RegExp(r'primary value: (Color\(.+?\))');
+
+    Match? match = regExp.firstMatch(rawColor);
+    String extractedColor = match?.group(1) ?? "";
+    print(extractedColor);
+    Color color = parseColor(extractedColor);
+    return color;
+  }
+
+  Color parseColor(String colorString) {
+    String hexColor = colorString.split('(0x')[1].split(')')[0];
+    int value = int.parse(hexColor, radix: 16);
+    return Color(value);
   }
 
   Future<void> fetchDataFromServer() async {
@@ -65,6 +84,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
         setState(() {
           dropdownList =
               jsonData.map((data) => data['plant_name'] as String).toList();
+          colorList = jsonData.map((data) => data['color'] as String).toList();
           selectedDropdownPlant = dropdownList[0];
         });
       } else {
@@ -88,10 +108,13 @@ class _Registration_DiaryState extends State<Registration_Diary> {
 
   DateTime date = DateTime(2000, 01, 01);
 
+  //색찾기
+
   @override
   Widget build(BuildContext context) {
     final imageSize = MediaQuery.of(context).size.width / 3;
     print('dropdownList : ${dropdownList}');
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -154,6 +177,12 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                         onChanged: (dynamic value) {
                           setState(() {
                             selectedDropdownPlant = value;
+                            int index =
+                                dropdownList.indexOf(selectedDropdownPlant);
+
+                            color = colorList[index];
+
+                            convertColor = getColor(color);
                           });
                         },
                         style: const TextStyle(
@@ -207,32 +236,23 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                       ),
                     ),
                   ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      // Set margin for all sides
-                      children: [
-                        const Icon(Icons.cake),
-                        Text(
-                          '${date.year}년 ${date.month}월 ${date.day}일',
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            DateTime? newDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime(1900),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100),
-                            );
+                  child: Center(
+                    // Set margin for all sides
+                    child: IconButton(
+                      onPressed: () async {
+                        DateTime? newDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2023),
+                          lastDate: DateTime(2025),
+                        );
 
-                            if (newDate == null) return;
-                            setState(() => date = newDate);
-                            print(DateTime.now());
-                          },
-                          icon: const Icon(Icons.calendar_month),
-                        ),
-                      ]),
+                        if (newDate == null) return;
+                        setState(() => date = newDate);
+                      },
+                      icon: const Icon(Icons.calendar_month),
+                    ),
+                  ),
                 ),
 
                 Center(child: Text('${_selectedDate}')),
@@ -273,16 +293,12 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                       pickedFile: _pickedFile,
                       dropdownValuePlant: selectedDropdownPlant,
                       dropdownValueEmotion: selectedDropdownEmotion,
+                      color: convertColor,
                       title: controllerTitle,
                       content: controllerContent,
                       date: date,
                       postDiaryData: postDiaryData),
                 ),
-                Center(
-                    child: ElevatedButton(
-                  child: Text('a'),
-                  onPressed: () {},
-                )),
               ],
             ),
           ),
@@ -352,6 +368,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
       XFile? pickedFile,
       String dropdownValuePlant,
       String dropdownValueEmotion,
+      Color parseColor,
       String title,
       String content,
       DateTime date) async {
@@ -369,6 +386,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
     // Add form fields
     request.fields['name'] = dropdownValuePlant;
     request.fields['emotion'] = dropdownValueEmotion;
+    request.fields['color'] = convertColor.toString();
     request.fields['title'] = title;
     request.fields['content'] = content;
     request.fields['date'] = date.toString();
@@ -384,7 +402,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
         dropdownValuePlant,
         title,
         dropdownValueEmotion,
-        'FF0000',
+        convertColor,
         content,
       );
 
@@ -437,4 +455,12 @@ Future<void> getDataFromServer(String cookie) async {
   } else {
     print('Failed to get data. Error code: ${response.statusCode}');
   }
+}
+
+Color parseMaterialColor(String materialColorString) {
+  String colorString = materialColorString
+      .replaceAll('MaterialColor(primary value: Color(', '')
+      .replaceAll(')', '');
+  int value = int.parse(colorString, radix: 16);
+  return Color(value);
 }
