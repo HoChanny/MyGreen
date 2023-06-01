@@ -68,28 +68,6 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
       }
     }
 
-    // 새로운 이벤트 생성
-    Event newEvent = const Event(
-      'Pot3',
-      '새로운 이벤트입니다.',
-      '🎉',
-      'FF0000',
-      '새로운 이벤트를 추가했습니다.',
-    );
-
-    // 이벤트를 추가할 날짜
-    DateTime eventDate = DateTime(2023, 5, 16);
-
-    // eventDate 키가 이미 존재하는지 확인
-    if (eventSource.containsKey(eventDate)) {
-      // 이미 해당 날짜에 이벤트가 있는 경우, 기존 이벤트 목록에 새로운 이벤트를 추가
-      eventSource[eventDate].add(newEvent);
-    } else {
-      // 해당 날짜에 이벤트가 없는 경우, 새로운 이벤트 목록을 생성하여 추가
-      eventSource[eventDate] = [newEvent];
-    }
-    //이벤트 추가 -> 정렬 -> 출력하기 로직
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name),

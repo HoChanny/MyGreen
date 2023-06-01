@@ -7,14 +7,14 @@ class DiarySubmitButton extends StatefulWidget {
   String dropdownValueEmotion;
   TextEditingController title;
   TextEditingController content;
-  String date;
+  DateTime date;
   final Future<void> Function(
       XFile? pickedFile,
       String dropdownValuePlant,
       String dropdownValueEmotion,
       String title,
       String content,
-      String date) postDiaryData;
+      DateTime date) postDiaryData;
 
   DiarySubmitButton({
     Key? key,
