@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:mygreen/provider/global_state.dart';
 
-
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
 
@@ -156,18 +155,25 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   if (tempFormKeyState!.validate()) {
                     tempFormKeyState.save();
                   }
-                
-                  var result =sendDataToServer(context, File(_pickedFile!.path), potName, properTemperature, wateringCycle, profileColor, cookieController.cookie);
-                  if (result == 200){
+
+                  var result = sendDataToServer(
+                      context,
+                      File(_pickedFile!.path),
+                      potName,
+                      properTemperature,
+                      wateringCycle,
+                      profileColor,
+                      cookieController.cookie);
+                  if (result == 200) {
                     Navigator.pop(context, true);
                   }
-                  
                 },
                 child: Text('완료')),
-
-                TextButton(onPressed: (){
+            TextButton(
+                onPressed: () {
                   print(cookieController.cookie);
-                }, child: Text("쿠키확인"))
+                },
+                child: Text("쿠키확인"))
           ],
         ),
       ),
@@ -256,12 +262,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
           );
         });
   }
-
 }
 
-
-
-Future<int> sendDataToServer(BuildContext context, File imageFile, String potName, String properTemperature, String wateringCycle, Color profileColor, String cookie) async {
+Future<int> sendDataToServer(
+    BuildContext context,
+    File imageFile,
+    String potName,
+    String properTemperature,
+    String wateringCycle,
+    Color profileColor,
+    String cookie) async {
   final url = Uri.parse('https://iotvase.azurewebsites.net/green');
 
   var request = http.MultipartRequest('POST', url);

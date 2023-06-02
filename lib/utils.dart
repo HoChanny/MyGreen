@@ -19,18 +19,18 @@ class Event {
   //감정(1~5 로 해서 숫자에 해당하는 그림 출력해주면 될듯.)
   final String emotion;
 
-  //마커 색상
-  final Color color;
-
   //이벤트 내용
   final String content;
+
+  //이벤트 사진
+  final String image;
 
   const Event(
     this.plant_name,
     this.title,
     this.emotion,
-    this.color,
     this.content,
+    this.image,
   );
 
   String toName() {
@@ -42,7 +42,14 @@ class Event {
 }
 
 //Event('plant_name , title , date , emotion , images , content)
-Map<DateTime, dynamic> eventSource = {};
+Map<DateTime, dynamic> eventSource = {
+  DateTime(2023, 5, 12): [
+    const Event('Pot1', '오운완 ~!', '4', '렛풀다운을 재밌게 완료했다.', 'a'),
+  ],
+  DateTime(2023, 5, 11): [
+    const Event('Pot1', '오운완 ~!', '4', '렛풀다운을 재밌게 완료했다.', 'a'),
+  ],
+};
 
 /// Example events.
 ///
@@ -70,7 +77,3 @@ final kToday = DateTime.now();
 //4월 5일 기준 1월 5일 ~ 7월 5일
 final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
 final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
-
-// 해야할일
-// 투데이에 저장되지않는 버그 수정
-// item을 받게되면 0,1,2,3... 이런식으로 받는데 반복 안되게끔

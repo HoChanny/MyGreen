@@ -20,6 +20,7 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
   final profileController = Get.put(GlobalState());
   // 예시 데이터
   List<Map<String, dynamic>> potData = [];
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +38,6 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
         setState(() {
           potData =
               jsonData.map((data) => data as Map<String, dynamic>).toList();
-          print(potData[1]['color']);
         });
       } else {
         print('Failed to fetch data. Error code: ${response.statusCode}');
