@@ -37,6 +37,7 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
         setState(() {
           potData =
               jsonData.map((data) => data as Map<String, dynamic>).toList();
+          print(potData[1]['color']);
         });
       } else {
         print('Failed to fetch data. Error code: ${response.statusCode}');
@@ -103,58 +104,57 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
       body: Center(
         child: Expanded(
           child: ListView.builder(
-            itemCount: potData.length,
-            itemBuilder: (context, i) {
-              var data = potData[i];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ViewMyPotPage(
-                        name: data['plant_name'],
-                        color: getColor(data['color']),
-                        image: MemoryImage(base64Decode(data['profile'])),
-                        temperature: data['temperature'],
-                        wateringCycle: data['wateringCycle'],
+              itemCount: potData.length,
+              itemBuilder: (context, i) {
+                var data = potData[i];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ViewMyPotPage(
+                          name: data['plant_name'],
+                          color: getColor(data['color']),
+                          image: MemoryImage(base64Decode(data['profile'])),
+                          temperature: data['temperature'],
+                          wateringCycle: data['wateringCycle'],
+                        ),
                       ),
+                    );
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: MediaQuery.of(context).size.width * 0.32,
+                    padding: const EdgeInsets.all(20),
+                    margin: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: getColor(data['color']),
+                      borderRadius: BorderRadius.circular(100),
                     ),
-                  );
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: MediaQuery.of(context).size.width * 0.32,
-                  padding: const EdgeInsets.all(20),
-                  margin: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: getColor(data['color']),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage:
-                            MemoryImage(base64Decode(data['profile'])),
-                        radius: 50,
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            data['plant_name'],
-                            style: const TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage:
+                              MemoryImage(base64Decode(data['profile'])),
+                          radius: 50,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              data['plant_name'],
+                              style: const TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Text('${data['plant_name']}'),
-                        ],
-                      ),
-                    ],
+                            Text('${data['plant_name']}'),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );} 
-            
-          ),
+                );
+              }),
         ),
       ),
     );

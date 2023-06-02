@@ -6,7 +6,9 @@ import 'package:mygreen/widgets/calendar/calendar_my_calendar.dart';
 import 'package:mygreen/utils.dart';
 
 class CalendarPage extends StatefulWidget {
-  const CalendarPage({Key? key}) : super(key: key);
+  CalendarPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CalendarPage> createState() => _CalendarPageState();
@@ -18,8 +20,7 @@ class _CalendarPageState extends State<CalendarPage> {
     return Scaffold(
       appBar: AppBar(
         //Title Center로 설정
-        title: const Text('Calander'),
-
+        title: Text(' Calendar'),
         actions: [AddButton(), SearchButton()],
         centerTitle: true,
       ),
