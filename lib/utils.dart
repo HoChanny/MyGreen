@@ -13,9 +13,6 @@ class Event {
   //이벤트 제목
   final String title;
 
-  //이벤트 날짜
-  // final DateTime date;
-
   //감정(1~5 로 해서 숫자에 해당하는 그림 출력해주면 될듯.)
   final String emotion;
 
@@ -42,14 +39,7 @@ class Event {
 }
 
 //Event('plant_name , title , date , emotion , images , content)
-Map<DateTime, dynamic> eventSource = {
-  DateTime(2023, 5, 12): [
-    const Event('Pot1', '오운완 ~!', '4', '렛풀다운을 재밌게 완료했다.', 'a'),
-  ],
-  DateTime(2023, 5, 11): [
-    const Event('Pot1', '오운완 ~!', '4', '렛풀다운을 재밌게 완료했다.', 'a'),
-  ],
-};
+Map<DateTime, dynamic> eventSource = {};
 
 /// Example events.
 ///

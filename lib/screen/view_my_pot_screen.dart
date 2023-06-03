@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:mygreen/screen/calendar.dart';
 import 'package:mygreen/screen/diary.dart';
 
 import 'package:mygreen/utils.dart';
+
+import '../provider/global_state.dart';
 
 class ViewMyPotPage extends StatefulWidget {
   final String name;
@@ -27,6 +31,8 @@ class ViewMyPotPage extends StatefulWidget {
 }
 
 class _ViewMyPotPageState extends State<ViewMyPotPage> {
+  final profileController = Get.put(GlobalState());
+
   dynamic returnDate(value, index) {
     for (DateTime key in eventSource.keys) {
       for (Event event in eventSource[key]) {
@@ -40,12 +46,92 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width;
+  void initState() {
+    super.initState();
+    fetchDataFromServer('test');
+  }
 
+  //날짜들 받아오기
+  List<String> eventSourceDate = [];
+  //내용 받아오기
+  List<String> eventSourcePlantName = [];
+  List<String> eventSourceTitle = [];
+  List<String> eventSourceEmotion = [];
+  List<String> eventSourceContent = [];
+  List<String> eventSourceImage = [];
+  Future<void> fetchDataFromServer(String id) async {
+    try {
+      final url =
+          Uri.parse('https://iotvase.azurewebsites.net/green/diary/$id');
+      final response =
+          await http.get(url, headers: {'Cookie': profileController.cookie});
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = jsonDecode(response.body);
+        eventSource = {};
+        setState(() {
+          eventSourceDate =
+              jsonData.map((data) => data['date'] as String).toList();
+          eventSourcePlantName =
+              jsonData.map((data) => data['plant_name'] as String).toList();
+          eventSourceTitle =
+              jsonData.map((data) => data['title'] as String).toList();
+
+          eventSourceEmotion =
+              jsonData.map((data) => data['emotion'] as String).toList();
+          eventSourceContent =
+              jsonData.map((data) => data['content'] as String).toList();
+          eventSourceImage =
+              jsonData.map((data) => data['image'] as String).toList();
+
+          print(eventSourcePlantName.join(','));
+          print(eventSourceTitle.join(','));
+          print(eventSourceEmotion.join(','));
+          print(eventSourceContent.join(','));
+          int len = eventSourceDate.length;
+
+          for (int i = 0; i < len; i++) {
+            Event newEvent = Event(
+                eventSourcePlantName[i],
+                eventSourceTitle[i],
+                eventSourceEmotion[i],
+                eventSourceContent[i],
+                eventSourceImage[i]);
+
+            DateTime fetchDate = DateTime.parse(eventSourceDate[i]);
+            // 이벤트를 추가할 날짜
+            // eventDate 키가 이미 존재하는지 확인
+            if (eventSource.containsKey(fetchDate)) {
+              // 이미 해당 날짜에 이벤트가 있는 경우, 기존 이벤트 목록에 새로운 이벤트를 추가
+              eventSource[fetchDate].add(newEvent);
+            } else {
+              // 해당 날짜에 이벤트가 없는 경우, 새로운 이벤트 목록을 생성하여 추가
+              eventSource[fetchDate] = [newEvent];
+            }
+          }
+        });
+      } else {
+        print('Failed to fetch data. Error code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error while fetching data: $error');
+    }
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void refreshData() {
+    fetchDataFromServer('test');
+  }
+
+  Widget build(BuildContext context) {
     //일기 날짜 최신순으로 정렬
     Map<DateTime, dynamic> sortedEventSource = Map.fromEntries(
         eventSource.entries.toList()..sort((b, a) => a.key.compareTo(b.key)));
+
+    print(sortedEventSource);
+    final size = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -86,7 +172,8 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CalendarPage(color: widget.color),
+                    builder: (context) => CalendarPage(
+                        plant_name: widget.name, color: widget.color),
                   ),
                 );
               },
