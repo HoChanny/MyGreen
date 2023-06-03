@@ -10,8 +10,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:mygreen/widgets/diary/diary_datePicker.dart';
-import 'package:mygreen/widgets/diary/diary_dropdownMenu.dart';
 import 'package:mygreen/widgets/diary/diary_form.dart';
 
 import '../provider/global_state.dart';
@@ -26,6 +24,7 @@ class Registration_Diary extends StatefulWidget {
 class _Registration_DiaryState extends State<Registration_Diary> {
   final formKey = GlobalKey<FormState>();
   final cookieController = Get.put(GlobalState());
+  final profileController = Get.put(GlobalState());
 
   //사진 선택하기
   XFile? _pickedFile;
@@ -44,7 +43,6 @@ class _Registration_DiaryState extends State<Registration_Diary> {
   String _selectedDate = (DateFormat.yMd()).format(DateTime.now());
 
   //드롭다운 식물 메뉴
-  final profileController = Get.put(GlobalState());
   // 예시 데이터
   List<String> dropdownList = [];
   List<String> colorList = [];
@@ -236,7 +234,6 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                     ),
                   ),
                   child: Center(
-                    // Set margin for all sides
                     child: IconButton(
                       onPressed: () async {
                         DateTime? newDate = await showDatePicker(
@@ -259,7 +256,6 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                 Center(
                   child: Column(
                     children: [
-                      // Step 2.
                       DropdownButton(
                         value: selectedDropdownEmotion,
                         items: dropdownListEmotion.map((String item) {
@@ -295,9 +291,8 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                         File(_pickedFile!.path),
                         selectedDropdownPlant,
                         selectedDropdownEmotion,
-                        convertColor,
-                        title,
-                        content,
+                        controllerTitle.text,
+                        controllerContent.text,
                         date,
                         cookieController.cookie);
                     if (result == 200) {
@@ -376,7 +371,6 @@ class _Registration_DiaryState extends State<Registration_Diary> {
     File imageFile,
     String dropdownValuePlant,
     String dropdownValueEmotion,
-    Color parseColor,
     String title,
     String content,
     DateTime date,
@@ -388,48 +382,55 @@ class _Registration_DiaryState extends State<Registration_Diary> {
 
     // Add form fields
     request.headers['Cookie'] = cookie;
+    request.fields['id'] = 'test';
+
     request.fields['plant_name'] = dropdownValuePlant;
-    request.fields['emotion'] = dropdownValueEmotion;
-    request.fields['color'] = convertColor.toString();
     request.fields['title'] = title;
-    request.fields['content'] = content;
     request.fields['date'] = date.toString();
 
-    var imagePart =
-        await http.MultipartFile.fromPath('profile', imageFile.path);
+    request.fields['emotion'] = dropdownValueEmotion;
+    request.fields['content'] = content;
+
+    var imagePart = await http.MultipartFile.fromPath('image', imageFile.path);
     request.files.add(imagePart);
     var response = await request.send();
 
     // Handle the response
     if (response.statusCode == 200) {
       // Request successful, do something with the response
+
       // 새로운 이벤트 생성
-      Event newEvent = Event(
-        dropdownValuePlant,
-        title,
-        dropdownValueEmotion,
-        content,
-        imagePart.toString(),
-      );
+      // Event newEvent = Event(
+      //   dropdownValuePlant,
+      //   title,
+      //   dropdownValueEmotion,
+      //   content,
+      //   imagePart.toString(),
+      // );
 
-      // 이벤트를 추가할 날짜
-      DateTime eventDate = DateTime(date.year, date.month, date.day);
+      // // 이벤트를 추가할 날짜
+      // DateTime eventDate = DateTime(date.year, date.month, date.day);
 
-      // eventDate 키가 이미 존재하는지 확인
-      if (eventSource.containsKey(eventDate)) {
-        // 이미 해당 날짜에 이벤트가 있는 경우, 기존 이벤트 목록에 새로운 이벤트를 추가
-        eventSource[eventDate].add(newEvent);
-      } else {
-        // 해당 날짜에 이벤트가 없는 경우, 새로운 이벤트 목록을 생성하여 추가
-        eventSource[eventDate] = [newEvent];
-      }
-      //이벤트 추가 -> 정렬 -> 출력하기 로직
-      print(eventSource);
+      // // eventDate 키가 이미 존재하는지 확인
+      // if (eventSource.containsKey(eventDate)) {
+      //   // 이미 해당 날짜에 이벤트가 있는 경우, 기존 이벤트 목록에 새로운 이벤트를 추가
+      //   eventSource[eventDate].add(newEvent);
+      // } else {
+      //   // 해당 날짜에 이벤트가 없는 경우, 새로운 이벤트 목록을 생성하여 추가
+      //   eventSource[eventDate] = [newEvent];
+      // }
+      // //이벤트 추가 -> 정렬 -> 출력하기 로직
+      // print(eventSource);
       Navigator.pop(context, true);
 
       print('Response: ${await response.stream.bytesToString()}');
     } else {
       // Request failed, handle the error
+      print(dropdownValuePlant);
+      print(dropdownValueEmotion);
+      print(title);
+      print(content);
+      print(date);
       print('Error: ${response.statusCode}');
     }
     return response.statusCode;

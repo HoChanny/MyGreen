@@ -5,10 +5,12 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 //  일기 목록
+import '../../provider/global_state.dart';
 import '../../utils.dart';
 //  일기 상세 페이지
 import 'package:mygreen/screen/diary.dart';
@@ -29,35 +31,6 @@ class _MyCalendarState extends State<MyCalendar> {
   DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
-
-  get http => null;
-
-  @override
-  void initState() {
-    super.initState();
-    // updateEvent();
-
-    _selectedDay = _focusedDay;
-    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
-  }
-
-  @override
-  void dispose() {
-    _selectedEvents.dispose();
-    super.dispose();
-  }
-
-  void updateEvent() async {
-    dynamic hashMap = LinkedHashMap(
-      equals: isSameDay,
-      hashCode: getHashCode,
-    )..addAll(await fetchDataFromServer());
-    setState(() {
-      eventSource = hashMap;
-      _selectedEvents = ValueNotifier(
-          _getEventsForDay(_selectedDay!)); //api 통신 이후에 선택된 작업 리스트 다시 그려줌
-    });
-  }
 
   List<Event> _getEventsForDay(DateTime day) {
     // Implementation example
@@ -118,65 +91,34 @@ class _MyCalendarState extends State<MyCalendar> {
     }
   }
 
-  List<Map<DateTime, dynamic>> fetchEventSource = [];
-  //날짜들 받아오기
-  List<DateTime> eventSourceDate = [];
-  //내용 받아오기
-  List<String> eventSourceContent = [];
+  @override
+  void initState() {
+    super.initState();
 
-  Future<Map<DateTime, dynamic>> fetchDataFromServer() async {
-    try {
-      final url = Uri.parse('https://iotvase.azurewebsites.net/green');
-      var profileController;
-      final response =
-          await http.get(url, headers: {'Cookie': profileController.cookie});
-
-      if (response.statusCode == 200) {
-        final List<dynamic> jsonData = jsonDecode(response.body);
-        setState(() {
-          // eventSource = jsonData.map((data) => data as Map<DateTime,dynamic>).toList());
-          // eventSourceDate =
-          //     jsonData.map((data) => data as DateTime.toList();
-          // eventSourceContent =
-          //   jsonData.map((data) => data as String.toList();
-          fetchEventSource =
-              jsonData.map((data) => data as Map<DateTime, dynamic>).toList();
-
-          int len = eventSourceDate.length;
-
-          for (int i = 0; i < len; i++) {
-            // 이벤트를 추가할 날짜
-            DateTime eventDate = DateTime(eventSourceDate[i].year,
-                eventSourceDate[i].month, eventSourceDate[i].day);
-
-            // eventDate 키가 이미 존재하는지 확인
-            if (eventSource.containsKey(eventDate)) {
-              // 이미 해당 날짜에 이벤트가 있는 경우, 기존 이벤트 목록에 새로운 이벤트를 추가
-              eventSource[eventDate].add(eventSourceContent);
-            } else {
-              // 해당 날짜에 이벤트가 없는 경우, 새로운 이벤트 목록을 생성하여 추가
-              eventSource[eventDate] = [eventSourceContent];
-            }
-          }
-        });
-      } else {
-        print('Failed to fetch data. Error code: ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Error while fetching data: $error');
-    }
-    if (mounted) {
-      setState(() {});
-    }
-    return eventSource;
+    _selectedDay = _focusedDay;
+    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
   }
 
   @override
-  Widget build(BuildContext context) {
-    print(eventSource);
+  void dispose() {
+    _selectedEvents.dispose();
+    super.dispose();
+  }
 
-    //마커추가하는로직
-    print(kEvents..addAll(eventSource));
+  // void updateEvent() async {
+  //   dynamic hashMap = LinkedHashMap(
+  //     equals: isSameDay,
+  //     hashCode: getHashCode,
+  //   )..addAll(await fetchDataFromServer());
+  //   setState(() {
+  //     eventSource = hashMap;
+  //     _selectedEvents = ValueNotifier(
+  //         _getEventsForDay(_selectedDay!)); //api 통신 이후에 선택된 작업 리스트 다시 그려줌
+  //   });
+  // }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
