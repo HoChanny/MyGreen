@@ -16,8 +16,9 @@ import '../../utils.dart';
 import 'package:mygreen/screen/diary.dart';
 
 class MyCalendar extends StatefulWidget {
+  final String plant_name;
   final Color color;
-  const MyCalendar({required this.color, super.key});
+  const MyCalendar({required this.plant_name, required this.color, super.key});
   @override
   _MyCalendarState createState() => _MyCalendarState();
 }
@@ -105,18 +106,6 @@ class _MyCalendarState extends State<MyCalendar> {
     super.dispose();
   }
 
-  // void updateEvent() async {
-  //   dynamic hashMap = LinkedHashMap(
-  //     equals: isSameDay,
-  //     hashCode: getHashCode,
-  //   )..addAll(await fetchDataFromServer());
-  //   setState(() {
-  //     eventSource = hashMap;
-  //     _selectedEvents = ValueNotifier(
-  //         _getEventsForDay(_selectedDay!)); //api 통신 이후에 선택된 작업 리스트 다시 그려줌
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,7 +115,8 @@ class _MyCalendarState extends State<MyCalendar> {
             // marker 색 변경
             calendarBuilders: CalendarBuilders(
               markerBuilder: (context, day, events) {
-                if (events.isEmpty) return SizedBox();
+                if (events.isEmpty) return const SizedBox();
+
                 return Row(
                   children: [
                     SizedBox(
@@ -138,17 +128,21 @@ class _MyCalendarState extends State<MyCalendar> {
                             Axis.horizontal, // set the direction to horizontal
                         itemCount: events.length,
                         itemBuilder: (context, index) {
-                          return SizedBox(
-                            height: 10,
-                            width: 10,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                shape: BoxShape.rectangle,
-                                color: widget.color,
+                          if (events[index].toString() == widget.plant_name) {
+                            return SizedBox(
+                              height: 10,
+                              width: 10,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  shape: BoxShape.rectangle,
+                                  color: widget.color,
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
                         },
                       ),
                     ),
@@ -205,43 +199,48 @@ class _MyCalendarState extends State<MyCalendar> {
           Expanded(
             child: ValueListenableBuilder<List<Event>>(
               valueListenable: _selectedEvents,
-              builder: (context, value, _) {
+              builder: (context, value, events) {
                 return ListView.builder(
                   itemCount: value.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 4.0,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: ListTile(
-                        //클릭시 이벤트 발생
-                        onTap: () {
-                          //diary 페이지에 넘기는 데이터 값들
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DiaryPage(
-                                      plant_name: value[index].plant_name,
-                                      title: value[index].title,
-                                      date: returnDate(value, index),
-                                      emotion: value[index].emotion,
-                                      color: widget.color,
-                                      content: value[index].content,
-                                      image: value[index].image,
-                                    )),
-                          );
-                        },
-                        //제목
-                        title: Text('${value[index].title}'),
-                        //내용
-                        subtitle: Text('${value[index].content}'),
-                      ),
-                    );
+                    print('value = ${value.toString()}');
+                    if (value[index].toString() == widget.plant_name) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                          vertical: 4.0,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: ListTile(
+                          //클릭시 이벤트 발생
+                          onTap: () {
+                            //diary 페이지에 넘기는 데이터 값들
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DiaryPage(
+                                        plant_name: value[index].plant_name,
+                                        title: value[index].title,
+                                        date: returnDate(value, index),
+                                        emotion: value[index].emotion,
+                                        color: widget.color,
+                                        content: value[index].content,
+                                        image: value[index].image,
+                                      )),
+                            );
+                          },
+                          //제목
+                          title: Text('${value[index].title}'),
+                          //내용
+                          subtitle: Text('${value[index].content}'),
+                        ),
+                      );
+                    } else {
+                      return SizedBox();
+                    }
                   },
                 );
               },

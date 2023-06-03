@@ -68,6 +68,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonData = jsonDecode(response.body);
+        eventSource = {};
         setState(() {
           eventSourceDate =
               jsonData.map((data) => data['date'] as String).toList();
@@ -82,6 +83,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
               jsonData.map((data) => data['content'] as String).toList();
           eventSourceImage =
               jsonData.map((data) => data['image'] as String).toList();
+
           print(eventSourcePlantName.join(','));
           print(eventSourceTitle.join(','));
           print(eventSourceEmotion.join(','));
@@ -98,7 +100,6 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
 
             DateTime fetchDate = DateTime.parse(eventSourceDate[i]);
             // 이벤트를 추가할 날짜
-            print(fetchDate);
             // eventDate 키가 이미 존재하는지 확인
             if (eventSource.containsKey(fetchDate)) {
               // 이미 해당 날짜에 이벤트가 있는 경우, 기존 이벤트 목록에 새로운 이벤트를 추가
@@ -120,15 +121,16 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
     }
   }
 
-  //일기 날짜 최신순으로 정렬
-  Map<DateTime, dynamic> sortedEventSource = Map.fromEntries(
-      eventSource.entries.toList()..sort((b, a) => a.key.compareTo(b.key)));
-
   void refreshData() {
     fetchDataFromServer('test');
   }
 
   Widget build(BuildContext context) {
+    //일기 날짜 최신순으로 정렬
+    Map<DateTime, dynamic> sortedEventSource = Map.fromEntries(
+        eventSource.entries.toList()..sort((b, a) => a.key.compareTo(b.key)));
+
+    print(sortedEventSource);
     final size = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -170,7 +172,8 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CalendarPage(color: widget.color),
+                    builder: (context) => CalendarPage(
+                        plant_name: widget.name, color: widget.color),
                   ),
                 );
               },
