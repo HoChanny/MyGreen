@@ -6,9 +6,9 @@ import 'package:mygreen/widgets/calendar/calendar_my_calendar.dart';
 import 'package:mygreen/utils.dart';
 
 class CalendarPage extends StatefulWidget {
-  CalendarPage({
-    Key? key,
-  }) : super(key: key);
+  final Color color;
+
+  const CalendarPage({required this.color, super.key});
 
   @override
   State<CalendarPage> createState() => _CalendarPageState();
@@ -33,7 +33,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 child: Container(
                   margin: const EdgeInsets.fromLTRB(
                       0, 0, 0, 0), // Set margin for all sides
-                  child: MyCalendar(),
+                  child: MyCalendar(color: widget.color),
                 ),
               ),
             ],

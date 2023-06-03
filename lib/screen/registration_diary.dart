@@ -13,7 +13,6 @@ import 'package:http/http.dart' as http;
 import 'package:mygreen/widgets/diary/diary_datePicker.dart';
 import 'package:mygreen/widgets/diary/diary_dropdownMenu.dart';
 import 'package:mygreen/widgets/diary/diary_form.dart';
-import 'package:mygreen/widgets/diary/diary_submitButton.dart';
 
 import '../provider/global_state.dart';
 
@@ -26,6 +25,7 @@ class Registration_Diary extends StatefulWidget {
 
 class _Registration_DiaryState extends State<Registration_Diary> {
   final formKey = GlobalKey<FormState>();
+  final cookieController = Get.put(GlobalState());
 
   //사진 선택하기
   XFile? _pickedFile;
@@ -51,6 +51,8 @@ class _Registration_DiaryState extends State<Registration_Diary> {
   String selectedDropdownPlant = '';
   String color = '';
   Color convertColor = Colors.lightGreen;
+
+  String image = '';
   @override
   void initState() {
     super.initState();
@@ -108,12 +110,9 @@ class _Registration_DiaryState extends State<Registration_Diary> {
 
   DateTime date = DateTime(2000, 01, 01);
 
-  //색찾기
-
   @override
   Widget build(BuildContext context) {
     final imageSize = MediaQuery.of(context).size.width / 3;
-    print('dropdownList : ${dropdownList}');
 
     return SafeArea(
       child: Scaffold(
@@ -289,16 +288,24 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                 ),
                 //제출 버튼
                 Center(
-                  child: DiarySubmitButton(
-                      pickedFile: _pickedFile,
-                      dropdownValuePlant: selectedDropdownPlant,
-                      dropdownValueEmotion: selectedDropdownEmotion,
-                      color: convertColor,
-                      title: controllerTitle,
-                      content: controllerContent,
-                      date: date,
-                      postDiaryData: postDiaryData),
-                ),
+                    child: ElevatedButton(
+                  onPressed: () {
+                    var result = postDiaryData(
+                        context,
+                        File(_pickedFile!.path),
+                        selectedDropdownPlant,
+                        selectedDropdownEmotion,
+                        convertColor,
+                        title,
+                        content,
+                        date,
+                        cookieController.cookie);
+                    if (result == 200) {
+                      Navigator.pop(context, true);
+                    }
+                  },
+                  child: Text('등록하기'),
+                )),
               ],
             ),
           ),
@@ -364,34 +371,33 @@ class _Registration_DiaryState extends State<Registration_Diary> {
     }
   }
 
-  Future<void> postDiaryData(
-      XFile? pickedFile,
-      String dropdownValuePlant,
-      String dropdownValueEmotion,
-      Color parseColor,
-      String title,
-      String content,
-      DateTime date) async {
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.parse('https://iotvase.azurewebsites.net/green/diary'),
-    );
+  Future<int> postDiaryData(
+    BuildContext context,
+    File imageFile,
+    String dropdownValuePlant,
+    String dropdownValueEmotion,
+    Color parseColor,
+    String title,
+    String content,
+    DateTime date,
+    String cookie,
+  ) async {
+    final url = Uri.parse('https://iotvase.azurewebsites.net/green/diary');
 
-    // Add image file
-    if (pickedFile != null) {
-      var file = await http.MultipartFile.fromPath('image', pickedFile.path);
-      request.files.add(file);
-    }
+    var request = http.MultipartRequest('POST', url);
 
     // Add form fields
-    request.fields['name'] = dropdownValuePlant;
+    request.headers['Cookie'] = cookie;
+    request.fields['plant_name'] = dropdownValuePlant;
     request.fields['emotion'] = dropdownValueEmotion;
     request.fields['color'] = convertColor.toString();
     request.fields['title'] = title;
     request.fields['content'] = content;
     request.fields['date'] = date.toString();
 
-    // Send the HTTP request
+    var imagePart =
+        await http.MultipartFile.fromPath('profile', imageFile.path);
+    request.files.add(imagePart);
     var response = await request.send();
 
     // Handle the response
@@ -402,8 +408,8 @@ class _Registration_DiaryState extends State<Registration_Diary> {
         dropdownValuePlant,
         title,
         dropdownValueEmotion,
-        convertColor,
         content,
+        imagePart.toString(),
       );
 
       // 이벤트를 추가할 날짜
@@ -419,11 +425,14 @@ class _Registration_DiaryState extends State<Registration_Diary> {
       }
       //이벤트 추가 -> 정렬 -> 출력하기 로직
       print(eventSource);
+      Navigator.pop(context, true);
+
       print('Response: ${await response.stream.bytesToString()}');
     } else {
       // Request failed, handle the error
       print('Error: ${response.statusCode}');
     }
+    return response.statusCode;
   }
 
   Future _selectDate(BuildContext context) async {

@@ -24,15 +24,18 @@ class DiaryPage extends StatefulWidget {
   //일기 내용
   final String content;
 
-  const DiaryPage({
-    Key? key,
-    required this.plant_name,
-    required this.title,
-    required this.date,
-    required this.emotion,
-    required this.color,
-    required this.content,
-  }) : super(key: key);
+  final String image;
+
+  const DiaryPage(
+      {Key? key,
+      required this.plant_name,
+      required this.title,
+      required this.date,
+      required this.emotion,
+      required this.color,
+      required this.content,
+      required this.image})
+      : super(key: key);
 
   @override
   State<DiaryPage> createState() => _DiaryPageState();
