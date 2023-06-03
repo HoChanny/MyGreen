@@ -24,7 +24,7 @@ class DiaryPage extends StatefulWidget {
   //일기 내용
   final String content;
 
-  final String image;
+  final MemoryImage image;
 
   const DiaryPage(
       {Key? key,
@@ -118,7 +118,9 @@ class _DiaryPageState extends State<DiaryPage> {
               ),
               //이미지 -> widget값을 받아와서 뿌려야할듯.
               Container(
-                child: Text('사진'),
+                child: CircleAvatar(
+                  backgroundImage: widget.image,
+                ),
               ),
               //이름
               Container(

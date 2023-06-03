@@ -13,7 +13,7 @@ class Event {
   //이벤트 제목
   final String title;
 
-  //감정(1~5 로 해서 숫자에 해당하는 그림 출력해주면 될듯.)
+  //감정
   final String emotion;
 
   //이벤트 내용
@@ -44,7 +44,7 @@ Map<DateTime, dynamic> eventSource = {};
 /// Example events.
 ///
 /// Using a [LinkedHashMap] is highly recommended if you decide to use a map.
-final kEvents = LinkedHashMap(
+var kEvents = LinkedHashMap(
   equals: isSameDay,
 )..addAll(eventSource);
 

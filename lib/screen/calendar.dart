@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mygreen/widgets/calendar/calendar_add_button.dart';
 import 'package:mygreen/widgets/calendar/calendar_search_button.dart';
@@ -18,6 +20,11 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -25,6 +32,7 @@ class _CalendarPageState extends State<CalendarPage> {
         title: Text(' Calendar'),
         actions: [AddButton(), SearchButton()],
         centerTitle: true,
+        backgroundColor: widget.color,
       ),
       body: Container(
         padding: const EdgeInsets.all(16),
