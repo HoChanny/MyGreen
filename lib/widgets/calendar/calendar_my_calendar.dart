@@ -108,6 +108,7 @@ class _MyCalendarState extends State<MyCalendar> {
 
   @override
   Widget build(BuildContext context) {
+    print('e : $eventSource}');
     return Scaffold(
       body: Column(
         children: [
@@ -115,6 +116,7 @@ class _MyCalendarState extends State<MyCalendar> {
             // marker 색 변경
             calendarBuilders: CalendarBuilders(
               markerBuilder: (context, day, events) {
+                print(events);
                 if (events.isEmpty) return const SizedBox();
 
                 return Row(
@@ -128,6 +130,7 @@ class _MyCalendarState extends State<MyCalendar> {
                             Axis.horizontal, // set the direction to horizontal
                         itemCount: events.length,
                         itemBuilder: (context, index) {
+                          print(events[index].toString() == widget.plant_name);
                           if (events[index].toString() == widget.plant_name) {
                             return SizedBox(
                               height: 10,
@@ -228,7 +231,8 @@ class _MyCalendarState extends State<MyCalendar> {
                                         emotion: value[index].emotion,
                                         color: widget.color,
                                         content: value[index].content,
-                                        image: value[index].image,
+                                        image: MemoryImage(
+                                            base64Decode(value[index].image)),
                                       )),
                             );
                           },

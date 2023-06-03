@@ -1,13 +1,18 @@
+import 'dart:async';
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'dart:typed_data';
 
 import 'package:mygreen/screen/calendar.dart';
 import 'package:mygreen/screen/diary.dart';
 
 import 'package:mygreen/utils.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import '../provider/global_state.dart';
 
@@ -49,6 +54,9 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   void initState() {
     super.initState();
     fetchDataFromServer('test');
+    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
+      doSomething();
+    });
   }
 
   //날짜들 받아오기
@@ -59,6 +67,10 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   List<String> eventSourceEmotion = [];
   List<String> eventSourceContent = [];
   List<String> eventSourceImage = [];
+
+  //주기적으로 호출
+  late Timer _timer;
+
   Future<void> fetchDataFromServer(String id) async {
     try {
       final url =
@@ -69,6 +81,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
       if (response.statusCode == 200) {
         final List<dynamic> jsonData = jsonDecode(response.body);
         eventSource = {};
+
         setState(() {
           eventSourceDate =
               jsonData.map((data) => data['date'] as String).toList();
@@ -84,10 +97,10 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
           eventSourceImage =
               jsonData.map((data) => data['image'] as String).toList();
 
-          print(eventSourcePlantName.join(','));
-          print(eventSourceTitle.join(','));
-          print(eventSourceEmotion.join(','));
-          print(eventSourceContent.join(','));
+          (eventSourcePlantName.join(','));
+          (eventSourceTitle.join(','));
+          (eventSourceEmotion.join(','));
+          (eventSourceContent.join(','));
           int len = eventSourceDate.length;
 
           for (int i = 0; i < len; i++) {
@@ -108,7 +121,9 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
               // 해당 날짜에 이벤트가 없는 경우, 새로운 이벤트 목록을 생성하여 추가
               eventSource[fetchDate] = [newEvent];
             }
+            kEvents.addAll(eventSource);
           }
+          print('success');
         });
       } else {
         print('Failed to fetch data. Error code: ${response.statusCode}');
@@ -125,12 +140,30 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
     fetchDataFromServer('test');
   }
 
+  void doSomething() {
+    // 주기적으로 실행할 작업을 수행합니다.
+    fetchDataFromServer('test');
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel(); // 페이지가 해제될 때 타이머를 취소합니다.
+    super.dispose();
+  }
+
+  Widget decodeBase64Image(String base64String) {
+    Uint8List bytes = base64Decode(base64String);
+    return CircleAvatar(
+      backgroundImage: MemoryImage(bytes),
+      radius: 50,
+    );
+  }
+
   Widget build(BuildContext context) {
     //일기 날짜 최신순으로 정렬
     Map<DateTime, dynamic> sortedEventSource = Map.fromEntries(
         eventSource.entries.toList()..sort((b, a) => a.key.compareTo(b.key)));
 
-    print(sortedEventSource);
     final size = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -219,7 +252,8 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                                     emotion: events[i].emotion,
                                     color: widget.color,
                                     content: events[i].content,
-                                    image: events[i].image,
+                                    image: MemoryImage(
+                                        base64Decode(events[i].image)),
                                   ),
                                 ),
                               );

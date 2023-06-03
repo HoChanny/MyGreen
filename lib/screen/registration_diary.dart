@@ -422,6 +422,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
       // //이벤트 추가 -> 정렬 -> 출력하기 로직
       // print(eventSource);
       Navigator.pop(context, true);
+      Navigator.pop(context, true);
 
       print('Response: ${await response.stream.bytesToString()}');
     } else {
