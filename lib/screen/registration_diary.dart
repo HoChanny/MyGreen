@@ -111,7 +111,6 @@ class _Registration_DiaryState extends State<Registration_Diary> {
   @override
   Widget build(BuildContext context) {
     final imageSize = MediaQuery.of(context).size.width / 3;
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -240,7 +239,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(2023),
-                          lastDate: DateTime(2025),
+                          lastDate: DateTime.now(),
                         );
 
                         if (newDate == null) return;
@@ -251,7 +250,8 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                   ),
                 ),
 
-                Center(child: Text('${_selectedDate}')),
+                Center(
+                    child: Text('${date.year}년 ${date.month}월 ${date.day}일')),
                 //감정 선택
                 Center(
                   child: Column(

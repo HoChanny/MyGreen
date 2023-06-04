@@ -53,7 +53,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           headers: {'Content-Type': 'application/json'},
           body: json.encode(user));
       print(response.statusCode);
-      if (response.statusCode == 200){
+      if (response.statusCode == 200) {
         Navigator.pop(context);
       }
       return response;
@@ -65,7 +65,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       ),
       body: Container(
         padding: const EdgeInsets.all(16),
-
         child: SingleChildScrollView(
           child: Form(
             key: formKey,
@@ -137,14 +136,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           onPressed: () async {
                             DateTime? newDate = await showDatePicker(
                               context: context,
-                              initialDate: DateTime(1900),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100),
+                              initialDate: DateTime(2000),
+                              firstDate: DateTime(1990),
+                              lastDate: DateTime(2023),
                             );
 
                             if (newDate == null) return;
                             setState(() => date = newDate);
-                            print(DateTime.now());
                           },
                           icon: const Icon(Icons.calendar_month),
                         ),
