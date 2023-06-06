@@ -437,6 +437,28 @@ class _Registration_DiaryState extends State<Registration_Diary> {
     return response.statusCode;
   }
 
+  //삭제로직
+  Future<int> deleteDiaryData(BuildContext context, String cookie) async {
+    final url = Uri.parse('https://iotvase.azurewebsites.net/green/diary/');
+
+    var request = http.Request('DELETE', url);
+    request.headers['Cookie'] = cookie;
+
+    var response = await request.send();
+
+    // Handle the response
+    if (response.statusCode == 200) {
+      // 항목 삭제 성공
+      Navigator.pop(context, true);
+      print('Diary data deleted successfully');
+    } else {
+      // 항목 삭제 실패
+      print('Failed to delete diary data. Error code: ${response.statusCode}');
+    }
+
+    return response.statusCode;
+  }
+
   Future _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
       context: context,

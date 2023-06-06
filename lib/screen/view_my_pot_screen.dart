@@ -53,9 +53,9 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   @override
   void initState() {
     super.initState();
-    fetchDataFromServer('test');
+    fetchDiaryDataFromServer('test');
     _timer = Timer.periodic(Duration(seconds: 10), (timer) {
-      doSomething();
+      // doSomething();
     });
   }
 
@@ -71,7 +71,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   //주기적으로 호출
   late Timer _timer;
 
-  Future<void> fetchDataFromServer(String id) async {
+  Future<void> fetchDiaryDataFromServer(String id) async {
     try {
       final url =
           Uri.parse('https://iotvase.azurewebsites.net/green/diary/$id');
@@ -137,18 +137,23 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   }
 
   void refreshData() {
-    fetchDataFromServer('test');
+    fetchDiaryDataFromServer('test');
   }
 
   void doSomething() {
     // 주기적으로 실행할 작업을 수행합니다.
-    fetchDataFromServer('test');
+    fetchDiaryDataFromServer('test');
   }
 
   @override
   void dispose() {
     _timer.cancel(); // 페이지가 해제될 때 타이머를 취소합니다.
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   Widget decodeBase64Image(String base64String) {
@@ -166,6 +171,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
 
     final size = MediaQuery.of(context).size.width;
 
+    print(eventSource.keys);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name),
