@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:mygreen/screen/view_my_pot_screen.dart';
 
+import 'package:mygreen/screen/qrscanner_registration.dart';
 import 'package:mygreen/utils.dart';
 
 class SelectPotScreen extends StatefulWidget {
@@ -90,7 +91,7 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const RegistrationPage(),
+                    builder: (context) => const QRViewExample(),
                   ),
                 ).then((value) {
                   if (value == true) {

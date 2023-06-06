@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:mygreen/utils.dart';
 
-import 'package:mygreen/widgets/diary/diary_emotion.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:intl/intl.dart';
+import 'package:mygreen/screen/view_my_pot_screen.dart';
 import '../provider/global_state.dart';
 
 class DiaryPage extends StatefulWidget {
@@ -169,6 +169,32 @@ class _DiaryPageState extends State<DiaryPage> {
                   ),
                 ),
               ),
+              Container(
+                child: ElevatedButton(
+                  child: const Text('삭제하기'),
+                  onPressed: () {
+                    // var keys = eventSource.keys.toList();
+                    // for (var i = 0; i < keys.length; i++) {
+                    //   var key = keys[i];
+                    //   var value = eventSource[key];
+                    //   String formattedDate1 =
+                    //       DateFormat('yyyy MM dd').format(key);
+                    //   String formattedDate2 =
+                    //       DateFormat('yyyy MM dd').format(key);
+
+                    //   for (int j = 0; j < value.length; j++) {
+                    //     if (formattedDate1 == formattedDate2 &&
+                    //         value[j].toString() == widget.plant_name) {
+                    //       eventSource.remove(key);
+                    //       print('Delete');
+                    //       Navigator.pop(context, true);
+                    //       break; // 내부 루프를 끝내기 위해 break 문 사용
+                    //     }
+                    //   }
+                    // }
+                  },
+                ),
+              )
             ],
           ),
         ),
