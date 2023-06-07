@@ -114,6 +114,7 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => ViewMyPotPage(
+                          id : data['id'],
                           name: data['plant_name'],
                           color: getColor(data['color']),
                           image: MemoryImage(base64Decode(data['profile'])),

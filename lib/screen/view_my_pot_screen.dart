@@ -17,6 +17,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../provider/global_state.dart';
 
 class ViewMyPotPage extends StatefulWidget {
+  final String id;
   final String name;
   final Color color;
   final MemoryImage image;
@@ -24,7 +25,9 @@ class ViewMyPotPage extends StatefulWidget {
   final String wateringCycle;
 
   const ViewMyPotPage(
-      {required this.name,
+      {
+      required this.id,  
+      required this.name,
       required this.color,
       required this.image,
       required this.temperature,
@@ -137,12 +140,12 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   }
 
   void refreshData() {
-    fetchDiaryDataFromServer('test');
+    fetchDiaryDataFromServer(widget.id);
   }
 
   void doSomething() {
     // 주기적으로 실행할 작업을 수행합니다.
-    fetchDiaryDataFromServer('test');
+    fetchDiaryDataFromServer(widget.id);
   }
 
   @override
