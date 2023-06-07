@@ -287,7 +287,7 @@ Future<int> sendDataToServer(
 
   request.headers['Cookie'] = cookie;
 
-  request.fields['plant_ID'] = plant_ID;
+  request.fields['id'] = plant_ID;
 
   request.fields['plant_name'] = potName;
   request.fields['temperature'] = properTemperature;

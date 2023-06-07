@@ -41,11 +41,11 @@ class _QRViewExampleState extends State<QRViewExample> {
       
       body: Column(
         children: <Widget>[
-          Expanded(flex: 4, child: _buildQrView(context)),
+          Expanded(flex: 10, child: _buildQrView(context)),
           Expanded(
-            flex: 1,
-            child: FittedBox(
-              fit: BoxFit.contain,
+            
+            child: Container(
+              
               child: Column(
                 children: <Widget>[
                   if (result != null)
@@ -56,9 +56,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                           builder: (context) => RegistrationPage(plant_ID: extractedString,),
                         ),
                       );
-                    }, child: Text('화분 등록 하러 가기!'))
+                    }, child: Text('화분 등록 하러 가기 !'))
                   else
-                    const Text('Scan a code'),
+                    const Text('QR 코드를 인식해주세요 !'),
                   
                   
                 ],
