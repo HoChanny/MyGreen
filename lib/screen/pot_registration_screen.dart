@@ -9,8 +9,15 @@ import 'package:get/get.dart';
 import 'package:mygreen/provider/global_state.dart';
 
 class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({Key? key}) : super(key: key);
 
+  //식물 이름
+final String plant_ID;
+
+const RegistrationPage(
+      {Key? key,
+      required this.plant_ID,
+      })
+      : super(key: key);
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();
 }
@@ -31,7 +38,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     final imageSize = MediaQuery.of(context).size.width / 3;
-
+    print(widget.plant_ID);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -159,6 +166,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   var result = sendDataToServer(
                       context,
                       File(_pickedFile!.path),
+                      widget.plant_ID,
                       potName,
                       properTemperature,
                       wateringCycle,
@@ -267,6 +275,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 Future<int> sendDataToServer(
     BuildContext context,
     File imageFile,
+    String plant_ID,
     String potName,
     String properTemperature,
     String wateringCycle,
@@ -277,6 +286,8 @@ Future<int> sendDataToServer(
   var request = http.MultipartRequest('POST', url);
 
   request.headers['Cookie'] = cookie;
+
+  request.fields['plant_ID'] = plant_ID;
 
   request.fields['plant_name'] = potName;
   request.fields['temperature'] = properTemperature;
