@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "354187452920",
+    "project_id": "push-notificatoin-5f1dd",
+    "storage_bucket": "push-notificatoin-5f1dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354187452920:android:2327fde147a46a8f4a360d",
+        "android_client_info": {
+          "package_name": "com.hopot.mygreen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354187452920-4m6r7dcpb8a0ateo9ael8jv3spphu5rf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClPxlnNDbp4alZh7CQ5SU7at9zMk2fGW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354187452920-4m6r7dcpb8a0ateo9ael8jv3spphu5rf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "354187452920-os4kq07jt62repe53ikl36m049jreog1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hopot.mygreen"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
