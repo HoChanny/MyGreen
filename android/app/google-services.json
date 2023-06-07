@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "349686030064",
+    "project_id": "pushtest001-3bebb",
+    "storage_bucket": "pushtest001-3bebb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349686030064:android:618e317683a3ba50eeec35",
+        "android_client_info": {
+          "package_name": "com.example.mygreen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349686030064-0768sedc3hr2btvq5s7kb0bhk6qlrtjv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ_B7HvNJDbGmp-iTVfHduzvn7RGJkB18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349686030064-0768sedc3hr2btvq5s7kb0bhk6qlrtjv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "349686030064-ukk0cj2sqg523treasopcig4psancsrd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hopot.mygreen"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349686030064:android:e9728dcfe4456f88eeec35",
+        "android_client_info": {
+          "package_name": "com.hopot.mygreen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349686030064-0768sedc3hr2btvq5s7kb0bhk6qlrtjv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ_B7HvNJDbGmp-iTVfHduzvn7RGJkB18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349686030064-0768sedc3hr2btvq5s7kb0bhk6qlrtjv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "349686030064-ukk0cj2sqg523treasopcig4psancsrd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hopot.mygreen"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

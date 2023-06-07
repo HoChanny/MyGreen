@@ -4,20 +4,26 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
-import 'package:mygreen/provider/cookie_provider.dart';
+import 'package:mygreen/provider/global_state.dart';
 
 class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({Key? key}) : super(key: key);
 
+  //식물 이름
+final String plant_ID;
+
+const RegistrationPage(
+      {Key? key,
+      required this.plant_ID,
+      })
+      : super(key: key);
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  final cookieController = Get.put(LoginCookie());
+  final cookieController = Get.put(GlobalState());
   XFile? _pickedFile;
   Color profileColor = Colors.lightGreen;
   var potProfile = Map();
@@ -32,7 +38,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     final imageSize = MediaQuery.of(context).size.width / 3;
-
+    print(widget.plant_ID);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -41,7 +47,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         body: Column(
           children: [
             const SizedBox(
-              height: 20,
+              height: 40,
             ),
             Center(
               child: Container(
@@ -55,7 +61,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     onTap: () {
                       Permission.camera.request();
                       Permission.photos.request();
-                      selectImage();
+                      selectImage(context);
                     },
                     child: _pickedFile != null
                         ? Center(
@@ -156,27 +162,33 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   if (tempFormKeyState!.validate()) {
                     tempFormKeyState.save();
                   }
-                  potProfile['name'] = potName;
-                  potProfile['image'] = _pickedFile;
-                  potProfile['color'] = profileColor;
-                  potProfile['temperature'] = properTemperature;
-                  potProfile['wateringCycle'] = wateringCycle;
 
-                  sendDataToServer(_pickedFile, potName, properTemperature, wateringCycle);
-                  //Navigator.pop(context);
+                  var result = sendDataToServer(
+                      context,
+                      File(_pickedFile!.path),
+                      widget.plant_ID,
+                      potName,
+                      properTemperature,
+                      wateringCycle,
+                      profileColor,
+                      cookieController.cookie);
+                  if (result == 200) {
+                    Navigator.pop(context, true);
+                  }
                 },
                 child: Text('완료')),
-
-                TextButton(onPressed: (){
+            TextButton(
+                onPressed: () {
                   print(cookieController.cookie);
-                }, child: Text("쿠키확인"))
+                },
+                child: Text("쿠키확인"))
           ],
         ),
       ),
     );
   }
 
-  selectImage() {
+  selectImage(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -258,36 +270,40 @@ class _RegistrationPageState extends State<RegistrationPage> {
           );
         });
   }
+}
 
-  Future<void> sendDataToServer(XFile? pickedFile, String? potName, String? properTemperature, String? wateringCycle) async {
+Future<int> sendDataToServer(
+    BuildContext context,
+    File imageFile,
+    String plant_ID,
+    String potName,
+    String properTemperature,
+    String wateringCycle,
+    Color profileColor,
+    String cookie) async {
   final url = Uri.parse('https://iotvase.azurewebsites.net/green');
-  
-  // convert image to base64 string
-  String base64Image = '';
-  if (pickedFile != null) {
-    final bytes = await pickedFile.readAsBytes();
-    base64Image = base64Encode(bytes);
-  }
-  
-  // create JSON object
-  final data = {
-    'plant_name': potName,
-    // 'temperature': properTemperature,
-    // 'wateringCycle': wateringCycle,
-    //'image': base64Image,
-  };
-  print(data);
-  
-  // send POST request to server
-  final response = await http.post(url,
-          headers: {'Content-Type': 'application/json', 'Cookie': cookieController.cookie+";"},
-          body: json.encode(data));
+
+  var request = http.MultipartRequest('POST', url);
+
+  request.headers['Cookie'] = cookie;
+
+  request.fields['id'] = plant_ID;
+
+  request.fields['plant_name'] = potName;
+  request.fields['temperature'] = properTemperature;
+  request.fields['wateringCycle'] = wateringCycle;
+  request.fields['color'] = profileColor.toString();
+
+  var imagePart = await http.MultipartFile.fromPath('profile', imageFile.path);
+  request.files.add(imagePart);
+
+  var response = await request.send();
   if (response.statusCode == 200) {
     print('Data sent successfully');
-    Navigator.pop(context);
+    Navigator.pop(context, true);
   } else {
     print('Failed to send data. Error code: ${response.statusCode}');
   }
-}
 
+  return response.statusCode;
 }

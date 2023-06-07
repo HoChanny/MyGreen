@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -46,8 +44,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       Map<String, dynamic> user = {
         "id": id,
         "password": password,
-        "username": name,
-        "birthday":
+        "name": name,
+        "birth":
             date.year.toString() + date.month.toString() + date.day.toString(),
       };
       print(user);
@@ -55,7 +53,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           headers: {'Content-Type': 'application/json'},
           body: json.encode(user));
       print(response.statusCode);
-      if (response.statusCode == 200){
+      if (response.statusCode == 200) {
         Navigator.pop(context);
       }
       return response;
@@ -67,7 +65,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       ),
       body: Container(
         padding: const EdgeInsets.all(16),
-
         child: SingleChildScrollView(
           child: Form(
             key: formKey,
@@ -139,14 +136,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           onPressed: () async {
                             DateTime? newDate = await showDatePicker(
                               context: context,
-                              initialDate: DateTime(1900),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100),
+                              initialDate: DateTime(2000),
+                              firstDate: DateTime(1990),
+                              lastDate: DateTime(2023),
                             );
 
                             if (newDate == null) return;
                             setState(() => date = newDate);
-                            print(DateTime.now());
                           },
                           icon: const Icon(Icons.calendar_month),
                         ),
