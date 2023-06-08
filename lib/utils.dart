@@ -22,20 +22,23 @@ class Event {
   //이벤트 사진
   final String image;
 
+  //화분 아이디
+  final String id;
   const Event(
     this.plant_name,
     this.title,
     this.emotion,
     this.content,
     this.image,
+    this.id,
   );
 
-  String toName() {
-    return plant_name;
+  String toId() {
+    return id;
   }
 
   @override
-  String toString() => plant_name;
+  String toString() => id;
 }
 
 //Event('plant_name , title , date , emotion , images , content)
