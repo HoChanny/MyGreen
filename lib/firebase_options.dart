@@ -26,7 +26,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -50,20 +53,10 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyClPxlnNDbp4alZh7CQ5SU7at9zMk2fGW0',
-    appId: '1:354187452920:android:2327fde147a46a8f4a360d',
-    messagingSenderId: '354187452920',
-    projectId: 'push-notificatoin-5f1dd',
-    storageBucket: 'push-notificatoin-5f1dd.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBlu8YxIqJSR1l5SPBQ9INP1YKxUL1jKko',
-    appId: '1:354187452920:ios:58e7b4802b0a7bc54a360d',
-    messagingSenderId: '354187452920',
-    projectId: 'push-notificatoin-5f1dd',
-    storageBucket: 'push-notificatoin-5f1dd.appspot.com',
-    iosClientId: '354187452920-os4kq07jt62repe53ikl36m049jreog1.apps.googleusercontent.com',
-    iosBundleId: 'com.hopot.mygreen',
+    apiKey: 'AIzaSyAQ_B7HvNJDbGmp-iTVfHduzvn7RGJkB18',
+    appId: '1:349686030064:android:618e317683a3ba50eeec35',
+    messagingSenderId: '349686030064',
+    projectId: 'pushtest001-3bebb',
+    storageBucket: 'pushtest001-3bebb.appspot.com',
   );
 }
