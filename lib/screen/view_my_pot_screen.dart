@@ -89,6 +89,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
         eventSource = {};
 
         setState(() {
+          
           eventSourceDate =
               jsonData.map((data) => data['date'] as String).toList();
           
@@ -114,8 +115,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
           int len = eventSourceDate.length;
 
           for (int i = 0; i < len; i++) {
-            print(eventSourcePlantName[i]);
-            print(id);
+
             Event newEvent = Event(
                 
                 eventSourcePlantName[i],
@@ -267,6 +267,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => DiaryPage(
+                                    id:events[i].id,
                                     plant_name: events[i].plant_name,
                                     title: events[i].title,
                                     date: returnDate(events, i),

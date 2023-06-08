@@ -48,11 +48,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         "birth":
             date.year.toString() + date.month.toString() + date.day.toString(),
       };
-      print(user);
+
       final response = await http.post(url,
           headers: {'Content-Type': 'application/json'},
           body: json.encode(user));
-      print(response.statusCode);
+
       if (response.statusCode == 200) {
         Navigator.pop(context);
       }

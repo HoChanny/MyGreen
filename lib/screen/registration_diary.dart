@@ -396,13 +396,17 @@ class _Registration_DiaryState extends State<Registration_Diary> {
 
     request.fields['emotion'] = dropdownValueEmotion;
     request.fields['content'] = content;
-    print(id);
     var imagePart = await http.MultipartFile.fromPath('image', imageFile.path);
     request.files.add(imagePart);
     var response = await request.send();
 
     // Handle the response
     if (response.statusCode == 200) {
+      print(dropdownValuePlant);
+      print(dropdownValueEmotion);
+      print(title);
+      print(content);
+      print(date);
       // Request successful, do something with the response
 
       // 새로운 이벤트 생성
@@ -433,11 +437,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
       print('Response: ${await response.stream.bytesToString()}');
     } else {
       // Request failed, handle the error
-      print(dropdownValuePlant);
-      print(dropdownValueEmotion);
-      print(title);
-      print(content);
-      print(date);
+      
       print('Error: ${response.statusCode}');
     }
     return response.statusCode;

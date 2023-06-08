@@ -127,12 +127,12 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.width * 0.32,
+                    height: MediaQuery.of(context).size.width * 0.4,
                     padding: const EdgeInsets.all(20),
                     margin: EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: getColor(data['color']),
-                      borderRadius: BorderRadius.circular(100),
+                      borderRadius: BorderRadius.circular(50),
                     ),
                     child: Row(
                       children: [
@@ -146,11 +146,18 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
                             Text(
                               data['plant_name'],
                               style: const TextStyle(
-                                fontSize: 40,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text('${data['plant_name']}'),
+                            Text('온도 : ${data['temperature']}',
+                            style: const TextStyle(
+                              fontSize: 15,
+                            ),),
+                            Text('물 주기 : ${data['wateringCycle']}',
+                            style: const TextStyle(
+                              fontSize: 15,
+                            ),),
                           ],
                         ),
                       ],

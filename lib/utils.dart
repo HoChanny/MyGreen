@@ -42,7 +42,8 @@ class Event {
 }
 
 //Event('plant_name , title , date , emotion , images , content)
-Map<DateTime, dynamic> eventSource = {};
+Map<DateTime, dynamic> eventSource = {
+};  
 
 /// Example events.
 ///

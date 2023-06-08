@@ -225,6 +225,7 @@ class _MyCalendarState extends State<MyCalendar> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => DiaryPage(
+                                        id:value[index].id,
                                         plant_name: value[index].plant_name,
                                         title: value[index].title,
                                         date: returnDate(value, index),

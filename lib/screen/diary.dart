@@ -11,6 +11,8 @@ import 'package:mygreen/screen/view_my_pot_screen.dart';
 import '../provider/global_state.dart';
 
 class DiaryPage extends StatefulWidget {
+
+  final String id;
   //식물 이름
   final String plant_name;
   //일기 제목
@@ -28,6 +30,7 @@ class DiaryPage extends StatefulWidget {
 
   const DiaryPage(
       {Key? key,
+      required this.id,
       required this.plant_name,
       required this.title,
       required this.date,
@@ -44,48 +47,26 @@ class DiaryPage extends StatefulWidget {
 //일단 보기좋게 나열해놓음
 
 class _DiaryPageState extends State<DiaryPage> {
+  final cookieController = Get.put(GlobalState());
   final profileController = Get.put(GlobalState());
 
   @override
   void initState() {
     super.initState();
-    fetchDataFromServer();
   }
 
-  Future<void> fetchDataFromServer() async {
-    try {
-      final url = Uri.parse('https://iotvase.azurewebsites.net/green');
-      var profileController;
-      final response =
-          await http.get(url, headers: {'Cookie': profileController.cookie});
 
-      if (response.statusCode == 200) {
-        final List<dynamic> jsonData = jsonDecode(response.body);
-        setState(() {
-          //데이터받아오는것!
-        });
-      } else {
-        print('Failed to fetch data. Error code: ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Error while fetching data: $error');
-    }
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  void refreshData() {
-    fetchDataFromServer();
-  }
 
   Widget build(BuildContext context) {
+
     //날짜 월 / 일 분리
     String dateString = widget.date.toString();
     DateTime dateTime = DateTime.parse(dateString.replaceAll('-', ''));
     int month = dateTime.month;
     int day = dateTime.day;
 
+    print(widget.id );
+    print(widget.date );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: widget.color,
@@ -107,7 +88,7 @@ class _DiaryPageState extends State<DiaryPage> {
                     Text(
                       ' ${month}월 ${day}일',
                       style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                         fontFamily: '',
@@ -120,11 +101,18 @@ class _DiaryPageState extends State<DiaryPage> {
               Container(
                 child: CircleAvatar(
                   backgroundImage: widget.image,
+                  radius: 50,
                 ),
               ),
               //이름
               Container(
-                child: Text('${widget.plant_name}'),
+                child: Text('${widget.plant_name}',
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontFamily: '',
+                      ),),
               ),
               //제목
               Container(
@@ -173,25 +161,9 @@ class _DiaryPageState extends State<DiaryPage> {
                 child: ElevatedButton(
                   child: const Text('삭제하기'),
                   onPressed: () {
-                    // var keys = eventSource.keys.toList();
-                    // for (var i = 0; i < keys.length; i++) {
-                    //   var key = keys[i];
-                    //   var value = eventSource[key];
-                    //   String formattedDate1 =
-                    //       DateFormat('yyyy MM dd').format(key);
-                    //   String formattedDate2 =
-                    //       DateFormat('yyyy MM dd').format(key);
-
-                    //   for (int j = 0; j < value.length; j++) {
-                    //     if (formattedDate1 == formattedDate2 &&
-                    //         value[j].toString() == widget.plant_name) {
-                    //       eventSource.remove(key);
-                    //       print('Delete');
-                    //       Navigator.pop(context, true);
-                    //       break; // 내부 루프를 끝내기 위해 break 문 사용
-                    //     }
-                    //   }
-                    // }
+                    print(widget.date.toString());
+                    deleteDataToServer(context, widget.id, widget.date.toString(), cookieController.cookie);
+                    
                   },
                 ),
               )
@@ -201,4 +173,35 @@ class _DiaryPageState extends State<DiaryPage> {
       ),
     );
   }
+}
+
+Future<http.Response> deleteDataToServer(
+  BuildContext context,
+  String id,
+  String date,
+  String cookie,
+) async {
+  final url = Uri.parse('https://iotvase.azurewebsites.net/green/diary');
+
+  final Map<String, dynamic> data = {
+    "id": id,
+    "date": date,
+  };
+
+  final response = await http.delete(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+      'Cookie': cookie, // Include the 'Cookie' header with the cookie value
+    },
+    body: json.encode(data),
+  );
+
+  if (response.statusCode == 200) {
+    Navigator.pop(context, true);
+  } else {
+    print('Failed to send data. Error code: ${response.statusCode}');
+  }
+
+  return response;
 }
