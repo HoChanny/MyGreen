@@ -38,8 +38,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     final imageSize = MediaQuery.of(context).size.width / 3;
-    print(widget.plant_ID);
-    return SafeArea(
+    String id ='';
+    String? url = widget.plant_ID;
+    id = url.substring(url.lastIndexOf('/') + 1);
+    print(id);
+
+    
+        return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: const Text('화분 등록'),
@@ -166,7 +171,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   var result = sendDataToServer(
                       context,
                       File(_pickedFile!.path),
-                      widget.plant_ID,
+                      id,
                       potName,
                       properTemperature,
                       wateringCycle,
@@ -174,6 +179,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       cookieController.cookie);
                   if (result == 200) {
                     Navigator.pop(context, true);
+                    Navigator.pop(context, true);
+
                   }
                 },
                 child: Text('완료')),
@@ -299,7 +306,7 @@ Future<int> sendDataToServer(
 
   var response = await request.send();
   if (response.statusCode == 200) {
-    print('Data sent successfully');
+    Navigator.pop(context, true);
     Navigator.pop(context, true);
   } else {
     print('Failed to send data. Error code: ${response.statusCode}');

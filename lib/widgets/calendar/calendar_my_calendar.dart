@@ -16,9 +16,11 @@ import '../../utils.dart';
 import 'package:mygreen/screen/diary.dart';
 
 class MyCalendar extends StatefulWidget {
+  final String id;
   final String plant_name;
   final Color color;
-  const MyCalendar({required this.plant_name, required this.color, super.key});
+  
+  const MyCalendar({required this.id, required this.plant_name, required this.color, super.key});
   @override
   _MyCalendarState createState() => _MyCalendarState();
 }
@@ -108,7 +110,8 @@ class _MyCalendarState extends State<MyCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    print('e : $eventSource}');
+                    print(eventSource);
+
     return Scaffold(
       body: Column(
         children: [
@@ -116,9 +119,7 @@ class _MyCalendarState extends State<MyCalendar> {
             // marker 색 변경
             calendarBuilders: CalendarBuilders(
               markerBuilder: (context, day, events) {
-                print(events);
                 if (events.isEmpty) return const SizedBox();
-
                 return Row(
                   children: [
                     SizedBox(
@@ -130,8 +131,7 @@ class _MyCalendarState extends State<MyCalendar> {
                             Axis.horizontal, // set the direction to horizontal
                         itemCount: events.length,
                         itemBuilder: (context, index) {
-                          print(events[index].toString() == widget.plant_name);
-                          if (events[index].toString() == widget.plant_name) {
+                          if (events[index].toString() == widget.id) {
                             return SizedBox(
                               height: 10,
                               width: 10,
@@ -207,7 +207,7 @@ class _MyCalendarState extends State<MyCalendar> {
                   itemCount: value.length,
                   itemBuilder: (context, index) {
                     print('value = ${value.toString()}');
-                    if (value[index].toString() == widget.plant_name) {
+                    if (value[index].toString() == widget.id) {
                       return Container(
                         margin: const EdgeInsets.symmetric(
                           horizontal: 12.0,

@@ -15,7 +15,10 @@ import 'package:mygreen/widgets/diary/diary_form.dart';
 import '../provider/global_state.dart';
 
 class Registration_Diary extends StatefulWidget {
-  const Registration_Diary({Key? key}) : super(key: key);
+    final String id;
+
+  const Registration_Diary(
+      {required this.id,super.key});
 
   @override
   State<Registration_Diary> createState() => _Registration_DiaryState();
@@ -106,10 +109,11 @@ class _Registration_DiaryState extends State<Registration_Diary> {
   List<String> dropdownListEmotion = ['😡', '😠', '😮', '😀', '😍'];
   String selectedDropdownEmotion = '😮';
 
-  DateTime date = DateTime(2000, 01, 01);
+  DateTime date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+    print(widget.id);
     final imageSize = MediaQuery.of(context).size.width / 3;
     return SafeArea(
       child: Scaffold(
@@ -289,6 +293,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                     var result = postDiaryData(
                         context,
                         File(_pickedFile!.path),
+                        widget.id,
                         selectedDropdownPlant,
                         selectedDropdownEmotion,
                         controllerTitle.text,
@@ -369,6 +374,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
   Future<int> postDiaryData(
     BuildContext context,
     File imageFile,
+    String id,
     String dropdownValuePlant,
     String dropdownValueEmotion,
     String title,
@@ -382,7 +388,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
 
     // Add form fields
     request.headers['Cookie'] = cookie;
-    request.fields['id'] = 'test';
+    request.fields['id'] = id;
 
     request.fields['plant_name'] = dropdownValuePlant;
     request.fields['title'] = title;
@@ -390,7 +396,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
 
     request.fields['emotion'] = dropdownValueEmotion;
     request.fields['content'] = content;
-
+    print(id);
     var imagePart = await http.MultipartFile.fromPath('image', imageFile.path);
     request.files.add(imagePart);
     var response = await request.send();

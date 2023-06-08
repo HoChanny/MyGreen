@@ -56,7 +56,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   @override
   void initState() {
     super.initState();
-    fetchDiaryDataFromServer('test');
+    fetchDiaryDataFromServer(widget.id);
     _timer = Timer.periodic(Duration(seconds: 10), (timer) {
       // doSomething();
     });
@@ -65,6 +65,8 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   //날짜들 받아오기
   List<String> eventSourceDate = [];
   //내용 받아오기
+    List<String> eventSourceId = [];
+
   List<String> eventSourcePlantName = [];
   List<String> eventSourceTitle = [];
   List<String> eventSourceEmotion = [];
@@ -83,11 +85,15 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonData = jsonDecode(response.body);
+        
         eventSource = {};
 
         setState(() {
           eventSourceDate =
               jsonData.map((data) => data['date'] as String).toList();
+          
+          // eventSourceId =
+          //     jsonData.map((data) => data['id'] as String).toList();
           eventSourcePlantName =
               jsonData.map((data) => data['plant_name'] as String).toList();
           eventSourceTitle =
@@ -100,6 +106,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
           eventSourceImage =
               jsonData.map((data) => data['image'] as String).toList();
 
+          // (eventSourceId.join(','));
           (eventSourcePlantName.join(','));
           (eventSourceTitle.join(','));
           (eventSourceEmotion.join(','));
@@ -107,12 +114,16 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
           int len = eventSourceDate.length;
 
           for (int i = 0; i < len; i++) {
+            print(eventSourcePlantName[i]);
+            print(id);
             Event newEvent = Event(
+                
                 eventSourcePlantName[i],
                 eventSourceTitle[i],
                 eventSourceEmotion[i],
                 eventSourceContent[i],
-                eventSourceImage[i]);
+                eventSourceImage[i],
+                id);
 
             DateTime fetchDate = DateTime.parse(eventSourceDate[i]);
             // 이벤트를 추가할 날짜
@@ -174,7 +185,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
 
     final size = MediaQuery.of(context).size.width;
 
-    print(eventSource.keys);
+    print('id =${widget.id}');
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name),
@@ -215,6 +226,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => CalendarPage(
+                        id : widget.id,
                         plant_name: widget.name, color: widget.color),
                   ),
                 );
@@ -229,7 +241,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                 int length = events.length;
 
                 for (int i = 0; i < length; i++) {
-                  if (events[i].plant_name == widget.name) {
+                  if (events[i].plant_name == widget.name ) {
                     return Column(
                       children: [
                         Text(

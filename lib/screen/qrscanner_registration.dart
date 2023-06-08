@@ -14,6 +14,8 @@ class QRViewExample extends StatefulWidget {
 class _QRViewExampleState extends State<QRViewExample> {
   Barcode? result;
   QRViewController? controller;
+    String? extractedString; // extractedString을 클래스 멤버 변수로 이동
+
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -29,16 +31,24 @@ class _QRViewExampleState extends State<QRViewExample> {
   @override
   Widget build(BuildContext context) {
 
-  String extractedString ='';
-  if (result != null) {
-      String? url = result!.code.toString();
-      String extractedString = url.substring(url.lastIndexOf('/') + 1);
-      print('extract : $extractedString');
+  
+   void _onQRViewCreated(QRViewController controller) {
+    setState(() {
+      this.controller = controller;
+      controller.scannedDataStream.listen((scanData) {
+        setState(() {
+          result = scanData;
+          if (result != null) {
+            String? url = result!.code.toString();
+            extractedString = url.substring(url.lastIndexOf('/') + 1);
+          }
+        });
+      });
+    });
+  }
+                          print(extractedString);
 
-  };
-                    
     return Scaffold(
-      
       body: Column(
         children: <Widget>[
           Expanded(flex: 10, child: _buildQrView(context)),
@@ -53,7 +63,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RegistrationPage(plant_ID: extractedString,),
+                          builder: (context) => RegistrationPage(plant_ID: result!.code.toString(),),
                         ),
                       );
                     }, child: Text('화분 등록 하러 가기 !'))
