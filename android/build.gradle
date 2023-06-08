@@ -31,7 +31,7 @@ tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
 
-android {
-  compileSdkVersion 33
+// android {
+//   compileSdkVersion 33
   
-}
+// }

@@ -9,7 +9,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:get/get.dart';
 import 'package:mygreen/product.dart';
 import 'package:mygreen/screen/login_page.dart';
-import 'package:mygreen/screen/login_page.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -44,7 +43,7 @@ Future<void> main() async {
     criticalAlert: false,
     provisional: false,
     sound: true,
-  );
+  );  
 
   final fcmToken = await messaging.getToken();
   print(fcmToken);
