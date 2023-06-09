@@ -124,7 +124,7 @@ class _MyCalendarState extends State<MyCalendar> {
                   children: [
                     SizedBox(
                       height: 10,
-                      width: 50, // set the width to the screen width
+                      width: 40, // set the width to the screen width
                       child: ListView.builder(
                         shrinkWrap: true,
                         scrollDirection:

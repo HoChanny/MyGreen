@@ -144,17 +144,21 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
                         Column(
                           children: [
                             Text(
-                              data['plant_name'],
+                              '     ${data['plant_name']}',
+                              textAlign: TextAlign.center,
+
                               style: const TextStyle(
+
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text('온도 : ${data['temperature']}',
+                            Text(''),
+                             Text('      온도 : ${data['temperature']}',
                             style: const TextStyle(
                               fontSize: 15,
                             ),),
-                            Text('물 주기 : ${data['wateringCycle']}',
+                            Text('      물 주기 : ${data['wateringCycle']}',
                             style: const TextStyle(
                               fontSize: 15,
                             ),),

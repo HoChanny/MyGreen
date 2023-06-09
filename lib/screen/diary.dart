@@ -69,9 +69,10 @@ class _DiaryPageState extends State<DiaryPage> {
     print(widget.date );
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: widget.color,
         //Title Center로 설정
         title: Text('Diary'),
+                backgroundColor: widget.color,
+
         centerTitle: true,
       ),
       body: SafeArea(
@@ -81,14 +82,14 @@ class _DiaryPageState extends State<DiaryPage> {
               //날짜
               Container(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.05),
+                    top: MediaQuery.of(context).size.height * 0.01),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       ' ${month}월 ${day}일',
                       style: const TextStyle(
-                        fontSize: 30,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                         fontFamily: '',
@@ -101,14 +102,14 @@ class _DiaryPageState extends State<DiaryPage> {
               Container(
                 child: CircleAvatar(
                   backgroundImage: widget.image,
-                  radius: 50,
+                  radius: 100,
                 ),
               ),
               //이름
               Container(
                 child: Text('${widget.plant_name}',
                       style: const TextStyle(
-                        fontSize: 30,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                         fontFamily: '',
@@ -118,25 +119,29 @@ class _DiaryPageState extends State<DiaryPage> {
               Container(
                 width: MediaQuery.of(context).size.width *
                     0.8, // Set as a fraction of the screen width
-                height: 100,
+                height: 70,
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.05),
                 child: Text(
                   '${widget.title}',
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                     fontFamily: '',
                   ),
                 ),
               ),
+              Container( height:1.0,
+           width:500.0,
+           color:Color.fromARGB(255, 214, 206, 206),),
               // 내용
               Container(
                 width: MediaQuery.of(context).size.width *
                     0.8, // Set as a fraction of the screen width
                 height: 100,
-
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.01),
                 child: Text(
                   '${widget.content}',
                   style: const TextStyle(
@@ -157,16 +162,16 @@ class _DiaryPageState extends State<DiaryPage> {
                   ),
                 ),
               ),
-              Container(
-                child: ElevatedButton(
-                  child: const Text('삭제하기'),
-                  onPressed: () {
-                    print(widget.date.toString());
-                    deleteDataToServer(context, widget.id, widget.date.toString(), cookieController.cookie);
+              // Container(
+              //   child: ElevatedButton(
+              //     child: const Text('삭제하기'),
+              //     onPressed: () {
+              //       print(widget.date.toString());
+              //       deleteDataToServer(context, widget.id, widget.date.toString(), cookieController.cookie);
                     
-                  },
-                ),
-              )
+              //     },
+              //   ),
+              // )
             ],
           ),
         ),

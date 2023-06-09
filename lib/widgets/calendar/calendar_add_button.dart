@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 
 class AddButton extends StatefulWidget {
     final String id;
+    final String plant_name;
 const AddButton(
-      {required this.id,super.key});
+      {required this.id,
+      required this.plant_name,key});
   _AddButton createState() => _AddButton();
 }
 
@@ -23,7 +25,7 @@ class _AddButton extends State<AddButton> {
         Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Registration_Diary( id: widget.id,)));
+                        builder: (context) => Registration_Diary( id: widget.id,plant_name : widget.plant_name)));
       },
     );
   }

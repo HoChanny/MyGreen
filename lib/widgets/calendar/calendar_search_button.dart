@@ -11,8 +11,7 @@ class _SearchButton extends State<SearchButton> {
       icon: const Icon(Icons.search),
       tooltip: 'Search',
       onPressed: () {
-        // ignore: avoid_print
-        print('Search button is clicked');
+ 
       },
     );
   }

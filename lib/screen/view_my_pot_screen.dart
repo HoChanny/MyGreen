@@ -58,7 +58,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
     super.initState();
     fetchDiaryDataFromServer(widget.id);
     _timer = Timer.periodic(Duration(seconds: 10), (timer) {
-      // doSomething();
+      doSomething();
     });
   }
 
@@ -85,16 +85,15 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonData = jsonDecode(response.body);
-        
+        print(jsonData);
         eventSource = {};
 
         setState(() {
           
           eventSourceDate =
               jsonData.map((data) => data['date'] as String).toList();
+          print(eventSourceDate);
           
-          // eventSourceId =
-          //     jsonData.map((data) => data['id'] as String).toList();
           eventSourcePlantName =
               jsonData.map((data) => data['plant_name'] as String).toList();
           eventSourceTitle =
@@ -107,7 +106,6 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
           eventSourceImage =
               jsonData.map((data) => data['image'] as String).toList();
 
-          // (eventSourceId.join(','));
           (eventSourcePlantName.join(','));
           (eventSourceTitle.join(','));
           (eventSourceEmotion.join(','));
@@ -211,15 +209,21 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                 ),
                 Column(
                   children: [
-                    Text("현재상태"),
-                    Text("선호 온도: " + widget.temperature),
-                    Text("물 주는 주기: " + widget.wateringCycle),
+                    const Text("현재상태",style:  TextStyle(
+                    fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+
+                    color: Colors.black,
+                  ),),
+                  const Text(''),
+                  Text("선호 온도 : ${widget.temperature}" ),
+                    Text("물 주는 주기 : ${widget.wateringCycle}"  ),
                   ],
                 )
               ],
             ),
           ),
-          ElevatedButton(onPressed: () {}, child: Text("프로필 수정")),
+          // ElevatedButton(onPressed: () {}, child: Text("프로필 수정")),
           ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -279,7 +283,10 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                                   ),
                                 ),
                               );
-                            }, // 클릭시 이벤트 발생
+                            }, 
+//                             //아이콘
+// leading: Image.asset(events[i].image),
+
                             // 제목
                             title: Text(events[i].title),
                             // 내용

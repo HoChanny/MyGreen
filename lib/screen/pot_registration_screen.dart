@@ -48,6 +48,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('화분 등록'),
+          backgroundColor: profileColor,
         ),
         body: Column(
           children: [
@@ -98,7 +99,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 key: _nameFormKey,
                 child: TextFormField(
                   maxLength: 8,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration( focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color : Colors.lightGreen),
+                    ),
+                  
                       //counterStyle: TextStyle(),
                       labelText: '화분이름',
                       hintText: '8글자 이내'),
@@ -184,11 +188,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   }
                 },
                 child: Text('완료')),
-            TextButton(
-                onPressed: () {
-                  print(cookieController.cookie);
-                },
-                child: Text("쿠키확인"))
+            // TextButton(
+            //     onPressed: () {
+            //       print(cookieController.cookie);
+            //     },
+            //     child: Text("쿠키확인"))
           ],
         ),
       ),

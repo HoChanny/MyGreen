@@ -31,7 +31,7 @@ class _CalendarPageState extends State<CalendarPage> {
       appBar: AppBar(
         //Title Center로 설정
         title: Text(' Calendar'),
-        actions: [AddButton(id : widget.id), SearchButton()],
+        actions: [AddButton(id : widget.id , plant_name: widget.plant_name,), ],
         centerTitle: true,
         backgroundColor: widget.color,
       ),

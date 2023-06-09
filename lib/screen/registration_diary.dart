@@ -16,9 +16,12 @@ import '../provider/global_state.dart';
 
 class Registration_Diary extends StatefulWidget {
     final String id;
+    final String plant_name;
 
   const Registration_Diary(
-      {required this.id,super.key});
+      {required this.id,
+      required this.plant_name,  
+      super.key});
 
   @override
   State<Registration_Diary> createState() => _Registration_DiaryState();
@@ -162,42 +165,42 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                   ),
                 ),
                 //일기 쓸 식물 선택
-                Center(
-                  child: Column(
-                    children: [
-                      // Step 2.
-                      DropdownButton(
-                        value: selectedDropdownPlant,
-                        items: dropdownList.map((dynamic item) {
-                          return DropdownMenuItem<dynamic>(
-                            child: Text('$item'),
-                            value: item,
-                          );
-                        }).toList(),
-                        onChanged: (dynamic value) {
-                          setState(() {
-                            selectedDropdownPlant = value;
-                            int index =
-                                dropdownList.indexOf(selectedDropdownPlant);
+                // Center(
+                //   child: Column(
+                //     children: [
+                //       // Step 2.
+                //       DropdownButton(
+                //         value: selectedDropdownPlant,
+                //         items: dropdownList.map((dynamic item) {
+                //           return DropdownMenuItem<dynamic>(
+                //             child: Text('$item'),
+                //             value: item,
+                //           );
+                //         }).toList(),
+                //         onChanged: (dynamic value) {
+                //           setState(() {
+                //             selectedDropdownPlant = value;
+                //             int index =
+                //                 dropdownList.indexOf(selectedDropdownPlant);
 
-                            color = colorList[index];
+                //             color = colorList[index];
 
-                            convertColor = getColor(color);
-                          });
-                        },
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        underline: Container(
-                          height: 0,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                //             convertColor = getColor(color);
+                //           });
+                //         },
+                //         style: const TextStyle(
+                //           color: Colors.black,
+                //           fontSize: 20,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //         underline: Container(
+                //           height: 0,
+                //           color: Colors.black,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 //일기 제목 작성하기
                 Container(
                   margin: EdgeInsets.only(
@@ -294,7 +297,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
                         context,
                         File(_pickedFile!.path),
                         widget.id,
-                        selectedDropdownPlant,
+                        widget.plant_name,
                         selectedDropdownEmotion,
                         controllerTitle.text,
                         controllerContent.text,
@@ -400,13 +403,14 @@ class _Registration_DiaryState extends State<Registration_Diary> {
     request.files.add(imagePart);
     var response = await request.send();
 
+
     // Handle the response
     if (response.statusCode == 200) {
       print(dropdownValuePlant);
       print(dropdownValueEmotion);
       print(title);
       print(content);
-      print(date);
+      print(date.toString());
       // Request successful, do something with the response
 
       // 새로운 이벤트 생성
