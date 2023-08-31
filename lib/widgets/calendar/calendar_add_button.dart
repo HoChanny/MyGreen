@@ -1,4 +1,4 @@
-import 'package:mygreen/screen/registration_diary.dart';
+import 'package:mygreen/screen/register_diary.dart';
 
 
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class _AddButton extends State<AddButton> {
         Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const Registration_Diary()));
+                        builder: (context) => const Register_Diary()));
       },
     );
   }

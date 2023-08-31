@@ -12,14 +12,14 @@ import 'package:mygreen/widgets/diary/diary_dropdownMenu.dart';
 import 'package:mygreen/widgets/diary/diary_form.dart';
 import 'package:mygreen/widgets/diary/diary_submitButton.dart';
 
-class Registration_Diary extends StatefulWidget {
-  const Registration_Diary({Key? key}) : super(key: key);
+class Register_Diary extends StatefulWidget {
+  const Register_Diary({Key? key}) : super(key: key);
 
   @override
-  State<Registration_Diary> createState() => _Registration_DiaryState();
+  State<Register_Diary> createState() => _Register_DiaryState();
 }
 
-class _Registration_DiaryState extends State<Registration_Diary> {
+class _Register_DiaryState extends State<Register_Diary> {
   String handleDropdownValue(String value) {
     // 선택된 값(value)을 이용하여 원하는 동작을 수행합니다.
     return value;

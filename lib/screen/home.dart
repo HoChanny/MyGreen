@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mygreen/screen/pot_registration_screen.dart';
+import 'package:mygreen/screen/register_pot.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const RegistrationPage()));
+                            builder: (context) => const Registrater_Pot()));
                   },
                   child: const Icon(Icons.add),
                 ),

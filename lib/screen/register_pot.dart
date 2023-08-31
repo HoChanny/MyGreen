@@ -4,17 +4,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({Key? key}) : super(key: key);
+class Register_Pot extends StatefulWidget {
+  const Register_Pot({Key? key}) : super(key: key);
 
   @override
-  State<RegistrationPage> createState() => _RegistrationPageState();
+  State<Register_Pot> createState() => _Register_PotState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
+class _Register_PotState extends State<Register_Pot> {
   XFile? _pickedFile;
   Color profileColor = Colors.lightGreen;
   var potProfile = Map();
