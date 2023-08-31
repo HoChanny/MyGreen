@@ -35,10 +35,10 @@ bool validEmail(input) {
   }
 }
 
-bool validAccept(input) {
-  if (input.length > 3) {
-    return true;
-  } else {
-    return false;
-  }
-}
+// bool validAccept(input) {
+//   if (input.length > 3) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
