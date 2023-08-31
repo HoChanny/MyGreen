@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mygreen/utils.dart';
 
 import 'package:mygreen/widgets/diary/diary_emotion.dart';
 

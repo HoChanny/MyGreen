@@ -158,7 +158,7 @@ class _Register_PotState extends State<Register_Pot> {
                   potProfile['temperature'] = properTemperature;
                   potProfile['wateringCycle'] = wateringCycle;
 
-                  sendDataToServer(_pickedFile, potName, properTemperature, wateringCycle);
+                  postRequest(_pickedFile, potName, properTemperature, wateringCycle);
                   Navigator.pop(context);
                 },
                 child: Text('완료')),
@@ -251,7 +251,7 @@ class _Register_PotState extends State<Register_Pot> {
         });
   }
 
-  void sendDataToServer(XFile? pickedFile, String potName,
+  void postRequest(XFile? pickedFile, String potName,
       String properTemperature, String wateringCycle) async {
     var url = Uri.parse('https://green');
     var request = http.MultipartRequest('POST', url);

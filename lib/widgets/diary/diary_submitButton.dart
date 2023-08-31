@@ -14,7 +14,7 @@ class DiarySubmitButton extends StatefulWidget {
       String dropdownValueEmotion,
       String title,
       String content,
-      String date) postDiaryData;
+      String date) postRequest;
 
   DiarySubmitButton({
     Key? key,
@@ -24,7 +24,7 @@ class DiarySubmitButton extends StatefulWidget {
     required this.title,
     required this.content,
     required this.date,
-    required this.postDiaryData,
+    required this.postRequest,
   }) : super(key: key);
 
   @override
@@ -45,7 +45,7 @@ class _DiarySubmitButtonState extends State<DiarySubmitButton> {
               widget.date != null) {
             print(
                 '${widget.pickedFile!.path} , ${widget.dropdownValuePlant} , ${widget.dropdownValueEmotion} , ${widget.title.text} , ${widget.content.text} , date : ${widget.date}');
-            widget.postDiaryData(
+            widget.postRequest(
                 widget.pickedFile,
                 widget.dropdownValuePlant,
                 widget.dropdownValueEmotion,

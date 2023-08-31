@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Registrater_Pot()));
+                            builder: (context) => const Register_Pot()));
                   },
                   child: const Icon(Icons.add),
                 ),

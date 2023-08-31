@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mygreen/screen/login.dart';
-import 'package:mygreen/screen/create_account_screen.dart';
+import 'package:mygreen/screen/create_account.dart';
 
 class MyGestureDetector1 extends StatefulWidget {
   final String text;
