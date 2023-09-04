@@ -5,7 +5,7 @@
 5    android:versionName="1.0.0" >
 6
 7    <uses-sdk
-8        android:minSdkVersion="16"
+8        android:minSdkVersion="19"
 9        android:targetSdkVersion="33" />
 10    <!--
 11         The INTERNET permission is required for development. Specifically,
@@ -13,14 +13,14 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->C:\Users\user\MyGreen\android\app\src\debug\AndroidManifest.xml:7:5-66
-15-->C:\Users\user\MyGreen\android\app\src\debug\AndroidManifest.xml:7:22-64
+15-->D:\coding\MyGreen\android\app\src\debug\AndroidManifest.xml:7:5-66
+15-->D:\coding\MyGreen\android\app\src\debug\AndroidManifest.xml:7:22-64
 16    <uses-permission android:name="android.permission.CAMERA" />
-16-->C:\Users\user\MyGreen\android\app\src\main\AndroidManifest.xml:4:5-64
-16-->C:\Users\user\MyGreen\android\app\src\main\AndroidManifest.xml:4:22-62
+16-->D:\coding\MyGreen\android\app\src\main\AndroidManifest.xml:4:5-64
+16-->D:\coding\MyGreen\android\app\src\main\AndroidManifest.xml:4:22-62
 17    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-17-->C:\Users\user\MyGreen\android\app\src\main\AndroidManifest.xml:5:5-76
-17-->C:\Users\user\MyGreen\android\app\src\main\AndroidManifest.xml:5:22-73
+17-->D:\coding\MyGreen\android\app\src\main\AndroidManifest.xml:5:5-76
+17-->D:\coding\MyGreen\android\app\src\main\AndroidManifest.xml:5:22-73
 18
 19    <permission
 19-->[androidx.core:core:1.9.0] C:\Users\user\.gradle\caches\transforms-3\5f80b20db3afa86c72a9766b008d752d\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
@@ -75,21 +75,21 @@
 63            android:value="2" />
 64
 65        <provider
-65-->[:image_picker_android] C:\Users\user\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+65-->[:image_picker_android] D:\coding\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
 66            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-66-->[:image_picker_android] C:\Users\user\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
+66-->[:image_picker_android] D:\coding\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
 67            android:authorities="com.hopot.mygreen.flutter.image_provider"
-67-->[:image_picker_android] C:\Users\user\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
+67-->[:image_picker_android] D:\coding\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
 68            android:exported="false"
-68-->[:image_picker_android] C:\Users\user\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+68-->[:image_picker_android] D:\coding\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
 69            android:grantUriPermissions="true" >
-69-->[:image_picker_android] C:\Users\user\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+69-->[:image_picker_android] D:\coding\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
 70            <meta-data
-70-->[:image_picker_android] C:\Users\user\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
+70-->[:image_picker_android] D:\coding\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
 71                android:name="android.support.FILE_PROVIDER_PATHS"
-71-->[:image_picker_android] C:\Users\user\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+71-->[:image_picker_android] D:\coding\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
 72                android:resource="@xml/flutter_image_picker_file_paths" />
-72-->[:image_picker_android] C:\Users\user\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
+72-->[:image_picker_android] D:\coding\MyGreen\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
 73        </provider>
 74
 75        <uses-library
