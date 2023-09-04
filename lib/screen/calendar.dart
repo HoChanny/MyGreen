@@ -4,6 +4,7 @@ import 'package:mygreen/widgets/calendar/calendar_search_button.dart';
 
 import 'package:mygreen/widgets/calendar/calendar_my_calendar.dart';
 import 'package:mygreen/utils.dart';
+import 'package:mygreen/widgets/navigation/navigation.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
@@ -15,7 +16,6 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         //Title Center로 설정
@@ -40,6 +40,7 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
         ),
       ),
+      bottomNavigationBar: Navigation(),
     );
   }
 }

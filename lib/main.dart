@@ -4,15 +4,37 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:mygreen/screen/create_account.dart';
 import 'package:mygreen/screen/login.dart';
 import 'package:mygreen/screen/calendar.dart';
-import 'package:mygreen/screen/register_pot.dart';
-import 'package:mygreen/screen/register_diary.dart';
+import 'package:mygreen/screen/home.dart';
+import 'package:mygreen/widgets/navigation/navigation.dart';
 
-Future<void> main() async {
+void main() async {
   await initializeDateFormatting();
-  runApp(const MaterialApp(
-    title: '',
-    home: Test(),
-  ));
+  runApp(
+    MaterialApp(
+      title: '',
+      home: HomeScreen(),
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/createAccount':
+            return MaterialPageRoute(
+              builder: (context) => CreateAccountPage(),
+            );
+          case '/login':
+            return MaterialPageRoute(
+              builder: (context) => LoginPage(),
+            );
+          case '/calendar':
+            return MaterialPageRoute(
+              builder: (context) => CalendarPage(),
+            );
+          case '/home':
+            return MaterialPageRoute(
+              builder: (context) => HomeScreen(),
+            );
+        }
+      },
+    ),
+  );
 }
 
 class Test extends StatelessWidget {
@@ -25,44 +47,9 @@ class Test extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              child: const Text('회원가입'),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CreateAccountPage()));
-              },
-            ),
-            ElevatedButton(
-              child: const Text('로그인'),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
-              },
-            ),
-            ElevatedButton(
-              child: const Text('calendar'),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CalendarPage()));
-              },
-            ),
-            // ElevatedButton(
-            //   child: const Text('test'),
-            //   onPressed: () {
-            //     Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //             builder: (context) => const RegistrationPage()));
-            //   },
-            // )
-          ],
         ),
       ),
+      bottomNavigationBar: Navigation(),
     );
   }
 }
