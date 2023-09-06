@@ -42,15 +42,14 @@ class _DiaryPageState extends State<DiaryPage> {
     int day = dateTime.day;
 
     // 색상 변환
-    Color convertColor =
-        Color(int.parse("0xFF${widget.color}")); // 16진수 문자열을 Color로 변환
+    // Color convertColor =
+    //     Color(int.parse("0xFF${widget.color}")); // 16진수 문자열을 Color로 변환
 
-    print(convertColor);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: convertColor,
+        backgroundColor: Colors.black,
         //Title Center로 설정
-        title: Text('Diary'),
+        title: Text(widget.title),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -59,52 +58,52 @@ class _DiaryPageState extends State<DiaryPage> {
             children: [
               //날짜
               Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.05),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      ' ${month}월 ${day}일',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontFamily: '',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              //이미지 -> widget값을 받아와서 뿌려야할듯.
+  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.black, // Border color
+            width: 5.0, // Border width
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(4.0)), // Border radius
+        ),
+        child: Image.asset(
+          'assets/image/test.png',
+          width: 150,
+          height: 150,
+        ),
+      ),
+    ],
+  ),
+)
+,
+
+              
+              //날짜 & 이모지
               Container(
-                child: Image.asset(
-                  'assets/image/test.png',
-                  width: 100,
-                  height: 100,
-                ),
-              ),
-              //이름
-              Container(
-                child: Text('${widget.plant_name}'),
-              ),
-              //제목
-              Container(
-                width: MediaQuery.of(context).size.width *
-                    0.8, // Set as a fraction of the screen width
-                height: 100,
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.05),
-                child: Text(
-                  '${widget.title}',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontFamily: '',
-                  ),
-                ),
-              ),
+  width: MediaQuery.of(context).size.width * 0.8,
+  height: 100,
+  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+  child: Row(
+    children: [
+      Text(
+        ' ${month}월 ${day}일 ',
+        style: const TextStyle(
+          fontSize: 25,
+          fontWeight: FontWeight.w800,
+          color: Colors.black54,
+          fontFamily: '',
+        ),
+      ),
+      DiaryEmotion(emotion: widget.emotion),
+    ],
+  ),
+),
+
+
               // 내용
               Container(
                 width: MediaQuery.of(context).size.width *
@@ -114,14 +113,13 @@ class _DiaryPageState extends State<DiaryPage> {
                 child: Text(
                   '${widget.content}',
                   style: const TextStyle(
-                    fontSize: 15,
+                    fontSize: 20,
                     color: Colors.black,
                     fontFamily: '',
                   ),
                 ),
               ),
               //감정
-              Container(child: DiaryEmotion(emotion: widget.emotion)),
             ],
           ),
         ),

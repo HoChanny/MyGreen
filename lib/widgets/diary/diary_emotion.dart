@@ -30,7 +30,7 @@ class _DiaryEmotionState extends State<DiaryEmotion> {
     return Text(
       '${icon}',
       style: const TextStyle(
-        fontSize: 50,
+        fontSize: 20,
       ),
     );
   }
