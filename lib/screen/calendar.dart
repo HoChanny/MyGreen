@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mygreen/widgets/calendar/calendar_add_button.dart';
 import 'package:mygreen/widgets/calendar/calendar_search_button.dart';
 import 'package:mygreen/widgets/calendar/calendar_my_calendar.dart';
-import 'package:mygreen/widgets/navigation/navigation.dart';
 
 import 'diary.dart';
 
@@ -49,7 +48,6 @@ ElevatedButton(
           ),
         ),
       ),
-      bottomNavigationBar: Navigation(),
     );
   }
 }
