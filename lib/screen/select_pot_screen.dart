@@ -86,39 +86,43 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
     var horizontalSize = MediaQuery.of(context).size.width;
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("내 화분"),
-        ),
         body: Stack(
-          children: [
-            Center(
-              child: Expanded(
-                child: ListView.builder(
-                    // itemCount: potData.length,
-                    itemCount: 9,
-                    itemBuilder: (context, i) {
-                      //var data = potData[i];
-                      return SelectPotButton();
-                    }),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Container(
-                margin: EdgeInsets.all(10),
-                width: horizontalSize*0.2,
-                height: horizontalSize*0.2,
-                child: ElevatedButton(onPressed: (){
-              
+      children: [
+        Center(
+          child: Expanded(
+            child: ListView.builder(
+                // itemCount: potData.length,
+                itemCount: 9,
+                itemBuilder: (context, i) {
+                  //var data = potData[i];
+                  return SelectPotButton();
+                }),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Container(
+            margin: EdgeInsets.all(10),
+            width: horizontalSize * 0.2,
+            height: horizontalSize * 0.2,
+            child: ElevatedButton(
+                onPressed: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const RegistrationPage(),
+                  //   ),
+                  // );
                 },
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder()
-                ), 
-                child: Text('+', style: TextStyle(fontSize: horizontalSize*0.1),)),
-              ),
-            )
-          ],
-        ));
+                style: ElevatedButton.styleFrom(shape: CircleBorder()),
+                child: Text(
+                  '+',
+                  style: TextStyle(fontSize: horizontalSize * 0.1),
+                )),
+          ),
+        )
+      ],
+    ));
   }
 }
 
