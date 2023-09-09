@@ -6,6 +6,7 @@ import 'package:mygreen/screen/create_account_screen.dart';
 import 'package:mygreen/screen/select_pot_screen.dart';
 import 'package:mygreen/provider/global_state.dart';
 import 'package:mygreen/screen/calendar.dart';
+import 'package:mygreen/screen/sign_up/set_id_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -91,55 +92,64 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    var verticalSize = MediaQuery.of(context).size.height;
+    var horizontalSize = MediaQuery.of(context).size.width;
+
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('로그인'),
-        ),
         body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextField(
-                  controller: _idController,
-                  decoration: const InputDecoration(
-                    hintText: '아이디',
-                  ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Center(
+              child: Container(
+                width: horizontalSize * 0.6,
+                height: horizontalSize * 0.6,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/image/MyGreen.png'),
+                      fit: BoxFit.cover),
                 ),
-                const SizedBox(height: 16.0),
-                TextField(
-                  controller: _passwordController,
-                  decoration: const InputDecoration(
-                    hintText: '비밀번호',
-                  ),
-                  obscureText: true,
-                  //keyboardType: TextInputType.visiblePassword,
-                  textInputAction: TextInputAction.done,
-                  onSubmitted: (_) => _login(),
-                  // 클릭할 때마다 키보드 숨김
-                  onTap: () => FocusScope.of(context).unfocus(),
-                  // 로딩 중일 때 로그인 버튼 비활성화
-                  enabled: !_isLoading,
-                ),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: _isLoading ? null : _login,
-                  child: _isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('로그인'),
-                ),
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CreateAccountPage()));
-                    },
-                    child: const Text("회원가입"))
-              ],
+              ),
             ),
-          ),
-        ));
+            TextField(
+              controller: _idController,
+              decoration: const InputDecoration(
+                hintText: '아이디',
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _passwordController,
+              decoration: const InputDecoration(
+                hintText: '비밀번호',
+              ),
+              obscureText: true,
+              //keyboardType: TextInputType.visiblePassword,
+              textInputAction: TextInputAction.done,
+              onSubmitted: (_) => _login(),
+              // 클릭할 때마다 키보드 숨김
+              onTap: () => FocusScope.of(context).unfocus(),
+              // 로딩 중일 때 로그인 버튼 비활성화
+              enabled: !_isLoading,
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: _isLoading ? null : _login,
+              child: _isLoading
+                  ? const CircularProgressIndicator()
+                  : const Text('로그인'),
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SetIdScreen()));
+                },
+                child: const Text("회원가입"))
+          ],
+        ),
+      ),
+    ));
   }
 }

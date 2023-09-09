@@ -9,6 +9,7 @@ import 'package:mygreen/screen/view_my_pot_screen.dart';
 
 import 'package:mygreen/screen/qrscanner_registration.dart';
 import 'package:mygreen/utils.dart';
+import 'package:mygreen/widgets/pot_selection/select_pot_button.dart';
 
 class SelectPotScreen extends StatefulWidget {
   const SelectPotScreen({Key? key}) : super(key: key);
@@ -81,84 +82,43 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var verticalSize = MediaQuery.of(context).size.height;
+    var horizontalSize = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("내 화분"),
-        actions: [
-          IconButton(
-              iconSize: 40,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const QRViewExample(),
-                  ),
-                ).then((value) {
-                  if (value == true) {
-                    refreshData();
-                  }
-                });
-              },
-              icon: Icon(Icons.add))
-        ],
-      ),
-      body: Center(
-        child: Expanded(
-          child: ListView.builder(
-              itemCount: potData.length,
-              itemBuilder: (context, i) {
-                var data = potData[i];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ViewMyPotPage(
-                          name: data['plant_name'],
-                          color: getColor(data['color']),
-                          image: MemoryImage(base64Decode(data['profile'])),
-                          temperature: data['temperature'],
-                          wateringCycle: data['wateringCycle'],
-                        ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.width * 0.32,
-                    padding: const EdgeInsets.all(20),
-                    margin: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: getColor(data['color']),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage:
-                              MemoryImage(base64Decode(data['profile'])),
-                          radius: 50,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              data['plant_name'],
-                              style: const TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text('${data['plant_name']}'),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
+        appBar: AppBar(
+          title: const Text("내 화분"),
         ),
-      ),
-    );
+        body: Stack(
+          children: [
+            Center(
+              child: Expanded(
+                child: ListView.builder(
+                    // itemCount: potData.length,
+                    itemCount: 9,
+                    itemBuilder: (context, i) {
+                      //var data = potData[i];
+                      return SelectPotButton();
+                    }),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Container(
+                margin: EdgeInsets.all(10),
+                width: horizontalSize*0.2,
+                height: horizontalSize*0.2,
+                child: ElevatedButton(onPressed: (){
+              
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder()
+                ), 
+                child: Text('+', style: TextStyle(fontSize: horizontalSize*0.1),)),
+              ),
+            )
+          ],
+        ));
   }
 }
 

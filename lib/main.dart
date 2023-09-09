@@ -5,6 +5,7 @@ import 'package:mygreen/screen/login_page.dart';
 import 'package:get/get.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mygreen/screen/select_pot_screen.dart';
 
 import 'firebase_options.dart';
 
@@ -41,7 +42,7 @@ class MainPage extends StatelessWidget {
           colorScheme: const ColorScheme.light(
         primary: Colors.lightGreen,
       )),
-      home: const LoginPage(),
+      home: const SelectPotScreen(),
     );
   }
 }
