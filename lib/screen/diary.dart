@@ -38,92 +38,99 @@ class _DiaryPageState extends State<DiaryPage> {
     //날짜 월 / 일 분리
     String dateString = widget.date.toString();
     DateTime dateTime = DateTime.parse(dateString.replaceAll('-', ''));
+    int year = dateTime.year;
     int month = dateTime.month;
     int day = dateTime.day;
 
     // 색상 변환
-    Color convertColor =
-        Color(int.parse("0xFF${widget.color}")); // 16진수 문자열을 Color로 변환
+    // Color convertColor =
+    //     Color(int.parse("0xFF${widget.color}")); // 16진수 문자열을 Color로 변환
 
-    print(convertColor);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: convertColor,
-        //Title Center로 설정
-        title: Text('Diary'),
+        backgroundColor: Colors.black,
+        title: Text('plant_name 의 다이어리'),
         centerTitle: true,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              //날짜
-              Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.05),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          children: [
+            SizedBox(height: 30),
+
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                padding: EdgeInsets.all(16.0), // Add padding as needed
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(87, 211, 210, 210), // 배경색을 원하는 색상으로 설정
+                  borderRadius: BorderRadius.circular(15.0), // 원하는 반지름으로 조절
+                ),
+                child: Column(
                   children: [
-                    Text(
-                      ' ${month}월 ${day}일',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontFamily: '',
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            DiaryEmotion(emotion: widget.emotion),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width *
+                                  0.3, // Set the width of the restricted area
+                              child: const Text(
+                                'title',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          '${year}.${month}.${day}',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin:
+                              EdgeInsets.only(right: 30.0), // 원하는 우측 여백 값을 설정
+                          child: Image.asset(
+                            'assets/image/test.png',
+                            width: MediaQuery.of(context).size.width * 0.25,
+                          ),
+                        ),
+                        Flexible(
+                          child: Text(
+                            '${widget.content}',
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
-              //이미지 -> widget값을 받아와서 뿌려야할듯.
-              Container(
-                child: Image.asset(
-                  'assets/image/test.png',
-                  width: 100,
-                  height: 100,
-                ),
-              ),
-              //이름
-              Container(
-                child: Text('${widget.plant_name}'),
-              ),
-              //제목
-              Container(
-                width: MediaQuery.of(context).size.width *
-                    0.8, // Set as a fraction of the screen width
-                height: 100,
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.05),
-                child: Text(
-                  '${widget.title}',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontFamily: '',
-                  ),
-                ),
-              ),
-              // 내용
-              Container(
-                width: MediaQuery.of(context).size.width *
-                    0.8, // Set as a fraction of the screen width
-                height: 100,
+            ),
 
-                child: Text(
-                  '${widget.content}',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontFamily: '',
-                  ),
-                ),
-              ),
-              //감정
-              Container(child: DiaryEmotion(emotion: widget.emotion)),
-            ],
-          ),
+            // Emotion
+          ],
         ),
       ),
     );

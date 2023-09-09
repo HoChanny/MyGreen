@@ -8,7 +8,7 @@ import 'package:table_calendar/table_calendar.dart';
 //  일기 목록
 import '../../utils.dart';
 //  일기 상세 페이지
-import 'package:mygreen/screen/diary.dart';
+import 'package:mygreen/screen/diary_detail.dart';
 
 class MyCalendar extends StatefulWidget {
   @override
@@ -209,7 +209,7 @@ class _MyCalendarState extends State<MyCalendar> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DiaryPage(
+                                builder: (context) => DiaryDetailPage(
                                       plant_name: value[index].plant_name,
                                       title: value[index].title,
                                       date: returnDate(value, index),

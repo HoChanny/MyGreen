@@ -220,7 +220,7 @@ class _Register_DiaryState extends State<Register_Diary> {
                       title: controllerTitle,
                       content: controllerContent,
                       date: _selectedDate,
-                      postDiaryData: postDiaryData),
+                      postRequest: postDiaryData),
                 ),
                 Center(
                     child: ElevatedButton(
