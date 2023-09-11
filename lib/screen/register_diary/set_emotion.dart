@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mygreen/provider/global_state.dart';
 import 'package:mygreen/screen/register_diary/set_content.dart';
+import 'package:mygreen/screen/register_diary/set_emotion.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
-import 'package:mygreen/screen/sign_up/set_password_screen.dart';
 
 class SetEmotionScreen extends StatelessWidget {
   SetEmotionScreen({super.key});
@@ -31,35 +31,144 @@ class SetEmotionScreen extends StatelessWidget {
             SizedBox(
               height: verticalSize * 0.1,
             ),
-            LeftAlignText(content: '오늘의 감정은 선택해주세요'),
+            LeftAlignText(content: '오늘 감정을 표현해주세요.'),
             SizedBox(
-              height: verticalSize * 0.1,
+              height: verticalSize * 0.2,
             ),
             Row(
               children: [
-                Expanded(
-                    child: Form(
-                        key: formKey,
-                        child: TextFormField(
-                          controller: idController,
-                          decoration: InputDecoration(hintText: 'ㄹㅇㄴㅁㄹㄴ'),
-                        ))),
+                Container(
+                  width: horizontalSize * 0.15,
+                  height: horizontalSize * 0.15,
+                  margin: EdgeInsets.all(
+                      horizontalSize * 0.011), // Set the desired margin
+                  child: ElevatedButton(
+                    onPressed: () {
+                      print('1');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SetContentScreen()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                    ),
+                    child: const Text(
+                      '😡',
+                      style:
+                          TextStyle(fontSize: 24), // Set the desired font size
+                    ),
+                  ),
+                ),
+                Container(
+                  width: horizontalSize * 0.15,
+                  height: horizontalSize * 0.15,
+                  margin: EdgeInsets.all(
+                      horizontalSize * 0.011), // Set the desired margin
+                  child: Padding(
+                    padding: const EdgeInsets.all(
+                        0.0), // Adjust the padding as needed
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('2');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SetContentScreen()));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        '😠',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: horizontalSize * 0.15,
+                  height: horizontalSize * 0.15,
+                  margin: EdgeInsets.all(
+                      horizontalSize * 0.011), // Set the desired margin
+                  child: Padding(
+                    padding: const EdgeInsets.all(
+                        0.0), // Adjust the padding as needed
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('😮');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SetContentScreen()));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        '😮',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: horizontalSize * 0.15,
+                  height: horizontalSize * 0.15,
+                  margin: EdgeInsets.all(
+                      horizontalSize * 0.011), // Set the desired margin
+                  child: Padding(
+                    padding: const EdgeInsets.all(
+                        0.0), // Adjust the padding as needed
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('4');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SetContentScreen()));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        '😀',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: horizontalSize * 0.15,
+                  height: horizontalSize * 0.15,
+                  margin: EdgeInsets.all(
+                      horizontalSize * 0.011), // Set the desired margin
+                  child: Padding(
+                    padding: const EdgeInsets.all(
+                        0.0), // Adjust the padding as needed
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('5');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SetContentScreen()));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        '😍',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
             SizedBox(
               height: verticalSize * 0.05,
             ),
-            Container(
-              width: horizontalSize * 0.9,
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SetContentScreen()));
-                  },
-                  child: Text('다음')),
-            )
           ],
         ),
       ),

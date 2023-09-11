@@ -30,36 +30,128 @@ class SetDateScreen extends StatelessWidget {
             SizedBox(
               height: verticalSize * 0.1,
             ),
-            LeftAlignText(content: '날짜를 입력해주세요'),
+            LeftAlignText(content: '오늘 감정을 표현해주세요.'),
             SizedBox(
-              height: verticalSize * 0.1,
+              height: verticalSize * 0.2,
             ),
             Row(
               children: [
-                Expanded(
-                    child: Form(
-                        key: formKey,
-                        child: TextFormField(
-                          controller: idController,
-                          decoration: InputDecoration(hintText: 'ㄹㅇㄴㅁㄹㄴ'),
-                        ))),
-                ElevatedButton(onPressed: () {}, child: Text('중복확인'))
+                Container(
+                  width: horizontalSize * 0.15,
+                  height: horizontalSize * 0.15,
+                  margin: EdgeInsets.all(
+                      horizontalSize * 0.011), // Set the desired margin
+                  child: ElevatedButton(
+                    onPressed: () {
+                      print('1');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                    ),
+                    child: const Text(
+                      '😡',
+                      style:
+                          TextStyle(fontSize: 24), // Set the desired font size
+                    ),
+                  ),
+                ),
+                Container(
+                  width: horizontalSize * 0.15,
+                  height: horizontalSize * 0.15,
+                  margin: EdgeInsets.all(
+                      horizontalSize * 0.011), // Set the desired margin
+                  child: Padding(
+                    padding: const EdgeInsets.all(
+                        0.0), // Adjust the padding as needed
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('2');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        '😠',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: horizontalSize * 0.15,
+                  height: horizontalSize * 0.15,
+                  margin: EdgeInsets.all(
+                      horizontalSize * 0.011), // Set the desired margin
+                  child: Padding(
+                    padding: const EdgeInsets.all(
+                        0.0), // Adjust the padding as needed
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('😮');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        '😮',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: horizontalSize * 0.15,
+                  height: horizontalSize * 0.15,
+                  margin: EdgeInsets.all(
+                      horizontalSize * 0.011), // Set the desired margin
+                  child: Padding(
+                    padding: const EdgeInsets.all(
+                        0.0), // Adjust the padding as needed
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('4');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        '😀',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: horizontalSize * 0.15,
+                  height: horizontalSize * 0.15,
+                  margin: EdgeInsets.all(
+                      horizontalSize * 0.011), // Set the desired margin
+                  child: Padding(
+                    padding: const EdgeInsets.all(
+                        0.0), // Adjust the padding as needed
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('5');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SetEmotionScreen()));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        '😍',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
             SizedBox(
               height: verticalSize * 0.05,
             ),
-            Container(
-              width: horizontalSize * 0.9,
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SetEmotionScreen()));
-                  },
-                  child: Text('다음')),
-            )
           ],
         ),
       ),
