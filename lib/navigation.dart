@@ -18,7 +18,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   final List<Widget> _navIndex = [
     SelectPotScreen(),
-    SetIdScreen(),
+    CalendarPage(
+      plant_name: 'a',
+      color: Colors.black,
+    ),
     SetPasswordScreen(),
     SetEmailScreen(),
   ];

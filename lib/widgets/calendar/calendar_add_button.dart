@@ -1,5 +1,4 @@
-import 'package:mygreen/screen/registration_diary.dart';
-
+import 'package:mygreen/screen/register_diary/set_date.dart';
 
 import 'package:flutter/material.dart';
 
@@ -18,9 +17,7 @@ class _AddButton extends State<AddButton> {
         print('Add button is clicked');
 
         Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const Registration_Diary()));
+            context, MaterialPageRoute(builder: (context) => SetDateScreen()));
       },
     );
   }
