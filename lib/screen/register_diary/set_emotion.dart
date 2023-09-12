@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mygreen/provider/global_state.dart';
-import 'package:mygreen/screen/register_diary/set_content.dart';
-import 'package:mygreen/screen/register_diary/set_emotion.dart';
+import 'package:mygreen/screen/register_diary/set_image.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
 
 class SetEmotionScreen extends StatelessWidget {
@@ -48,7 +47,7 @@ class SetEmotionScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SetContentScreen()));
+                              builder: (context) => SetImageScreen()));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -74,7 +73,7 @@ class SetEmotionScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SetContentScreen()));
+                                builder: (context) => SetImageScreen()));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
@@ -100,7 +99,7 @@ class SetEmotionScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SetContentScreen()));
+                                builder: (context) => SetImageScreen()));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
@@ -126,7 +125,7 @@ class SetEmotionScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SetContentScreen()));
+                                builder: (context) => SetImageScreen()));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
@@ -152,7 +151,7 @@ class SetEmotionScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SetContentScreen()));
+                                builder: (context) => SetImageScreen()));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,

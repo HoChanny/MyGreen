@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mygreen/provider/global_state.dart';
+import 'package:mygreen/screen/register_diary/set_content.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -8,14 +9,14 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 
-class SetContentScreen extends StatefulWidget {
-  SetContentScreen({Key? key}) : super(key: key);
+class SetImageScreen extends StatefulWidget {
+  SetImageScreen({Key? key}) : super(key: key);
 
   @override
-  _SetContentScreenState createState() => _SetContentScreenState();
+  _SetImageScreenState createState() => _SetImageScreenState();
 }
 
-class _SetContentScreenState extends State<SetContentScreen> {
+class _SetImageScreenState extends State<SetImageScreen> {
   final infoController = Get.put(GlobalState());
 
   final formKey = GlobalKey<FormState>();
