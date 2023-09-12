@@ -122,7 +122,7 @@ class _Registration_DiaryState extends State<Registration_Diary> {
             child: Column(
               key: formKey,
               children: <Widget>[
-                //aas
+                //사진
                 Center(
                   child: Container(
                     decoration: BoxDecoration(
