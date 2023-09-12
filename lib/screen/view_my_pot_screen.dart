@@ -9,7 +9,6 @@ import 'package:http/http.dart' as http;
 import 'dart:typed_data';
 
 import 'package:mygreen/screen/calendar.dart';
-import 'package:mygreen/screen/diary.dart';
 
 import 'package:mygreen/utils.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -247,22 +246,22 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                           ),
                           child: ListTile(
                             onTap: () {
-                              //diary 페이지에 넘기는 데이터 값들
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DiaryPage(
-                                    plant_name: events[i].plant_name,
-                                    title: events[i].title,
-                                    date: returnDate(events, i),
-                                    emotion: events[i].emotion,
-                                    color: widget.color,
-                                    content: events[i].content,
-                                    image: MemoryImage(
-                                        base64Decode(events[i].image)),
-                                  ),
-                                ),
-                              );
+                              // //diary 페이지에 넘기는 데이터 값들
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => DiaryPage(
+                              //       plant_name: events[i].plant_name,
+                              //       title: events[i].title,
+                              //       date: returnDate(events, i),
+                              //       emotion: events[i].emotion,
+                              //       color: widget.color,
+                              //       content: events[i].content,
+                              //       image: MemoryImage(
+                              //           base64Decode(events[i].image)),
+                              //     ),
+                              //   ),
+                              // );
                             }, // 클릭시 이벤트 발생
                             // 제목
                             title: Text(events[i].title),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mygreen/screen/login_page.dart';
+
+import '../../navigation.dart';
 
 class DiaryCompleteScreen extends StatelessWidget {
   const DiaryCompleteScreen({super.key});
@@ -47,8 +48,10 @@ class DiaryCompleteScreen extends StatelessWidget {
             height: hSize * 0.1,
             child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NavigationScreen()));
                 },
                 child: Text(
                   '다음',

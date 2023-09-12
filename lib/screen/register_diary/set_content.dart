@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mygreen/provider/global_state.dart';
-import 'package:mygreen/screen/calendar.dart';
-import 'package:mygreen/screen/register_diary/diary_complete_screen%20copy.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
-import 'package:mygreen/screen/sign_up/set_password_screen.dart';
 
-class SetContentScreen extends StatelessWidget {
-  SetContentScreen({super.key});
+import '../../widgets/diary/diary_form.dart';
+import 'diary_complete_screen.dart';
 
+class SetContentScreen extends StatefulWidget {
+  SetContentScreen({Key? key}) : super(key: key);
+
+  @override
+  _SetContentScreenState createState() => _SetContentScreenState();
+}
+
+class _SetContentScreenState extends State<SetContentScreen> {
   final infoController = Get.put(GlobalState());
 
   final formKey = GlobalKey<FormState>();
 
-  TextEditingController idController = TextEditingController();
+  //컨트롤러 제목
+  final TextEditingController controllerTitle = TextEditingController();
+  String title = '';
 
+  // 내용
+  final TextEditingController controllerContent = TextEditingController();
+  String content = '';
   @override
   Widget build(BuildContext context) {
     var verticalSize = MediaQuery.of(context).size.height;
     var horizontalSize = MediaQuery.of(context).size.width;
+    final imageSize = MediaQuery.of(context).size.width / 3;
+
     return Scaffold(
         body: InkWell(
       onTap: () {
@@ -32,21 +44,34 @@ class SetContentScreen extends StatelessWidget {
             SizedBox(
               height: verticalSize * 0.1,
             ),
-            LeftAlignText(content: '사진과 내용을 작성해주세요.'),
+            LeftAlignText(content: '제목과 내용을 입력해주세요.'),
             SizedBox(
               height: verticalSize * 0.1,
             ),
-            Row(
-              children: [
-                Expanded(
-                    child: Form(
-                        key: formKey,
-                        child: TextFormField(
-                          controller: idController,
-                          decoration: InputDecoration(hintText: 'ㄹㅇㄴㅁㄹㄴ'),
-                        ))),
-                ElevatedButton(onPressed: () {}, child: Text('중복확인'))
-              ],
+            //일기 제목 작성하기
+            Container(
+              child: DiaryForm(
+                maxLines: 1,
+                hintText: '제목을 입력해주세요.',
+                labelText: '제목',
+                warningMessage: '위험',
+                formValue: title,
+                controller: controllerTitle,
+              ),
+            ),
+            SizedBox(
+              height: verticalSize * 0.05,
+            ),
+            //일기 내용 작성하기
+            Container(
+              child: DiaryForm(
+                maxLines: 4,
+                hintText: '내용을 입력해주세요.',
+                labelText: '내용',
+                warningMessage: '위험',
+                formValue: content,
+                controller: controllerContent,
+              ),
             ),
             SizedBox(
               height: verticalSize * 0.05,
@@ -58,8 +83,7 @@ class SetContentScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CalendarPage(
-                                plant_name: 'a', color: Colors.red)));
+                            builder: (context) => DiaryCompleteScreen()));
                   },
                   child: Text('다음')),
             )

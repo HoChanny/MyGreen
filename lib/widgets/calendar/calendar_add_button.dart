@@ -1,6 +1,6 @@
-import 'package:mygreen/screen/register_diary/set_date.dart';
-
 import 'package:flutter/material.dart';
+
+import '../../screen/register_diary/set_pot.dart';
 
 class AddButton extends StatefulWidget {
   _AddButton createState() => _AddButton();
@@ -17,7 +17,7 @@ class _AddButton extends State<AddButton> {
         print('Add button is clicked');
 
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SetDateScreen()));
+            context, MaterialPageRoute(builder: (context) => SetPotScreen()));
       },
     );
   }
