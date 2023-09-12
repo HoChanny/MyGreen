@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mygreen/provider/global_state.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
-import 'package:permission_handler/permission_handler.dart';
 
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import 'package:flutter/foundation.dart';
+import '../../widgets/diary/diary_form.dart';
+import 'diary_complete_screen.dart';
 
 class SetContentScreen extends StatefulWidget {
   SetContentScreen({Key? key}) : super(key: key);
@@ -20,16 +18,13 @@ class _SetContentScreenState extends State<SetContentScreen> {
 
   final formKey = GlobalKey<FormState>();
 
-  TextEditingController idController = TextEditingController();
-
-  // 이미지 선택
-  XFile? _pickedFile;
-  var potProfile = Map();
+  //컨트롤러 제목
+  final TextEditingController controllerTitle = TextEditingController();
+  String title = '';
 
   // 내용
   final TextEditingController controllerContent = TextEditingController();
   String content = '';
-
   @override
   Widget build(BuildContext context) {
     var verticalSize = MediaQuery.of(context).size.height;
@@ -49,37 +44,33 @@ class _SetContentScreenState extends State<SetContentScreen> {
             SizedBox(
               height: verticalSize * 0.1,
             ),
-            LeftAlignText(content: '사진을 등록해주세요.'),
+            LeftAlignText(content: '제목과 내용을 입력해주세요.'),
             SizedBox(
               height: verticalSize * 0.1,
             ),
-            Center(
-              child: Container(
-                width: verticalSize,
-                height: horizontalSize,
-                child: GestureDetector(
-                  onTap: () {
-                    Permission.camera.request();
-                    Permission.photos.request();
-                    selectImage();
-                  },
-                  child: _pickedFile != null
-                      ? Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: FileImage(File(_pickedFile!.path)),
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ) //Image.file(File(_pickedFile!.path))
-                      : Center(
-                          child: Icon(
-                            const IconData(0xee39, fontFamily: 'MaterialIcons'),
-                            size: imageSize,
-                          ),
-                        ),
-                ),
+            //일기 제목 작성하기
+            Container(
+              child: DiaryForm(
+                maxLines: 1,
+                hintText: '제목을 입력해주세요.',
+                labelText: '제목',
+                warningMessage: '위험',
+                formValue: title,
+                controller: controllerTitle,
+              ),
+            ),
+            SizedBox(
+              height: verticalSize * 0.05,
+            ),
+            //일기 내용 작성하기
+            Container(
+              child: DiaryForm(
+                maxLines: 4,
+                hintText: '내용을 입력해주세요.',
+                labelText: '내용',
+                warningMessage: '위험',
+                formValue: content,
+                controller: controllerContent,
               ),
             ),
             SizedBox(
@@ -92,7 +83,7 @@ class _SetContentScreenState extends State<SetContentScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SetContentScreen()));
+                            builder: (context) => DiaryCompleteScreen()));
                   },
                   child: Text('다음')),
             )
@@ -100,65 +91,5 @@ class _SetContentScreenState extends State<SetContentScreen> {
         ),
       ),
     ));
-  }
-
-  selectImage() {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('일기 사진 설정'),
-          content: const Text('사진을 촬영하거나 앨범에서 선택해 주세요.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                _getCameraImage();
-              },
-              child: const Text('사진 촬영'),
-            ),
-            TextButton(
-              onPressed: () {
-                _getPhotoLibraryImage();
-              },
-              child: const Text('앨범에서 선택'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('완료'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  _getCameraImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.camera);
-    if (pickedFile != null) {
-      setState(() {
-        _pickedFile = pickedFile;
-      });
-    } else {
-      if (kDebugMode) {
-        print('이미지 선택안함');
-      }
-    }
-  }
-
-  _getPhotoLibraryImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _pickedFile = pickedFile;
-      });
-    } else {
-      if (kDebugMode) {
-        print('이미지 선택안함');
-      }
-    }
   }
 }
