@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
       if (cookies != null) {
         final cookie = cookies.split(';')[0];
         cookieController.setCookie(cookie);
-        print(cookieController.cookie);
+        print('cookie : ${cookieController.cookie}');
         return cookie;
       }
     } else {

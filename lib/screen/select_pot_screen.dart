@@ -43,7 +43,7 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
               jsonData.map((data) => data as Map<String, dynamic>).toList();
         });
 
-        print(potData);
+        print(potData[0]);
       } else {
         print('Failed to fetch data. Error code: ${response.statusCode}');
       }
@@ -94,12 +94,11 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
         Center(
           child: Expanded(
             child: ListView.builder(
-                // itemCount: potData.length,
-                itemCount: 9,
-                itemBuilder: (context, i) {
-                  //var data = potData[i];
-                  return SelectPotButton();
-                }),
+  itemCount: potData.length,
+  itemBuilder: (context, index) {
+    final data = potData[index];
+  },
+),
           ),
         ),
         Align(
@@ -110,12 +109,12 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
             height: horizontalSize * 0.2,
             child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const RegistrationPage(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QRViewExample(),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(shape: CircleBorder()),
                 child: Text(
