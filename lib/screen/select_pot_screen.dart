@@ -37,10 +37,13 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonData = jsonDecode(response.body);
+
         setState(() {
           potData =
               jsonData.map((data) => data as Map<String, dynamic>).toList();
         });
+
+        print(potData);
       } else {
         print('Failed to fetch data. Error code: ${response.statusCode}');
       }
