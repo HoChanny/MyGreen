@@ -43,7 +43,7 @@ class MainPage extends StatelessWidget {
           colorScheme: const ColorScheme.light(
         primary: Colors.lightGreen,
       )),
-      home: NavigationScreen(),
+      home: LoginPage(),
     );
   }
 }
