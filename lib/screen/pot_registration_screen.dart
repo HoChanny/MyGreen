@@ -296,7 +296,7 @@ Future<int> sendDataToServer(
     print('Data sent successfully');
     Navigator.pop(context, true);
   } else {
-    print('Failed to send data. Error code: ${response.statusCode}');
+    print('Failed to send data. ssError code: ${response.statusCode}');
   }
 
   return response.statusCode;

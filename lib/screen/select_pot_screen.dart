@@ -43,7 +43,6 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
               jsonData.map((data) => data as Map<String, dynamic>).toList();
         });
 
-        print(potData[0]);
       } else {
         print('Failed to fetch data. Error code: ${response.statusCode}');
       }
@@ -97,6 +96,8 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
   itemCount: potData.length,
   itemBuilder: (context, index) {
     final data = potData[index];
+  
+          return SelectPotButton(data: data); // 대체된 값 출력
   },
 ),
           ),
