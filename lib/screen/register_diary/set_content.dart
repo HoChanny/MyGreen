@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mygreen/provider/global_state.dart';
+import 'package:mygreen/provider/resgister_diary_state.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
 
 import '../../widgets/diary/diary_form.dart';
@@ -14,7 +14,7 @@ class SetContentScreen extends StatefulWidget {
 }
 
 class _SetContentScreenState extends State<SetContentScreen> {
-  final infoController = Get.put(GlobalState());
+  final diaryData = Get.find<DiaryState>();
 
   final formKey = GlobalKey<FormState>();
 
@@ -80,6 +80,8 @@ class _SetContentScreenState extends State<SetContentScreen> {
               width: horizontalSize * 0.9,
               child: ElevatedButton(
                   onPressed: () {
+                    diaryData.setContent(controllerContent.text);
+                    diaryData.setTitle(controllerTitle.text);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

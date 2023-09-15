@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'package:mygreen/provider/resgister_diary_state.dart';
+import 'package:mygreen/provider/global_state.dart';
 import '../../navigation.dart';
+import 'package:http/http.dart' as http;
+
+import 'dart:io';
 
 class DiaryCompleteScreen extends StatelessWidget {
-  const DiaryCompleteScreen({super.key});
+  final data = Get.find<DiaryState>();
+  final cookieController = Get.put(GlobalState());
+
+  DiaryCompleteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +56,17 @@ class DiaryCompleteScreen extends StatelessWidget {
             height: hSize * 0.1,
             child: ElevatedButton(
                 onPressed: () {
+                  postDiaryData(
+                      context,
+                      data.diaryData['image'],
+                      'asd',
+                      data.diaryData['emotion'],
+                      data.diaryData['title'],
+                      data.diaryData['content'],
+                      data.diaryData['date'],
+                      true,
+                      'qrcode',
+                      cookieController.cookie);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -63,4 +82,54 @@ class DiaryCompleteScreen extends StatelessWidget {
       ),
     ));
   }
+}
+
+Future<int> postDiaryData(
+  BuildContext context,
+  File imageFile,
+  String plant_name,
+  String emotion,
+  String title,
+  String content,
+  DateTime date,
+  dynamic isPublic,
+  String id,
+  String cookie,
+) async {
+  final url = Uri.parse('https://iotvase.azurewebsites.net/green/diary/${id}');
+
+  var request = http.MultipartRequest('POST', url);
+
+  // Add form fields
+  request.headers['Cookie'] = cookie;
+  request.fields['id'] = 'asd';
+
+  request.fields['plant_name'] = plant_name;
+  request.fields['title'] = title;
+  request.fields['date'] = date.toString();
+
+  request.fields['emotion'] = emotion;
+  request.fields['isPublic'] = isPublic.toString();
+  request.fields['content'] = content;
+
+  var imagePart = await http.MultipartFile.fromPath('image', imageFile.path);
+  request.files.add(imagePart);
+  var response = await request.send();
+
+  // Handle the response
+  if (response.statusCode == 200) {
+    Navigator.pop(context, true);
+    Navigator.pop(context, true);
+
+    print('Response: ${await response.stream.bytesToString()}');
+  } else {
+    // Request failed, handle the error
+    print(plant_name);
+    print(emotion);
+    print(title);
+    print(content);
+    print(date);
+    print('Error: ${response.statusCode}');
+  }
+  return response.statusCode;
 }

@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:typed_data';
 
 import 'package:mygreen/screen/calendar.dart';
+import 'package:mygreen/screen/register_diary/set_date.dart';
 
 import 'package:mygreen/utils.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -204,8 +205,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CalendarPage(
-                        plant_name: widget.name, color: widget.color),
+                    builder: (context) => SetDateScreen(),
                   ),
                 );
               },
