@@ -5,6 +5,7 @@ import 'package:mygreen/screen/select_pot_screen.dart';
 import 'package:mygreen/screen/sign_up/set_email_screen.dart';
 import 'package:mygreen/screen/sign_up/set_id_screen.dart';
 import 'package:mygreen/screen/sign_up/set_password_screen.dart';
+import 'package:mygreen/screen/web/board.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -22,7 +23,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       plant_name: 'a',
       color: Colors.black,
     ),
-    SetPasswordScreen(),
+    BoardPage(),
     SetEmailScreen(),
   ];
 

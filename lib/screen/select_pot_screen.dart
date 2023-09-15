@@ -37,10 +37,12 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonData = jsonDecode(response.body);
+
         setState(() {
           potData =
               jsonData.map((data) => data as Map<String, dynamic>).toList();
         });
+
       } else {
         print('Failed to fetch data. Error code: ${response.statusCode}');
       }
@@ -91,12 +93,13 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
         Center(
           child: Expanded(
             child: ListView.builder(
-                // itemCount: potData.length,
-                itemCount: 9,
-                itemBuilder: (context, i) {
-                  //var data = potData[i];
-                  return SelectPotButton();
-                }),
+  itemCount: potData.length,
+  itemBuilder: (context, index) {
+    final data = potData[index];
+  
+          return SelectPotButton(data: data); // 대체된 값 출력
+  },
+),
           ),
         ),
         Align(
@@ -107,12 +110,12 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
             height: horizontalSize * 0.2,
             child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const RegistrationPage(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QRViewExample(),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(shape: CircleBorder()),
                 child: Text(

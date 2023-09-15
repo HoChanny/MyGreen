@@ -108,26 +108,26 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     });
                   },
                 )),
-            Form(
-                key: _waterFormKey,
-                child: TextFormField(
-                  maxLength: 3,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      counterText: "",
-                      labelText: '물주는 주기',
-                      hintText: '물주는 주기(일)'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return '물주는 주기는 필수 항목입니다.';
-                    }
-                  },
-                  onSaved: (value) {
-                    setState(() {
-                      wateringCycle = value;
-                    });
-                  },
-                )),
+            // Form(
+            //     key: _waterFormKey,
+            //     child: TextFormField(
+            //       maxLength: 3,
+            //       keyboardType: TextInputType.number,
+            //       decoration: const InputDecoration(
+            //           counterText: "",
+            //           labelText: '물주는 주기',
+            //           hintText: '물주는 주기(일)'),
+            //       validator: (value) {
+            //         if (value!.isEmpty) {
+            //           return '물주는 주기는 필수 항목입니다.';
+            //         }
+            //       },
+            //       onSaved: (value) {
+            //         setState(() {
+            //           wateringCycle = value;
+            //         });
+            //       },
+            //     )),
             Form(
                 key: _tempFormKey,
                 child: TextFormField(
@@ -151,14 +151,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ElevatedButton(
                 onPressed: () {
                   final nameFormKeyState = _nameFormKey.currentState;
-                  final waterFormKeyState = _waterFormKey.currentState;
                   final tempFormKeyState = _tempFormKey.currentState;
                   if (nameFormKeyState!.validate()) {
                     nameFormKeyState.save();
                   }
-                  if (waterFormKeyState!.validate()) {
-                    waterFormKeyState.save();
-                  }
+                  
                   if (tempFormKeyState!.validate()) {
                     tempFormKeyState.save();
                   }
@@ -169,7 +166,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       widget.plant_ID,
                       potName,
                       properTemperature,
-                      wateringCycle,
                       profileColor,
                       cookieController.cookie);
                   if (result == 200) {
@@ -278,7 +274,6 @@ Future<int> sendDataToServer(
     String plant_ID,
     String potName,
     String properTemperature,
-    String wateringCycle,
     Color profileColor,
     String cookie) async {
   final url = Uri.parse('https://iotvase.azurewebsites.net/green');
@@ -291,7 +286,6 @@ Future<int> sendDataToServer(
 
   request.fields['plant_name'] = potName;
   request.fields['temperature'] = properTemperature;
-  request.fields['wateringCycle'] = wateringCycle;
   request.fields['color'] = profileColor.toString();
 
   var imagePart = await http.MultipartFile.fromPath('profile', imageFile.path);
@@ -302,7 +296,7 @@ Future<int> sendDataToServer(
     print('Data sent successfully');
     Navigator.pop(context, true);
   } else {
-    print('Failed to send data. Error code: ${response.statusCode}');
+    print('Failed to send data. ssError code: ${response.statusCode}');
   }
 
   return response.statusCode;
