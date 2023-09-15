@@ -3,6 +3,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
+import '../../screen/view_my_pot_screen.dart';
+
 class SelectPotButton extends StatelessWidget {
   final Map<String, dynamic> data;
 
@@ -45,18 +47,16 @@ class SelectPotButton extends StatelessWidget {
       ),
       child: GestureDetector(
         onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => ViewMyPotPage(
-          //       name: data['plant_name'],
-          //       color: getColor(data['color']),
-          //       image: MemoryImage(base64Decode(data['profile'])),
-          //       temperature: data['temperature'],
-          //       wateringCycle: data['wateringCycle'],
-          //     ),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ViewMyPotPage(
+                name: data['plant_name'],
+                color: getColor(data['color']),
+                image: MemoryImage(base64Decode(data['profile'])),
+              ),
+            ),
+          );
         },
         child: Container(
           margin: EdgeInsets.all(verticalSize * 0.03),
@@ -68,23 +68,23 @@ class SelectPotButton extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                      width: horizontalSize * 0.02, color: getColor(data['color'])),
+                      width: horizontalSize * 0.02,
+                      color: getColor(data['color'])),
                 ),
-                child: Container(
-                  child : decodeBase64Image(data['profile'])
-                  // decoration: BoxDecoration(
-                  //   shape: BoxShape.circle,
-                  //   image: DecorationImage(
-                  //     image: ,
-                  //   ),
-                  // ),
-                ),
+                child: Container(child: decodeBase64Image(data['profile'])
+                    // decoration: BoxDecoration(
+                    //   shape: BoxShape.circle,
+                    //   image: DecorationImage(
+                    //     image: ,
+                    //   ),
+                    // ),
+                    ),
               ),
               SizedBox(width: horizontalSize * 0.1),
               Column(
                 children: [
-                  Text(data['plant_name'] ?? 'N/A'), // 예시로 'N/A'를 사용할 수 있습니다.
-                  Text(data['status'] ?? 'N/A'),
+                  Text(data['plant_name']), // 예시로 'N/A'를 사용할 수 있습니다.
+                  Text(data['status']),
                 ],
               )
             ],

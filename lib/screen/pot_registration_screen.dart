@@ -9,15 +9,13 @@ import 'package:get/get.dart';
 import 'package:mygreen/provider/global_state.dart';
 
 class RegistrationPage extends StatefulWidget {
-
   //식물 이름
-final String plant_ID;
+  final String plant_ID;
 
-const RegistrationPage(
-      {Key? key,
-      required this.plant_ID,
-      })
-      : super(key: key);
+  const RegistrationPage({
+    Key? key,
+    required this.plant_ID,
+  }) : super(key: key);
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();
 }
@@ -155,7 +153,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   if (nameFormKeyState!.validate()) {
                     nameFormKeyState.save();
                   }
-                  
+
                   if (tempFormKeyState!.validate()) {
                     tempFormKeyState.save();
                   }
@@ -296,7 +294,7 @@ Future<int> sendDataToServer(
     print('Data sent successfully');
     Navigator.pop(context, true);
   } else {
-    print('Failed to send data. ssError code: ${response.statusCode}');
+    print('Failed to send data. Error code: ${response.statusCode}');
   }
 
   return response.statusCode;

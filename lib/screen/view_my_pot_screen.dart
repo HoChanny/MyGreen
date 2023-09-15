@@ -19,15 +19,11 @@ class ViewMyPotPage extends StatefulWidget {
   final String name;
   final Color color;
   final MemoryImage image;
-  final String temperature;
-  final String wateringCycle;
 
   const ViewMyPotPage(
       {required this.name,
       required this.color,
       required this.image,
-      required this.temperature,
-      required this.wateringCycle,
       super.key});
 
   @override
@@ -197,8 +193,6 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                 Column(
                   children: [
                     Text("현재상태"),
-                    Text("선호 온도: " + widget.temperature),
-                    Text("물 주는 주기: " + widget.wateringCycle),
                   ],
                 )
               ],
