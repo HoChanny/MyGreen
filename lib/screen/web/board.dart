@@ -4,11 +4,11 @@ import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../provider/global_state.dart';
+
 class BoardPage extends StatelessWidget {
   BoardPage({Key? key}) : super(key: key);
 
   final profileController = Get.put(GlobalState());
-  final url = 'https://yundevingv.github.io/mygreenreact/board';
 
   // 쿠키를 가져오는 함수
   Future<String> getCookie() async {
@@ -17,14 +17,14 @@ class BoardPage extends StatelessWidget {
   }
 
   // 쿠키를 설정하는 함수
-  Future<void> setCookie( value) async {
+  Future<void> setCookie(value) async {
     profileController.cookie = value;
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
+    final cookie = profileController.cookie;
+    final url = 'https://yundevingv.github.io/mygreenreact/cookie/$cookie';
     return Scaffold(
       body: FutureBuilder<String>(
         future: getCookie(),
@@ -48,4 +48,3 @@ class BoardPage extends StatelessWidget {
     );
   }
 }
-
