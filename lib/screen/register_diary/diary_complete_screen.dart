@@ -102,7 +102,7 @@ Future<int> postDiaryData(
 
   // Add form fields
   request.headers['Cookie'] = cookie;
-  request.fields['id'] = 'asd';
+  request.fields['id'] = 'qrcode';
 
   request.fields['plant_name'] = plant_name;
   request.fields['title'] = title;
@@ -118,6 +118,11 @@ Future<int> postDiaryData(
 
   // Handle the response
   if (response.statusCode == 200) {
+    Navigator.pop(context, true);
+    Navigator.pop(context, true);
+    Navigator.pop(context, true);
+
+    Navigator.pop(context, true);
     Navigator.pop(context, true);
     Navigator.pop(context, true);
 

@@ -10,6 +10,7 @@ import 'dart:typed_data';
 
 import 'package:mygreen/screen/calendar.dart';
 import 'package:mygreen/screen/register_diary/set_date.dart';
+import 'package:mygreen/screen/web/diary.dart';
 
 import 'package:mygreen/utils.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -49,10 +50,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   @override
   void initState() {
     super.initState();
-    fetchDiaryDataFromServer('test');
-    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
-      // doSomething();
-    });
+    fetchDiaryDataFromServer('qrcode');
   }
 
   //날짜들 받아오기
@@ -65,7 +63,6 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   List<String> eventSourceImage = [];
 
   //주기적으로 호출
-  late Timer _timer;
 
   Future<void> fetchDiaryDataFromServer(String id) async {
     try {
@@ -120,6 +117,8 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
             kEvents.addAll(eventSource);
           }
           print('success');
+
+          print(eventSource);
         });
       } else {
         print('Failed to fetch data. Error code: ${response.statusCode}');
@@ -133,17 +132,11 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   }
 
   void refreshData() {
-    fetchDiaryDataFromServer('test');
-  }
-
-  void doSomething() {
-    // 주기적으로 실행할 작업을 수행합니다.
-    fetchDiaryDataFromServer('test');
+    fetchDiaryDataFromServer('qrcode');
   }
 
   @override
   void dispose() {
-    _timer.cancel(); // 페이지가 해제될 때 타이머를 취소합니다.
     super.dispose();
   }
 
@@ -219,7 +212,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                 int length = events.length;
 
                 for (int i = 0; i < length; i++) {
-                  if (events[i].plant_name == widget.name) {
+                  if (true) {
                     return Column(
                       children: [
                         Text(
@@ -240,22 +233,22 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                           ),
                           child: ListTile(
                             onTap: () {
-                              // //diary 페이지에 넘기는 데이터 값들
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => DiaryPage(
-                              //       plant_name: events[i].plant_name,
-                              //       title: events[i].title,
-                              //       date: returnDate(events, i),
-                              //       emotion: events[i].emotion,
-                              //       color: widget.color,
-                              //       content: events[i].content,
-                              //       image: MemoryImage(
-                              //           base64Decode(events[i].image)),
-                              //     ),
-                              //   ),
-                              // );
+                              //diary 페이지에 넘기는 데이터 값들
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DiaryPage(
+                                    plant_name: events[i].plant_name,
+                                    title: events[i].title,
+                                    date: returnDate(events, i),
+                                    emotion: events[i].emotion,
+                                    color: widget.color,
+                                    content: events[i].content,
+                                    image: MemoryImage(
+                                        base64Decode(events[i].image)),
+                                  ),
+                                ),
+                              );
                             }, // 클릭시 이벤트 발생
                             // 제목
                             title: Text(events[i].title),
