@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mygreen/provider/global_state.dart';
+import 'package:mygreen/provider/resgister_diary_state.dart';
 import 'package:mygreen/screen/register_diary/set_content.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -17,19 +17,13 @@ class SetImageScreen extends StatefulWidget {
 }
 
 class _SetImageScreenState extends State<SetImageScreen> {
-  final infoController = Get.put(GlobalState());
+  final diaryData = Get.find<DiaryState>();
 
   final formKey = GlobalKey<FormState>();
-
-  TextEditingController idController = TextEditingController();
 
   // 이미지 선택
   XFile? _pickedFile;
   var potProfile = Map();
-
-  // 내용
-  final TextEditingController controllerContent = TextEditingController();
-  String content = '';
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +84,8 @@ class _SetImageScreenState extends State<SetImageScreen> {
               width: horizontalSize * 0.9,
               child: ElevatedButton(
                   onPressed: () {
+                    diaryData.setImage(File(_pickedFile!.path));
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(

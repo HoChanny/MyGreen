@@ -28,53 +28,46 @@ class _QRViewExampleState extends State<QRViewExample> {
 
   @override
   Widget build(BuildContext context) {
-
-  String extractedString ='';
-  if (result != null) {
+    String extractedString = '';
+    if (result != null) {
       String? url = result!.code.toString();
       String extractedString = url.substring(url.lastIndexOf('/') + 1);
       print('extract : $extractedString');
+    }
+    ;
 
-  };
-                    
     return Scaffold(
-      
       body: Column(
         children: <Widget>[
           Expanded(flex: 10, child: _buildQrView(context)),
           Expanded(
-            
             child: Container(
-              
               child: Column(
                 children: <Widget>[
-                  if (result != null)
-                    ElevatedButton(onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RegistrationPage(plant_ID: extractedString,),
-                        ),
-                      );
-                    }, child: Text('화분 등록 하러 가기 !'))
+                  if (result == null)
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RegistrationPage(
+                                plant_ID: 'qrcode',
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text('화분 등록 하러 가기 !'))
                   else
                     const Text('QR 코드를 인식해주세요 !'),
-                  
-                  
                 ],
               ),
             ),
           )
-        ],  
+        ],
       ),
     );
-
-    
-
-
   }
 
- 
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||

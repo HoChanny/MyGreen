@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mygreen/provider/global_state.dart';
+import 'package:mygreen/provider/resgister_diary_state.dart';
 import 'package:mygreen/screen/register_diary/set_emotion.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
 
@@ -12,11 +12,9 @@ class SetDateScreen extends StatefulWidget {
 }
 
 class _SetDateScreenState extends State<SetDateScreen> {
-  final infoController = Get.put(GlobalState());
+  final diaryData = Get.put(DiaryState());
 
   final formKey = GlobalKey<FormState>();
-
-  TextEditingController idController = TextEditingController();
 
   DateTime date = DateTime.now();
 
@@ -24,6 +22,11 @@ class _SetDateScreenState extends State<SetDateScreen> {
   Widget build(BuildContext context) {
     var verticalSize = MediaQuery.of(context).size.height;
     var horizontalSize = MediaQuery.of(context).size.width;
+
+// date 변수에서 선택한 날짜 가져오기
+    int selectedYear = date.year;
+    int selectedMonth = date.month;
+    int selectedDay = date.day;
 
     return Scaffold(
       body: InkWell(
@@ -45,7 +48,7 @@ class _SetDateScreenState extends State<SetDateScreen> {
               Center(
                 child: Text(
                   '${date.year}년 ${date.month}월 ${date.day}일',
-                  style: TextStyle(fontSize: 24),
+                  style: const TextStyle(fontSize: 24),
                 ),
               ),
               SizedBox(
@@ -88,6 +91,8 @@ class _SetDateScreenState extends State<SetDateScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => SetEmotionScreen()));
+
+                      diaryData.setDate(date);
                     },
                     child: Text('다음')),
               )

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mygreen/provider/global_state.dart';
+import 'package:mygreen/provider/resgister_diary_state.dart';
 import 'package:mygreen/screen/register_diary/set_image.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
 
 class SetEmotionScreen extends StatelessWidget {
   SetEmotionScreen({super.key});
 
-  final infoController = Get.put(GlobalState());
+  final diaryData = Get.find<DiaryState>();
 
   final formKey = GlobalKey<FormState>();
 
@@ -43,7 +43,8 @@ class SetEmotionScreen extends StatelessWidget {
                       horizontalSize * 0.011), // Set the desired margin
                   child: ElevatedButton(
                     onPressed: () {
-                      print('1');
+                      diaryData.setEmotion('😡');
+
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -69,7 +70,8 @@ class SetEmotionScreen extends StatelessWidget {
                         0.0), // Adjust the padding as needed
                     child: ElevatedButton(
                       onPressed: () {
-                        print('2');
+                        diaryData.setEmotion('😠');
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -95,7 +97,7 @@ class SetEmotionScreen extends StatelessWidget {
                         0.0), // Adjust the padding as needed
                     child: ElevatedButton(
                       onPressed: () {
-                        print('😮');
+                        diaryData.setEmotion('😮');
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -121,7 +123,7 @@ class SetEmotionScreen extends StatelessWidget {
                         0.0), // Adjust the padding as needed
                     child: ElevatedButton(
                       onPressed: () {
-                        print('4');
+                        diaryData.setEmotion('😀');
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -147,7 +149,7 @@ class SetEmotionScreen extends StatelessWidget {
                         0.0), // Adjust the padding as needed
                     child: ElevatedButton(
                       onPressed: () {
-                        print('5');
+                        diaryData.setEmotion('😍');
                         Navigator.push(
                             context,
                             MaterialPageRoute(
