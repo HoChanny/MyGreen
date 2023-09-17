@@ -6,30 +6,14 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../provider/global_state.dart';
 
 class DiaryPage extends StatelessWidget {
-//식물 이름
-  final String plant_name;
-  //일기 제목
-  final String title;
-  //일기 날짜
-  final String date;
-  //감정
-  final String emotion;
-  //색상
-  final Color color;
-  //일기 내용
-  final String content;
-  // 사진
-  final MemoryImage image;
+
+  final String id;
+  
 
   DiaryPage({
     Key? key,
-    required this.plant_name,
-    required this.title,
-    required this.date,
-    required this.emotion,
-    required this.color,
-    required this.content,
-    required this.image,
+    required this.id,
+    
   }) : super(key: key);
   final profileController = Get.put(GlobalState());
 
@@ -47,7 +31,7 @@ class DiaryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cookie = profileController.cookie;
-    final url = 'https://yundevingv.github.io/mygreenreact/cookie/$cookie';
+    final url = 'https://yundevingv.github.io/mygreenreact/diary/cookie/$cookie';
     print(url);
     return Scaffold(
       body: FutureBuilder<String>(

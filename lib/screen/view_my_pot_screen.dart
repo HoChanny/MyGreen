@@ -246,14 +246,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => DiaryPage(
-                                    plant_name: events[i].plant_name,
-                                    title: events[i].title,
-                                    date: returnDate(events, i),
-                                    emotion: events[i].emotion,
-                                    color: widget.color,
-                                    content: events[i].content,
-                                    image: MemoryImage(
-                                        base64Decode(events[i].image)),
+                                    id : 'id'
                                   ),
                                 ),
                               );

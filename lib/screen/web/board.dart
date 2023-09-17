@@ -24,7 +24,7 @@ class BoardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cookie = profileController.cookie;
-    final url = 'https://yundevingv.github.io/mygreenreact/cookie/$cookie';
+    final url = 'https://yundevingv.github.io/mygreenreact/board/cookie/$cookie';
     return Scaffold(
       body: FutureBuilder<String>(
         future: getCookie(),
