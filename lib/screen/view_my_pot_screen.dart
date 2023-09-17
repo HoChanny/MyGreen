@@ -153,15 +153,23 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
       radius: 50,
     );
   }
+  String formatDate(String dateStr) {
+  final inputFormat = DateFormat('yyyy-MM-dd');
+  final outputFormat = DateFormat('yyyy.MM.dd');
+  final date = inputFormat.parse(dateStr);
+  return outputFormat.format(date);
+}
 
   Widget build(BuildContext context) {
     //일기 날짜 최신순으로 정렬
     Map<DateTime, dynamic> sortedEventSource = Map.fromEntries(
         eventSource.entries.toList()..sort((b, a) => a.key.compareTo(b.key)));
 
-    final size = MediaQuery.of(context).size.width;
+    var horizontalSize = MediaQuery.of(context).size.width;
+    var verticalSize = MediaQuery.of(context).size.height;
 
     print(eventSource.keys);
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name),
@@ -170,7 +178,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
       body: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(size * 0.09),
+            padding: EdgeInsets.all(horizontalSize * 0.09),
             child: Row(
               children: [
                 Container(
@@ -183,7 +191,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                   ),
                 ),
                 SizedBox(
-                  width: size * 0.1,
+                  width: horizontalSize * 0.1,
                 ),
                 Column(
                   children: [
@@ -216,23 +224,16 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                   if (true) {
                     return Column(
                       children: [
-                        Text(
-                          (DateFormat.yMMMd()).format(date),
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        
                         Container(
                           margin: const EdgeInsets.symmetric(
                             horizontal: 12.0,
                             vertical: 4.0,
                           ),
-                          decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: ListTile(
+                          
+                          child: Container( 
+                            height: verticalSize * 0.2,
+                            child : ListTile(
                             onTap: () {
                               //diary 페이지에 넘기는 데이터 값들
                               Navigator.push(
@@ -250,13 +251,29 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                                   ),
                                 ),
                               );
-                            }, // 클릭시 이벤트 발생
+                            }, 
+                            leading: Image.memory(
+    base64Decode(events[i].image) ,
+    width: horizontalSize*0.2, // 이미지의 가로 크기 설정
+    height: verticalSize*0.5, // 이미지의 세로 크기 설정
+  ),
                             // 제목
-                            title: Text(events[i].title),
+                            title: Text(events[i].title,
+  style: TextStyle(
+    fontSize: 24, // 폰트 크기 설정 (원하는 크기로 변경)
+    fontWeight: FontWeight.bold, // 글꼴 굵기 설정 (선택 사항)
+    // 다른 스타일 속성도 추가할 수 있습니다.
+  ),),
                             // 내용
-                            subtitle: Text(events[i].content),
+                            subtitle: Text('${events[i].content} \n${formatDate(date.toString())}',
+  style: TextStyle(
+    fontSize: 18, // 폰트 크기 설정 (원하는 크기로 변경)
+    fontWeight: FontWeight.bold, // 글꼴 굵기 설정 (선택 사항)
+    // 다른 스타일 속성도 추가할 수 있습니다.
+  ),),
+                            
                           ),
-                        ),
+                        ),),
                       ],
                     );
                   }
