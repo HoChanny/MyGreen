@@ -9,7 +9,7 @@ import 'package:table_calendar/table_calendar.dart';
 class Event {
   //식물 이름
   final String plant_name;
-
+  final String id;
   //이벤트 제목
   final String title;
 
@@ -23,6 +23,7 @@ class Event {
   final String image;
 
   const Event(
+    this.id,
     this.plant_name,
     this.title,
     this.emotion,

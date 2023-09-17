@@ -60,6 +60,8 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   //날짜들 받아오기
   List<String> eventSourceDate = [];
   //내용 받아오기
+    List<String> eventSourceId = [];
+
   List<String> eventSourcePlantName = [];
   List<String> eventSourceTitle = [];
   List<String> eventSourceEmotion = [];
@@ -81,6 +83,8 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
         eventSource = {};
 
         setState(() {
+          eventSourceId =
+              jsonData.map((data) => data['_id'] as String).toList();
           eventSourceDate =
               jsonData.map((data) => data['date'] as String).toList();
           eventSourcePlantName =
@@ -99,10 +103,13 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
           (eventSourceTitle.join(','));
           (eventSourceEmotion.join(','));
           (eventSourceContent.join(','));
+          (eventSourceId.join(','));
+
           int len = eventSourceDate.length;
 
           for (int i = 0; i < len; i++) {
             Event newEvent = Event(
+                eventSourceId[i],
                 eventSourcePlantName[i],
                 eventSourceTitle[i],
                 eventSourceEmotion[i],
@@ -255,7 +262,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DiaryPage(id: 'ss'),
+                                    builder: (context) => DiaryPage(id: events[i].id),
                                   ),
                                 );
                               },
