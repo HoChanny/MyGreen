@@ -20,7 +20,6 @@ class _SetPublicScreenState extends State<SetPublicScreen> {
 
   DateTime date = DateTime.now();
 
-
   @override
   Widget build(BuildContext context) {
     var verticalSize = MediaQuery.of(context).size.height;
@@ -31,8 +30,13 @@ class _SetPublicScreenState extends State<SetPublicScreen> {
     int selectedMonth = date.month;
     int selectedDay = date.day;
 
+    Color potColor = colorController.potColor;
+
     return Scaffold(
-      appBar: AppBar(title: Text('공개 설정'), backgroundColor: colorController.potColor,),
+      appBar: AppBar(
+        title: Text('공개 설정'),
+        backgroundColor: potColor,
+      ),
       body: InkWell(
         onTap: () {
           FocusScope.of(context).unfocus(); // 포커스 제거
@@ -42,44 +46,44 @@ class _SetPublicScreenState extends State<SetPublicScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                height: verticalSize * 0.1,
-              ),
+              
               LeftAlignText(content: '일기를 공개하시겠습니까 ? '),
               SizedBox(
                 height: verticalSize * 0.2,
               ),
-Row(
-  mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 버튼 간의 간격을 균등하게 설정
-  children: [
-    ElevatedButton(
-      onPressed: () {
-        diaryData.setPublic(true);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SetDateScreen(),
-          ),
-        );
-      },
-      child: Text('예'),
-    ),
-    ElevatedButton(
-      onPressed: () {
-        diaryData.setPublic(false);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SetDateScreen(),
-          ),
-        );
-      },
-      child: Text('아니오'),
-    ),
-  ],
-)
-              
-                          ],
+              Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceEvenly, // 버튼 간의 간격을 균등하게 설정
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      diaryData.setPublic(true);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SetDateScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: potColor),
+                    child: Text('예'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      diaryData.setPublic(false);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SetDateScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: potColor),
+                    child: Text('아니오'),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
       ),

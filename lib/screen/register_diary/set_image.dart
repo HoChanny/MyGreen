@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mygreen/provider/global_state.dart';
 import 'package:mygreen/provider/resgister_diary_state.dart';
 import 'package:mygreen/screen/register_diary/set_content.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
@@ -18,7 +19,7 @@ class SetImageScreen extends StatefulWidget {
 
 class _SetImageScreenState extends State<SetImageScreen> {
   final diaryData = Get.find<DiaryState>();
-
+  final colorController = Get.put(GlobalState());
   final formKey = GlobalKey<FormState>();
 
   // 이미지 선택
@@ -30,73 +31,78 @@ class _SetImageScreenState extends State<SetImageScreen> {
     var verticalSize = MediaQuery.of(context).size.height;
     var horizontalSize = MediaQuery.of(context).size.width;
     final imageSize = MediaQuery.of(context).size.width / 3;
+    Color potColor = colorController.potColor;
 
     return Scaffold(
-        body: InkWell(
-      onTap: () {
-        FocusScope.of(context).unfocus(); // 포커스 제거
-      },
-      child: Container(
-        padding: EdgeInsets.all(verticalSize * 0.03),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: verticalSize * 0.1,
-            ),
-            LeftAlignText(content: '사진을 등록해주세요.'),
-            SizedBox(
-              height: verticalSize * 0.1,
-            ),
-            Center(
-              child: Container(
-                width: verticalSize,
-                height: horizontalSize,
-                child: GestureDetector(
-                  onTap: () {
-                    Permission.camera.request();
-                    Permission.photos.request();
-                    selectImage();
-                  },
-                  child: _pickedFile != null
-                      ? Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: FileImage(File(_pickedFile!.path)),
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ) //Image.file(File(_pickedFile!.path))
-                      : Center(
-                          child: Icon(
-                            const IconData(0xee39, fontFamily: 'MaterialIcons'),
-                            size: imageSize,
-                          ),
-                        ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: verticalSize * 0.05,
-            ),
-            Container(
-              width: horizontalSize * 0.9,
-              child: ElevatedButton(
-                  onPressed: () {
-                    diaryData.setImage(File(_pickedFile!.path));
-
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SetContentScreen()));
-                  },
-                  child: Text('다음')),
-            )
-          ],
+        appBar: AppBar(
+          title: Text('사진 선택'),
+          backgroundColor: potColor,
         ),
-      ),
-    ));
+        body: InkWell(
+          onTap: () {
+            FocusScope.of(context).unfocus(); // 포커스 제거
+          },
+          child: Container(
+            padding: EdgeInsets.all(verticalSize * 0.03),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                LeftAlignText(content: '사진을 등록해주세요.'),
+                SizedBox(
+                  height: verticalSize * 0.1,
+                ),
+                Center(
+                  child: Container(
+                    width: verticalSize,
+                    height: horizontalSize,
+                    child: GestureDetector(
+                      onTap: () {
+                        Permission.camera.request();
+                        Permission.photos.request();
+                        selectImage();
+                      },
+                      child: _pickedFile != null
+                          ? Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: FileImage(File(_pickedFile!.path)),
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                            ) //Image.file(File(_pickedFile!.path))
+                          : Center(
+                              child: Icon(
+                                const IconData(0xee39,
+                                    fontFamily: 'MaterialIcons'),
+                                size: imageSize,
+                              ),
+                            ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: verticalSize * 0.05,
+                ),
+                Container(
+                  width: horizontalSize * 0.9,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        diaryData.setImage(File(_pickedFile!.path));
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SetContentScreen()));
+                      },
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: potColor),
+                      child: Text('다음')),
+                )
+              ],
+            ),
+          ),
+        ));
   }
 
   selectImage() {

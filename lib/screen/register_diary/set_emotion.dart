@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mygreen/provider/global_state.dart';
 import 'package:mygreen/provider/resgister_diary_state.dart';
 import 'package:mygreen/screen/register_diary/set_image.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
@@ -8,7 +9,7 @@ class SetEmotionScreen extends StatelessWidget {
   SetEmotionScreen({super.key});
 
   final diaryData = Get.find<DiaryState>();
-
+  final colorController = Get.put(GlobalState());
   final formKey = GlobalKey<FormState>();
 
   TextEditingController idController = TextEditingController();
@@ -18,6 +19,7 @@ class SetEmotionScreen extends StatelessWidget {
     var verticalSize = MediaQuery.of(context).size.height;
     var horizontalSize = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(title: Text('감정 선택'), backgroundColor: colorController.potColor,),
         body: InkWell(
       onTap: () {
         FocusScope.of(context).unfocus(); // 포커스 제거
@@ -27,9 +29,6 @@ class SetEmotionScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              height: verticalSize * 0.1,
-            ),
             LeftAlignText(content: '오늘 감정을 표현해주세요.'),
             SizedBox(
               height: verticalSize * 0.2,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mygreen/provider/global_state.dart';
 import 'package:mygreen/provider/resgister_diary_state.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
 
@@ -15,7 +16,7 @@ class SetContentScreen extends StatefulWidget {
 
 class _SetContentScreenState extends State<SetContentScreen> {
   final diaryData = Get.find<DiaryState>();
-
+  final colorController = Get.put(GlobalState());
   final formKey = GlobalKey<FormState>();
 
   //컨트롤러 제목
@@ -30,68 +31,72 @@ class _SetContentScreenState extends State<SetContentScreen> {
     var verticalSize = MediaQuery.of(context).size.height;
     var horizontalSize = MediaQuery.of(context).size.width;
     final imageSize = MediaQuery.of(context).size.width / 3;
+    Color potColor = colorController.potColor;
 
     return Scaffold(
-        body: InkWell(
-      onTap: () {
-        FocusScope.of(context).unfocus(); // 포커스 제거
-      },
-      child: Container(
-        padding: EdgeInsets.all(verticalSize * 0.03),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: verticalSize * 0.1,
-            ),
-            LeftAlignText(content: '제목과 내용을 입력해주세요.'),
-            SizedBox(
-              height: verticalSize * 0.1,
-            ),
-            //일기 제목 작성하기
-            Container(
-              child: DiaryForm(
-                maxLines: 1,
-                hintText: '제목을 입력해주세요.',
-                labelText: '제목',
-                warningMessage: '위험',
-                formValue: title,
-                controller: controllerTitle,
-              ),
-            ),
-            SizedBox(
-              height: verticalSize * 0.05,
-            ),
-            //일기 내용 작성하기
-            Container(
-              child: DiaryForm(
-                maxLines: 4,
-                hintText: '내용을 입력해주세요.',
-                labelText: '내용',
-                warningMessage: '위험',
-                formValue: content,
-                controller: controllerContent,
-              ),
-            ),
-            SizedBox(
-              height: verticalSize * 0.05,
-            ),
-            Container(
-              width: horizontalSize * 0.9,
-              child: ElevatedButton(
-                  onPressed: () {
-                    diaryData.setContent(controllerContent.text);
-                    diaryData.setTitle(controllerTitle.text);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DiaryCompleteScreen()));
-                  },
-                  child: Text('다음')),
-            )
-          ],
+        appBar: AppBar(
+          title: Text('내용 입력'),
+          backgroundColor: potColor,
         ),
-      ),
-    ));
+        body: InkWell(
+          onTap: () {
+            FocusScope.of(context).unfocus(); // 포커스 제거
+          },
+          child: Container(
+            padding: EdgeInsets.all(verticalSize * 0.03),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                LeftAlignText(content: '제목과 내용을 입력해주세요.'),
+                SizedBox(
+                  height: verticalSize * 0.1,
+                ),
+                //일기 제목 작성하기
+                Container(
+                  child: DiaryForm(
+                    maxLines: 1,
+                    hintText: '제목을 입력해주세요.',
+                    labelText: '제목',
+                    warningMessage: '위험',
+                    formValue: title,
+                    controller: controllerTitle,
+                  ),
+                ),
+                SizedBox(
+                  height: verticalSize * 0.05,
+                ),
+                //일기 내용 작성하기
+                Container(
+                  child: DiaryForm(
+                    maxLines: 4,
+                    hintText: '내용을 입력해주세요.',
+                    labelText: '내용',
+                    warningMessage: '위험',
+                    formValue: content,
+                    controller: controllerContent,
+                  ),
+                ),
+                SizedBox(
+                  height: verticalSize * 0.05,
+                ),
+                Container(
+                  width: horizontalSize * 0.9,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        diaryData.setContent(controllerContent.text);
+                        diaryData.setTitle(controllerTitle.text);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DiaryCompleteScreen()));
+                      },
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: potColor),
+                      child: Text('다음')),
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mygreen/provider/global_state.dart';
 import 'package:mygreen/provider/resgister_diary_state.dart';
 import 'package:mygreen/screen/register_diary/set_emotion.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
@@ -13,7 +14,7 @@ class SetDateScreen extends StatefulWidget {
 
 class _SetDateScreenState extends State<SetDateScreen> {
   final diaryData = Get.put(DiaryState());
-
+  final colorController = Get.put(GlobalState());
   final formKey = GlobalKey<FormState>();
 
   DateTime date = DateTime.now();
@@ -28,7 +29,13 @@ class _SetDateScreenState extends State<SetDateScreen> {
     int selectedMonth = date.month;
     int selectedDay = date.day;
 
+    Color potColor = colorController.potColor;
+
     return Scaffold(
+      appBar: AppBar(
+        title: Text('날짜 선택'),
+        backgroundColor: potColor,
+      ),
       body: InkWell(
         onTap: () {
           FocusScope.of(context).unfocus(); // 포커스 제거
@@ -38,9 +45,6 @@ class _SetDateScreenState extends State<SetDateScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                height: verticalSize * 0.1,
-              ),
               LeftAlignText(content: '날짜를 선택해주세요.'),
               SizedBox(
                 height: verticalSize * 0.2,
@@ -92,11 +96,14 @@ class _SetDateScreenState extends State<SetDateScreen> {
                           MaterialPageRoute(
                               builder: (context) => SetEmotionScreen()));
 
-                      DateTime newDateTime = DateTime(date.year, date.month, date.day);
-String formattedDateTimeStr = newDateTime.toIso8601String();
+                      DateTime newDateTime =
+                          DateTime(date.year, date.month, date.day);
+                      String formattedDateTimeStr =
+                          newDateTime.toIso8601String();
 
                       diaryData.setDate(formattedDateTimeStr);
                     },
+                    style: ElevatedButton.styleFrom(backgroundColor: potColor),
                     child: Text('다음')),
               )
             ],

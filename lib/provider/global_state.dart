@@ -6,6 +6,11 @@ class GlobalState extends GetxController {
   Map<String, Map<String, String>> profile = {};
   Color potColor = Colors.lightGreen;
 
+  void setPotColor(newColor){
+    potColor = newColor;
+    update();
+  }
+
   void setCookie(String newCookie) {
     cookie = newCookie;
     update();
@@ -13,11 +18,6 @@ class GlobalState extends GetxController {
 
   void setProfile(newProfile) {
     profile = newProfile;
-    update();
-  }
-
-  void setPotColor(newColor){
-    potColor = newColor;
     update();
   }
 }

@@ -324,7 +324,8 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
               },
               style: ElevatedButton.styleFrom(
                 shape: CircleBorder(),
-                minimumSize: Size(verticalSize*0.08, verticalSize*0.08),),
+                minimumSize: Size(verticalSize*0.08, verticalSize*0.08),
+                backgroundColor: widget.color),
               child: Icon(Icons.edit, size: verticalSize*0.06,)),)
       ])
     );
