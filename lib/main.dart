@@ -40,8 +40,10 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        fontFamily : 'Apple',
           colorScheme: const ColorScheme.light(
         primary: Colors.lightGreen,
+        
       )),
       home: LoginPage(),
     );

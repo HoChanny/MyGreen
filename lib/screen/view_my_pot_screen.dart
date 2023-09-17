@@ -22,11 +22,13 @@ class ViewMyPotPage extends StatefulWidget {
   final String name;
   final Color color;
   final MemoryImage image;
+  final String status;
 
   const ViewMyPotPage(
       {required this.name,
       required this.color,
       required this.image,
+      required this.status,
       super.key});
 
   @override
@@ -133,7 +135,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   }
 
   void refreshData() {
-    fetchDiaryDataFromServer('qrcodes');
+    fetchDiaryDataFromServer('qrcode');
   }
 
   @override
@@ -195,7 +197,11 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                 ),
                 Column(
                   children: [
-                    Text("현재상태"),
+                    Text("현재상태 : ${widget.status}",style: TextStyle(
+            fontFamily: "Apple",
+            fontWeight: FontWeight.w500,
+            fontSize: 20,
+          ),),
                   ],
                 )
               ],

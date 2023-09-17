@@ -54,6 +54,7 @@ class SelectPotButton extends StatelessWidget {
                 name: data['plant_name'],
                 color: getColor(data['color']),
                 image: MemoryImage(base64Decode(data['profile'])),
+                status: data['status'],
               ),
             ),
           );

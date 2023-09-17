@@ -36,7 +36,7 @@ void setPublic(bool public) {
     diaryData['title'] = title;
     update();
   }
-
+  
   // 날짜, 감정, 내용을 함께 저장하는 메서드
   void setDiaryEntry(String date, String emotion, String content) {
     diaryData['date'] = date;
