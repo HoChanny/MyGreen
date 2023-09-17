@@ -31,7 +31,7 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
 
   Future<void> fetchDataFromServer() async {
     try {
-      final url = Uri.parse('https://iotvase.azurewebsites.net/green');
+      final url = Uri.parse('https://iotvase.azurewebsites.net/green/test1');
       final response =
           await http.get(url, headers: {'Cookie': profileController.cookie});
 

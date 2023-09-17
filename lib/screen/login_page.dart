@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
     final sessionToken = await _requestSessionToken(
-        _idController.text, _passwordController.text);
+        _idController.text, _passwordController.text, cookieController.deviceToken);
 
     if (sessionToken != null) {
       // 로그인 성공
@@ -67,10 +67,10 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<String?> _requestSessionToken(String id, String password) async {
+  Future<String?> _requestSessionToken(String id, String password, String token) async {
     final url =
         Uri.parse('https://iotvase.azurewebsites.net/account/login'); // 서버 주소
-    Map<String, dynamic> account = {'id': id, 'password': password};
+    Map<String, dynamic> account = {'id': id, 'password': password, 'token': token};
     final response = await http.post(url,
         headers: {'Content-Type': 'application/json'},
         body: json.encode(account));
