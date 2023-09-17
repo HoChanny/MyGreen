@@ -83,9 +83,19 @@ class SelectPotButton extends StatelessWidget {
               ),
               SizedBox(width: horizontalSize * 0.1),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(data['plant_name']), // 예시로 'N/A'를 사용할 수 있습니다.
-                  Text(data['status']),
+                  Text(data['plant_name'], style: TextStyle(fontSize: horizontalSize*0.08),),
+                  Container(
+                    width: horizontalSize*0.1,
+                    height: horizontalSize*0.1,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage('assets/image/${data['status']}.png'),
+                        fit: BoxFit.cover),
+                    ),
+                  ), // 예시로 'N/A'를 사용할 수 있습니다.
                 ],
               )
             ],

@@ -81,6 +81,10 @@ flutter:
   assets:
     - assets/image/congratulation.png
     - assets/image/MyGreen.png
+    - assets/image/hot.png
+    - assets/image/happy.png
+    - assets/image/thirsty.png
+    - assets/image/freeze.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

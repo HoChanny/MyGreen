@@ -23,11 +23,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
       plant_name: 'asd',
       color: Colors.black,
     ),
-    BoardPage(),
-    SetEmailScreen(),
+    BoardPage()
   ];
 
-  final List appBarTitle = ['내 화분', '내 일기', '게시판', '내 정보'];
+  final List appBarTitle = ['내 화분', '내 일기', '게시판'];
 
   void _onNavTapped(int index) {
     setState(() {
@@ -81,10 +80,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.forum),
               label: '게시판',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: '내 정보',
             ),
           ],
           currentIndex: _selectedIndex,

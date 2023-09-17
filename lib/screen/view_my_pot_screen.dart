@@ -14,6 +14,7 @@ import 'package:mygreen/screen/register_diary/set_public.dart';
 import 'package:mygreen/screen/web/diary.dart';
 
 import 'package:mygreen/utils.dart';
+import 'package:mygreen/widgets/sign_in/left_align_text.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../provider/global_state.dart';
@@ -76,6 +77,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonData = jsonDecode(response.body);
+        print(jsonData);
         eventSource = {};
 
         setState(() {
@@ -155,12 +157,13 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
       radius: 50,
     );
   }
+
   String formatDate(String dateStr) {
-  final inputFormat = DateFormat('yyyy-MM-dd');
-  final outputFormat = DateFormat('yyyy.MM.dd');
-  final date = inputFormat.parse(dateStr);
-  return outputFormat.format(date);
-}
+    final inputFormat = DateFormat('yyyy-MM-dd');
+    final outputFormat = DateFormat('yyyy.MM.dd');
+    final date = inputFormat.parse(dateStr);
+    return outputFormat.format(date);
+  }
 
   Widget build(BuildContext context) {
     //일기 날짜 최신순으로 정렬
@@ -171,7 +174,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
     var verticalSize = MediaQuery.of(context).size.height;
 
     print(eventSource.keys);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name),
@@ -180,44 +183,48 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
       body: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(horizontalSize * 0.09),
-            child: Row(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(width: 10, color: widget.color)),
-                  child: CircleAvatar(
-                    backgroundImage: widget.image,
-                    radius: 50,
+              padding: EdgeInsets.all(horizontalSize * 0.09),
+              child: Stack(
+                children: [
+                  Container(
+                    width: verticalSize * 0.25,
+                    height: verticalSize * 0.25,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(width: 8, color: widget.color)),
+                    child: CircleAvatar(
+                      backgroundImage: widget.image,
+                      radius: 50,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: horizontalSize * 0.1,
-                ),
-                Column(
-                  children: [
-                    Text("현재상태 : ${widget.status}",style: TextStyle(
-            fontFamily: "Apple",
-            fontWeight: FontWeight.w500,
-            fontSize: 20,
-          ),),
-                  ],
-                )
-              ],
-            ),
-          ),
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      width: verticalSize * 0.08,
+                      height: verticalSize * 0.08,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image:
+                                AssetImage('assets/image/${widget.status}.png'),
+                            fit: BoxFit.cover),
+                      ),
+                    ),
+                  )
+                ],
+              )),
           // ElevatedButton(onPressed: () {}, child: Text("프로필 수정")),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SetPublicScreen(),
-                  ),
-                );
-              },
-              child: Text("일기 작성")),
+          LeftAlignText(content: '  내가 쓴 일기'),
+          Container(
+            margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+            width: horizontalSize,
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: 1.0, color: Colors.black)
+              )
+            )),
+         
           Expanded(
             child: ListView.builder(
               itemCount: sortedEventSource.length,
@@ -230,49 +237,56 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
                   if (true) {
                     return Column(
                       children: [
-                        
                         Container(
                           margin: const EdgeInsets.symmetric(
                             horizontal: 12.0,
                             vertical: 4.0,
                           ),
-                          
-                          child: Container( 
+                          child: Container(
                             height: verticalSize * 0.2,
-                            child : ListTile(
-                            onTap: () {
-                              //diary 페이지에 넘기는 데이터 값들
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DiaryPage(
-                                    id : 'id'
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(width: 1.0, color: Colors.black),
+                              )
+                            ),
+                            child: ListTile(
+                              onTap: () {
+                                //diary 페이지에 넘기는 데이터 값들
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DiaryPage(id: 'ss'),
                                   ),
+                                );
+                              },
+                              leading: Image.memory(
+                                base64Decode(events[i].image),
+                                width: horizontalSize * 0.2, // 이미지의 가로 크기 설정
+                                height: verticalSize * 0.5, // 이미지의 세로 크기 설정
+                              ),
+                              // 제목
+                              title: Text(
+                                events[i].title,
+                                style: TextStyle(
+                                  fontSize: 24, // 폰트 크기 설정 (원하는 크기로 변경)
+                                  fontWeight:
+                                      FontWeight.bold, // 글꼴 굵기 설정 (선택 사항)
+                                  // 다른 스타일 속성도 추가할 수 있습니다.
                                 ),
-                              );
-                            }, 
-                            leading: Image.memory(
-    base64Decode(events[i].image) ,
-    width: horizontalSize*0.2, // 이미지의 가로 크기 설정
-    height: verticalSize*0.5, // 이미지의 세로 크기 설정
-  ),
-                            // 제목
-                            title: Text(events[i].title,
-  style: TextStyle(
-    fontSize: 24, // 폰트 크기 설정 (원하는 크기로 변경)
-    fontWeight: FontWeight.bold, // 글꼴 굵기 설정 (선택 사항)
-    // 다른 스타일 속성도 추가할 수 있습니다.
-  ),),
-                            // 내용
-                            subtitle: Text('${events[i].content} \n${formatDate(date.toString())}',
-  style: TextStyle(
-    fontSize: 18, // 폰트 크기 설정 (원하는 크기로 변경)
-    fontWeight: FontWeight.bold, // 글꼴 굵기 설정 (선택 사항)
-    // 다른 스타일 속성도 추가할 수 있습니다.
-  ),),
-                            
+                              ),
+                              // 내용
+                              subtitle: Text(
+                                '${events[i].content} \n${formatDate(date.toString())}',
+                                style: TextStyle(
+                                  fontSize: 18, // 폰트 크기 설정 (원하는 크기로 변경)
+                                  fontWeight:
+                                      FontWeight.bold, // 글꼴 굵기 설정 (선택 사항)
+                                  // 다른 스타일 속성도 추가할 수 있습니다.
+                                ),
+                              ),
+                            ),
                           ),
-                        ),),
+                        ),
                       ],
                     );
                   }

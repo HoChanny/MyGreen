@@ -31,9 +31,10 @@ class DiaryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cookie = profileController.cookie;
-    final url = 'https://yundevingv.github.io/mygreenreact/diary/cookie/$cookie';
+    final url = 'https://yundevingv.github.io/mygreenreact/diary/cookie/$cookie/$id';
     print(url);
     return Scaffold(
+      appBar: AppBar(),
       body: FutureBuilder<String>(
         future: getCookie(),
         builder: (context, snapshot) {
