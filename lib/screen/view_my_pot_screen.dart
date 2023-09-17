@@ -10,6 +10,7 @@ import 'dart:typed_data';
 
 import 'package:mygreen/screen/calendar.dart';
 import 'package:mygreen/screen/register_diary/set_date.dart';
+import 'package:mygreen/screen/register_diary/set_public.dart';
 import 'package:mygreen/screen/web/diary.dart';
 
 import 'package:mygreen/utils.dart';
@@ -192,13 +193,13 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
               ],
             ),
           ),
-          ElevatedButton(onPressed: () {}, child: Text("프로필 수정")),
+          // ElevatedButton(onPressed: () {}, child: Text("프로필 수정")),
           ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SetDateScreen(),
+                    builder: (context) => SetPublicScreen(),
                   ),
                 );
               },

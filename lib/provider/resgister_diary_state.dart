@@ -3,6 +3,11 @@ import 'package:get/get.dart';
 class DiaryState extends GetxController {
   Map<String, dynamic> diaryData = {};
 
+void setPublic(bool public) {
+    diaryData['public'] =public;
+    update();
+  }
+
   // 날짜를 저장하는 메서드
   void setDate(DateTime date) {
     diaryData['date'] = date;

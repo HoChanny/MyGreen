@@ -92,7 +92,7 @@ Future<int> postDiaryData(
   String title,
   String content,
   DateTime date,
-  dynamic isPublic,
+  bool isPublic,
   String id,
   String cookie,
 ) async {
@@ -121,7 +121,7 @@ Future<int> postDiaryData(
     Navigator.pop(context, true);
     Navigator.pop(context, true);
     Navigator.pop(context, true);
-
+    Navigator.pop(context, true);
     Navigator.pop(context, true);
     Navigator.pop(context, true);
     Navigator.pop(context, true);
