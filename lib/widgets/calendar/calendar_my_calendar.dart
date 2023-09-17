@@ -11,6 +11,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 //  일기 목록
 import '../../provider/global_state.dart';
+import '../../screen/web/diary.dart';
 import '../../utils.dart';
 //  일기 상세 페이지
 
@@ -223,23 +224,16 @@ class _MyCalendarState extends State<MyCalendar> {
                           //클릭시 이벤트 발생
                           onTap: () {
                             //diary 페이지에 넘기는 데이터 값들
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => DiaryPage(
-                            //             plant_name: value[index].plant_name,
-                            //             title: value[index].title,
-                            //             date: returnDate(value, index),
-                            //             emotion: value[index].emotion,
-                            //             color: widget.color,
-                            //             content: value[index].content,
-                            //             image: MemoryImage(
-                            //                 base64Decode(value[index].image)),
-                            //           )),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DiaryPage(
+                                        id : value[index].id,
+                                      )),
+                            );
                           },
                           //제목
-                          title: Text('${value[index].title}'),
+                          title: Text('${value[index].title} ${value[index].id}'),
                           //내용
                           subtitle: Text('${value[index].content}'),
                         ),
