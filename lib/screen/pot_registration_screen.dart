@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:mygreen/provider/global_state.dart';
 
+import '../provider/login_state.dart';
+
 class RegistrationPage extends StatefulWidget {
   //식물 이름
   final String plant_ID;
@@ -22,6 +24,7 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   final cookieController = Get.put(GlobalState());
+  final loginController = Get.put(LoginState());
   XFile? _pickedFile;
   Color profileColor = Colors.lightGreen;
   var potProfile = Map();
@@ -37,6 +40,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     final imageSize = MediaQuery.of(context).size.width / 3;
     print(widget.plant_ID);
+    final userid = loginController.id;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -165,7 +170,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       potName,
                       properTemperature,
                       profileColor,
-                      cookieController.cookie);
+                      cookieController.cookie,
+                      userid);
                   if (result == 200) {
                     Navigator.pop(context, true);
                   }
@@ -273,7 +279,8 @@ Future<int> sendDataToServer(
     String potName,
     String properTemperature,
     Color profileColor,
-    String cookie) async {
+    String cookie,
+    String userid) async {
   final url = Uri.parse('https://iotvase.azurewebsites.net/green');
 
   var request = http.MultipartRequest('POST', url);
@@ -285,6 +292,7 @@ Future<int> sendDataToServer(
   request.fields['plant_name'] = potName;
   request.fields['temperature'] = properTemperature;
   request.fields['color'] = profileColor.toString();
+  request.fields['userid'] = userid;
 
   var imagePart = await http.MultipartFile.fromPath('profile', imageFile.path);
   request.files.add(imagePart);
