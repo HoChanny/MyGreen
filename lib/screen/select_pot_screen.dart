@@ -35,6 +35,7 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
 
   Future<void> fetchDataFromServer(String id) async {
     try {
+
       final url = Uri.parse('https://iotvase.azurewebsites.net/green/$id');
 
       final response =

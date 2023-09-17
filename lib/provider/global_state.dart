@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 class GlobalState extends GetxController {
   String cookie = "";
+  String deviceToken = "";
   Map<String, Map<String, String>> profile = {};
   Color potColor = Colors.lightGreen;
 
@@ -18,6 +19,11 @@ class GlobalState extends GetxController {
 
   void setProfile(newProfile) {
     profile = newProfile;
+    update();
+  }
+
+  void setDeviceToken(String newToken){
+    deviceToken = newToken;
     update();
   }
 }
