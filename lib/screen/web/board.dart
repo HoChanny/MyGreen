@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mygreen/provider/login_state.dart';
 import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -9,6 +10,8 @@ class BoardPage extends StatelessWidget {
   BoardPage({Key? key}) : super(key: key);
 
   final profileController = Get.put(GlobalState());
+
+  final loginController = Get.put(LoginState());
 
   // 쿠키를 가져오는 함수
   Future<String> getCookie() async {
@@ -24,7 +27,10 @@ class BoardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cookie = profileController.cookie;
-    final url = 'https://yundevingv.github.io/mygreenreact/board/cookie/$cookie';
+    final userid = loginController.id;
+
+    final url =
+        'https://yundevingv.github.io/mygreenreact/board/cookie/$userid';
     return Scaffold(
       body: FutureBuilder<String>(
         future: getCookie(),

@@ -23,13 +23,10 @@ class _CalendarPageState extends State<CalendarPage> {
   void initState() {
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-      print(widget.plant_name);
-
     return Scaffold(
-      
       body: Container(
         padding: const EdgeInsets.all(16),
         child: SafeArea(

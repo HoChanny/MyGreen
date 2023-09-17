@@ -11,6 +11,8 @@ import 'package:mygreen/screen/qrscanner_registration.dart';
 import 'package:mygreen/utils.dart';
 import 'package:mygreen/widgets/pot_selection/select_pot_button.dart';
 
+import '../provider/login_state.dart';
+
 class SelectPotScreen extends StatefulWidget {
   const SelectPotScreen({Key? key}) : super(key: key);
 
@@ -20,18 +22,21 @@ class SelectPotScreen extends StatefulWidget {
 
 class _SelectPotScreenState extends State<SelectPotScreen> {
   final profileController = Get.put(GlobalState());
+  final loginController = Get.put(LoginState());
+
   // 예시 데이터
   List<Map<String, dynamic>> potData = [];
 
   @override
   void initState() {
     super.initState();
-    fetchDataFromServer();
+    fetchDataFromServer(loginController.id);
   }
 
-  Future<void> fetchDataFromServer() async {
+  Future<void> fetchDataFromServer(String id) async {
     try {
-      final url = Uri.parse('https://iotvase.azurewebsites.net/green');
+      final url = Uri.parse('https://iotvase.azurewebsites.net/green/$id');
+
       final response =
           await http.get(url, headers: {'Cookie': profileController.cookie});
 
@@ -42,7 +47,6 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
           potData =
               jsonData.map((data) => data as Map<String, dynamic>).toList();
         });
-
       } else {
         print('Failed to fetch data. Error code: ${response.statusCode}');
       }
@@ -55,7 +59,7 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
   }
 
   void refreshData() {
-    fetchDataFromServer();
+    fetchDataFromServer(loginController.id);
   }
 
   Color getColor(String rawColor) {
@@ -86,6 +90,7 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
   Widget build(BuildContext context) {
     var verticalSize = MediaQuery.of(context).size.height;
     var horizontalSize = MediaQuery.of(context).size.width;
+    final userid = loginController.id;
 
     return Scaffold(
         body: Stack(
@@ -93,13 +98,13 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
         Center(
           child: Expanded(
             child: ListView.builder(
-  itemCount: potData.length,
-  itemBuilder: (context, index) {
-    final data = potData[index];
-  
-          return SelectPotButton(data: data); // 대체된 값 출력
-  },
-),
+              itemCount: potData.length,
+              itemBuilder: (context, index) {
+                final data = potData[index];
+
+                return SelectPotButton(data: data); // 대체된 값 출력
+              },
+            ),
           ),
         ),
         Align(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mygreen/provider/resgister_diary_state.dart';
 import 'package:mygreen/provider/global_state.dart';
+import '../../provider/login_state.dart';
 import '../navigation.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,6 +11,7 @@ import 'dart:io';
 class DiaryCompleteScreen extends StatelessWidget {
   final data = Get.find<DiaryState>();
   final cookieController = Get.put(GlobalState());
+  final loginController = Get.put(LoginState());
 
   DiaryCompleteScreen({super.key});
 
@@ -18,6 +20,7 @@ class DiaryCompleteScreen extends StatelessWidget {
     var size = MediaQuery.of(context).size.height;
     var hSize = MediaQuery.of(context).size.width;
     Color potColor = cookieController.potColor;
+    final userid = loginController.id;
 
     return Scaffold(
         appBar: AppBar(
@@ -71,7 +74,8 @@ class DiaryCompleteScreen extends StatelessWidget {
                           data.diaryData['date'],
                           data.diaryData['public'],
                           'qrcode',
-                          cookieController.cookie);
+                          cookieController.cookie,
+                          userid);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -91,17 +95,17 @@ class DiaryCompleteScreen extends StatelessWidget {
 }
 
 Future<int> postDiaryData(
-  BuildContext context,
-  File imageFile,
-  String plant_name,
-  String emotion,
-  String title,
-  String content,
-  String date,
-  bool isPublic,
-  String id,
-  String cookie,
-) async {
+    BuildContext context,
+    File imageFile,
+    String plant_name,
+    String emotion,
+    String title,
+    String content,
+    String date,
+    bool isPublic,
+    String id,
+    String cookie,
+    String userid) async {
   final url = Uri.parse('https://iotvase.azurewebsites.net/green/diary/${id}');
 
   var request = http.MultipartRequest('POST', url);
@@ -117,6 +121,7 @@ Future<int> postDiaryData(
   request.fields['emotion'] = emotion;
   request.fields['isPublic'] = isPublic.toString();
   request.fields['content'] = content;
+  request.fields['userid'] = userid;
 
   var imagePart = await http.MultipartFile.fromPath('image', imageFile.path);
   request.files.add(imagePart);
@@ -135,11 +140,7 @@ Future<int> postDiaryData(
     print('Response: ${await response.stream.bytesToString()}');
   } else {
     // Request failed, handle the error
-    print(plant_name);
-    print(emotion);
-    print(title);
-    print(content);
-    print(date);
+
     print('Error: ${response.statusCode}');
   }
   return response.statusCode;

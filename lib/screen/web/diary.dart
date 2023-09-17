@@ -4,18 +4,17 @@ import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../provider/global_state.dart';
+import '../../provider/login_state.dart';
 
 class DiaryPage extends StatelessWidget {
-
   final String id;
-  
 
   DiaryPage({
     Key? key,
     required this.id,
-    
   }) : super(key: key);
   final profileController = Get.put(GlobalState());
+  final loginController = Get.put(LoginState());
 
   // 쿠키를 가져오는 함수
   Future<String> getCookie() async {
@@ -31,7 +30,10 @@ class DiaryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cookie = profileController.cookie;
-    final url = 'https://yundevingv.github.io/mygreenreact/diary/cookie/$cookie/$id';
+    final userid = loginController.id;
+
+    final url =
+        'https://yundevingv.github.io/mygreenreact/diary/cookie/$cookie/$id';
     print(url);
     return Scaffold(
       appBar: AppBar(),

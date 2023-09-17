@@ -11,6 +11,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 //  일기 목록
 import '../../provider/global_state.dart';
+import '../../screen/web/diary.dart';
 import '../../utils.dart';
 //  일기 상세 페이지
 
@@ -115,8 +116,6 @@ class _MyCalendarState extends State<MyCalendar> {
             // marker 색 변경
             calendarBuilders: CalendarBuilders(
               markerBuilder: (context, day, events) {
-                
-                print(events);
                 if (events.isEmpty) return const SizedBox();
 
                 return Row(
@@ -130,8 +129,6 @@ class _MyCalendarState extends State<MyCalendar> {
                             Axis.horizontal, // set the direction to horizontal
                         itemCount: events.length,
                         itemBuilder: (context, index) {
-                          print(events[index].toString());
-                          print(widget.plant_name);
                           print(events[index].toString() == widget.plant_name);
                           if (true) {
                             return SizedBox(
@@ -209,7 +206,9 @@ class _MyCalendarState extends State<MyCalendar> {
                   itemCount: value.length,
                   itemBuilder: (context, index) {
                     print('value = ${value.toString()}');
-                    if (value[index].toString() == widget.plant_name) {
+
+                    // if (value[index].toString() == widget.plant_name)
+                    if (true) {
                       return Container(
                         margin: const EdgeInsets.symmetric(
                           horizontal: 12.0,
@@ -222,21 +221,13 @@ class _MyCalendarState extends State<MyCalendar> {
                         child: ListTile(
                           //클릭시 이벤트 발생
                           onTap: () {
-                            //diary 페이지에 넘기는 데이터 값들
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => DiaryPage(
-                            //             plant_name: value[index].plant_name,
-                            //             title: value[index].title,
-                            //             date: returnDate(value, index),
-                            //             emotion: value[index].emotion,
-                            //             color: widget.color,
-                            //             content: value[index].content,
-                            //             image: MemoryImage(
-                            //                 base64Decode(value[index].image)),
-                            //           )),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    DiaryPage(id: value[index].id),
+                              ),
+                            );
                           },
                           //제목
                           title: Text('${value[index].title}'),

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get/get.dart';
+
 import 'package:mygreen/screen/create_account_screen.dart';
 import 'package:mygreen/screen/select_pot_screen.dart';
 import 'package:mygreen/provider/global_state.dart';
 import 'package:mygreen/screen/calendar.dart';
 import 'package:mygreen/screen/sign_up/set_id_screen.dart';
-
+import 'package:mygreen/provider/login_state.dart';
 import 'navigation.dart';
 
 class LoginPage extends StatefulWidget {
@@ -21,6 +22,9 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final cookieController = Get.put(GlobalState());
+
+  final idController = Get.put(LoginState());
+
   bool _isLoading = false;
 
   void _login() async {
@@ -80,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
     if (response.statusCode == 200) {
       //cookieJar.saveFromResponse(url, response.headers['set-cookie']);
       final cookies = response.headers['set-cookie'];
+      idController.setId(id);
 
       if (cookies != null) {
         final cookie = cookies.split(';')[0];
