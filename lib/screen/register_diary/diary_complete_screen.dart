@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mygreen/provider/resgister_diary_state.dart';
 import 'package:mygreen/provider/global_state.dart';
-import '../../navigation.dart';
+import '../navigation.dart';
 import 'package:http/http.dart' as http;
 
 import 'dart:io';

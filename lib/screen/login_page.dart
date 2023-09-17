@@ -8,7 +8,7 @@ import 'package:mygreen/provider/global_state.dart';
 import 'package:mygreen/screen/calendar.dart';
 import 'package:mygreen/screen/sign_up/set_id_screen.dart';
 
-import '../navigation.dart';
+import 'navigation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

@@ -8,7 +8,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:mygreen/screen/select_pot_screen.dart';
 
 import 'firebase_options.dart';
-import 'navigation.dart';
+import 'screen/navigation.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

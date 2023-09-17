@@ -176,6 +176,8 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
     //일기 날짜 최신순으로 정렬
     Map<DateTime, dynamic> sortedEventSource = Map.fromEntries(
         eventSource.entries.toList()..sort((b, a) => a.key.compareTo(b.key)));
+    
+    profileController.setPotColor(widget.color);
 
     var horizontalSize = MediaQuery.of(context).size.width;
     var verticalSize = MediaQuery.of(context).size.height;
@@ -187,7 +189,9 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
         title: Text(widget.name),
         backgroundColor: widget.color,
       ),
-      body: Column(
+      body: Stack(children: [ 
+      
+      Column(
         children: [
           Container(
               padding: EdgeInsets.all(horizontalSize * 0.09),
@@ -306,6 +310,23 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
           ),
         ],
       ),
+      Positioned(
+        right: 0,
+        bottom: 0,
+        child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SetPublicScreen(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+                minimumSize: Size(verticalSize*0.08, verticalSize*0.08),),
+              child: Icon(Icons.edit, size: verticalSize*0.06,)),)
+      ])
     );
   }
 }

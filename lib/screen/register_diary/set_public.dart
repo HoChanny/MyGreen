@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mygreen/provider/global_state.dart';
 import 'package:mygreen/provider/resgister_diary_state.dart';
 import 'package:mygreen/screen/register_diary/set_date.dart';
 import 'package:mygreen/screen/register_diary/set_emotion.dart';
@@ -14,10 +15,11 @@ class SetPublicScreen extends StatefulWidget {
 
 class _SetPublicScreenState extends State<SetPublicScreen> {
   final diaryData = Get.put(DiaryState());
-
+  final colorController = Get.put(GlobalState());
   final formKey = GlobalKey<FormState>();
 
   DateTime date = DateTime.now();
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class _SetPublicScreenState extends State<SetPublicScreen> {
     int selectedDay = date.day;
 
     return Scaffold(
+      appBar: AppBar(title: Text('공개 설정'), backgroundColor: colorController.potColor,),
       body: InkWell(
         onTap: () {
           FocusScope.of(context).unfocus(); // 포커스 제거
