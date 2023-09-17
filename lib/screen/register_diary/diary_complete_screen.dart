@@ -91,7 +91,7 @@ Future<int> postDiaryData(
   String emotion,
   String title,
   String content,
-  DateTime date,
+  String date,
   bool isPublic,
   String id,
   String cookie,

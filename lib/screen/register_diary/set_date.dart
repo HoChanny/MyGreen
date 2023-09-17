@@ -92,7 +92,10 @@ class _SetDateScreenState extends State<SetDateScreen> {
                           MaterialPageRoute(
                               builder: (context) => SetEmotionScreen()));
 
-                      diaryData.setDate(date);
+                      DateTime newDateTime = DateTime(date.year, date.month, date.day);
+String formattedDateTimeStr = newDateTime.toIso8601String();
+
+                      diaryData.setDate(formattedDateTimeStr);
                     },
                     child: Text('다음')),
               )

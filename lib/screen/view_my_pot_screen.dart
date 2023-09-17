@@ -133,7 +133,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   }
 
   void refreshData() {
-    fetchDiaryDataFromServer('qrcode');
+    fetchDiaryDataFromServer('qrcodes');
   }
 
   @override

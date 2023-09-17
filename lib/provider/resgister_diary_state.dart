@@ -9,7 +9,7 @@ void setPublic(bool public) {
   }
 
   // 날짜를 저장하는 메서드
-  void setDate(DateTime date) {
+  void setDate(String date) {
     diaryData['date'] = date;
     update();
   }

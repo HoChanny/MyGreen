@@ -23,17 +23,13 @@ class _CalendarPageState extends State<CalendarPage> {
   void initState() {
     super.initState();
   }
-
+  
   @override
   Widget build(BuildContext context) {
+      print(widget.plant_name);
+
     return Scaffold(
-      appBar: AppBar(
-        //Title Center로 설정
-        title: Text(' Calendar'),
-        actions: [AddButton(), SearchButton()],
-        centerTitle: true,
-        backgroundColor: widget.color,
-      ),
+      
       body: Container(
         padding: const EdgeInsets.all(16),
         child: SafeArea(

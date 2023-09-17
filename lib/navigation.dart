@@ -20,7 +20,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final List<Widget> _navIndex = [
     SelectPotScreen(),
     CalendarPage(
-      plant_name: 'a',
+      plant_name: 'asd',
       color: Colors.black,
     ),
     BoardPage(),

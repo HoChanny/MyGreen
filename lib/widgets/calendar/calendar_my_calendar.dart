@@ -115,6 +115,7 @@ class _MyCalendarState extends State<MyCalendar> {
             // marker 색 변경
             calendarBuilders: CalendarBuilders(
               markerBuilder: (context, day, events) {
+                
                 print(events);
                 if (events.isEmpty) return const SizedBox();
 
@@ -129,8 +130,10 @@ class _MyCalendarState extends State<MyCalendar> {
                             Axis.horizontal, // set the direction to horizontal
                         itemCount: events.length,
                         itemBuilder: (context, index) {
+                          print(events[index].toString());
+                          print(widget.plant_name);
                           print(events[index].toString() == widget.plant_name);
-                          if (events[index].toString() == widget.plant_name) {
+                          if (true) {
                             return SizedBox(
                               height: 10,
                               width: 10,
