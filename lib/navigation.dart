@@ -5,6 +5,7 @@ import 'package:mygreen/screen/select_pot_screen.dart';
 import 'package:mygreen/screen/sign_up/set_email_screen.dart';
 import 'package:mygreen/screen/sign_up/set_id_screen.dart';
 import 'package:mygreen/screen/sign_up/set_password_screen.dart';
+import 'package:mygreen/screen/user_info_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -23,7 +24,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       color: Colors.black,
     ),
     SetPasswordScreen(),
-    SetEmailScreen(),
+    UserInfoScreen(),
   ];
 
   final List appBarTitle = ['내 화분', '내 일기', '게시판', '내 정보'];
