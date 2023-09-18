@@ -97,8 +97,9 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
         body: Stack(
       children: [
         Center(
-          child: Expanded(
-            child: ListView.builder(
+          child: 
+             ListView.builder(
+              shrinkWrap: true,
               itemCount: potData.length,
               itemBuilder: (context, index) {
                 final data = potData[index];
@@ -106,7 +107,7 @@ class _SelectPotScreenState extends State<SelectPotScreen> {
                 return SelectPotButton(data: data); // 대체된 값 출력
               },
             ),
-          ),
+          
         ),
         Align(
           alignment: Alignment.bottomRight,

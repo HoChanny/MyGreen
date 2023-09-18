@@ -10,6 +10,7 @@ class SignUpCompleteScreen extends StatelessWidget {
     var hSize = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: AppBar(title: Text('회원가입'), leading: GestureDetector(),),
         body: Container(
       padding: EdgeInsets.all(size * 0.03),
       child: Column(

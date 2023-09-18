@@ -32,8 +32,7 @@ class DiaryPage extends StatelessWidget {
     final cookie = profileController.cookie;
     final userid = loginController.id;
 
-    final url =
-        'https://yundevingv.github.io/mygreenreact/diary/cookie/$cookie/$id';
+    final url = 'https://yundevingv.github.io/mygreenreact/diary/detail/$id';
     print(url);
     return Scaffold(
       appBar: AppBar(),

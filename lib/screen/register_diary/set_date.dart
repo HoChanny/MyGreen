@@ -101,7 +101,7 @@ class _SetDateScreenState extends State<SetDateScreen> {
                       String formattedDateTimeStr =
                           newDateTime.toIso8601String();
 
-                      diaryData.setDate(formattedDateTimeStr);
+                      diaryData.setDate(date);
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: potColor),
                     child: Text('다음')),

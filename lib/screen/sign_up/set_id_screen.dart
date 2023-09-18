@@ -18,6 +18,7 @@ class SetIdScreen extends StatelessWidget {
     var verticalSize = MediaQuery.of(context).size.height;
     var horizontalSize = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(title: Text('회원가입'),),
         body: InkWell(
       onTap: () {
         FocusScope.of(context).unfocus(); // 포커스 제거
@@ -27,9 +28,7 @@ class SetIdScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              height: verticalSize * 0.1,
-            ),
+            
             LeftAlignText(content: '사용하실 아이디를 입력해주세요'),
             SizedBox(
               height: verticalSize * 0.1,
@@ -41,11 +40,11 @@ class SetIdScreen extends StatelessWidget {
                         key: formKey,
                         child: TextFormField(
                           controller: idController,
-                          decoration: InputDecoration(hintText: 'ㄹㅇㄴㅁㄹㄴ'),
+                          decoration: InputDecoration(hintText: '아이디를 입력해주세요'),
                         ))),
-                ElevatedButton(onPressed: (){
+                // ElevatedButton(onPressed: (){
 
-                }, child: Text('중복확인'))
+                // }, child: Text('중복확인'))
               ],
             ),
             SizedBox(height: verticalSize*0.05,),

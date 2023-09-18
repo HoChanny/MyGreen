@@ -19,6 +19,7 @@ class SetPasswordScreen extends StatelessWidget {
     var verticalSize = MediaQuery.of(context).size.height;
     var horizontalSize = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(title: Text('회원가입'),),
         body: InkWell(
       onTap: () {
         FocusScope.of(context).unfocus(); // 포커스 제거
@@ -28,9 +29,7 @@ class SetPasswordScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              height: verticalSize * 0.1,
-            ),
+            
             LeftAlignText(content: '사용하실 비밀번호를 입력해주세요'),
             SizedBox(
               height: verticalSize * 0.1,
@@ -41,7 +40,7 @@ class SetPasswordScreen extends StatelessWidget {
                 //key: formKey,
                 child: TextFormField(
                   controller: idController,
-                  decoration: InputDecoration(hintText: 'ㄹㅇㄴㅁㄹㄴ'),
+                  decoration: InputDecoration(hintText: '비밀번호를 입력해주세요'),
                 )),
             SizedBox(height: verticalSize*0.06,),
             LeftAlignText(content: '비밀번호 확인'),
@@ -50,7 +49,7 @@ class SetPasswordScreen extends StatelessWidget {
                 key: formKey,
                 child: TextFormField(
                   controller: idController,
-                  decoration: InputDecoration(hintText: 'ㄹㅇㄴㅁㄹㄴ'),
+                  decoration: InputDecoration(hintText: '한번 더 입력해주세요'),
                 )),
             SizedBox(
               height: verticalSize * 0.05,

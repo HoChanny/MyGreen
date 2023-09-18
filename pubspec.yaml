@@ -81,7 +81,7 @@ flutter:
     - assets/image/hot.png
     - assets/image/happy.png
     - assets/image/thirsty.png
-    - assets/image/freeze.png
+    - assets/image/cold.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

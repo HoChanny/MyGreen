@@ -60,7 +60,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
   //날짜들 받아오기
   List<String> eventSourceDate = [];
   //내용 받아오기
-    List<String> eventSourceId = [];
+  List<String> eventSourceId = [];
 
   List<String> eventSourcePlantName = [];
   List<String> eventSourceTitle = [];
@@ -79,9 +79,8 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonData = jsonDecode(response.body);
-        print(jsonData);
         eventSource = {};
-
+        print(jsonData);
         setState(() {
           eventSourceId =
               jsonData.map((data) => data['_id'] as String).toList();
@@ -98,12 +97,15 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
               jsonData.map((data) => data['content'] as String).toList();
           eventSourceImage =
               jsonData.map((data) => data['image'] as String).toList();
+          print('-------');
+          print(eventSourceId);
+          print(eventSourceImage);
 
-          (eventSourcePlantName.join(','));
-          (eventSourceTitle.join(','));
-          (eventSourceEmotion.join(','));
-          (eventSourceContent.join(','));
-          (eventSourceId.join(','));
+          print(eventSourcePlantName.join(','));
+          print(eventSourceTitle.join(','));
+          print(eventSourceEmotion.join(','));
+          print(eventSourceContent.join(','));
+          print(eventSourceId.join(','));
 
           int len = eventSourceDate.length;
 
@@ -128,15 +130,16 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
             }
             kEvents.addAll(eventSource);
           }
+
           print('success');
 
-          print(eventSource);
+          print('eventSource : $eventSource');
         });
       } else {
         print('Failed to fetch data. Error code: ${response.statusCode}');
       }
     } catch (error) {
-      print('Error while fetching data: $error');
+      print('Error while fetching data(view my pot screen): $error');
     }
     if (mounted) {
       setState(() {});
@@ -176,7 +179,7 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
     //일기 날짜 최신순으로 정렬
     Map<DateTime, dynamic> sortedEventSource = Map.fromEntries(
         eventSource.entries.toList()..sort((b, a) => a.key.compareTo(b.key)));
-    
+
     profileController.setPotColor(widget.color);
 
     var horizontalSize = MediaQuery.of(context).size.width;
@@ -185,149 +188,155 @@ class _ViewMyPotPageState extends State<ViewMyPotPage> {
     print(eventSource.keys);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.name),
-        backgroundColor: widget.color,
-      ),
-      body: Stack(children: [ 
-      
-      Column(
-        children: [
-          Container(
-              padding: EdgeInsets.all(horizontalSize * 0.09),
-              child: Stack(
-                children: [
-                  Container(
-                    width: verticalSize * 0.25,
-                    height: verticalSize * 0.25,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(width: 8, color: widget.color)),
-                    child: CircleAvatar(
-                      backgroundImage: widget.image,
-                      radius: 50,
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      width: verticalSize * 0.08,
-                      height: verticalSize * 0.08,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image:
-                                AssetImage('assets/image/${widget.status}.png'),
-                            fit: BoxFit.cover),
+        appBar: AppBar(
+          title: Text(widget.name),
+          backgroundColor: widget.color,
+        ),
+        body: Stack(children: [
+          Column(
+            children: [
+              Container(
+                  padding: EdgeInsets.all(horizontalSize * 0.09),
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: verticalSize * 0.25,
+                        height: verticalSize * 0.25,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(width: 8, color: widget.color)),
+                        child: CircleAvatar(
+                          backgroundImage: widget.image,
+                          radius: 50,
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              )),
-          // ElevatedButton(onPressed: () {}, child: Text("프로필 수정")),
-          LeftAlignText(content: '  내가 쓴 일기'),
-          Container(
-            margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-            width: horizontalSize,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(width: 1.0, color: Colors.black)
-              )
-            )),
-         
-          Expanded(
-            child: ListView.builder(
-              itemCount: sortedEventSource.length,
-              itemBuilder: (context, i) {
-                DateTime date = sortedEventSource.keys.elementAt(i);
-                List<Event> events = sortedEventSource[date];
-                int length = events.length;
-
-                for (int i = 0; i < length; i++) {
-                  if (true) {
-                    return Column(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 12.0,
-                            vertical: 4.0,
-                          ),
-                          child: Container(
-                            height: verticalSize * 0.2,
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(width: 1.0, color: Colors.black),
-                              )
-                            ),
-                            child: ListTile(
-                              onTap: () {
-                                //diary 페이지에 넘기는 데이터 값들
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DiaryPage(id: events[i].id),
-                                  ),
-                                );
-                              },
-                              leading: Image.memory(
-                                base64Decode(events[i].image),
-                                width: horizontalSize * 0.2, // 이미지의 가로 크기 설정
-                                height: verticalSize * 0.5, // 이미지의 세로 크기 설정
-                              ),
-                              // 제목
-                              title: Text(
-                                events[i].title,
-                                style: TextStyle(
-                                  fontSize: 24, // 폰트 크기 설정 (원하는 크기로 변경)
-                                  fontWeight:
-                                      FontWeight.bold, // 글꼴 굵기 설정 (선택 사항)
-                                  // 다른 스타일 속성도 추가할 수 있습니다.
-                                ),
-                              ),
-                              // 내용
-                              subtitle: Text(
-                                '${events[i].content} \n${formatDate(date.toString())}',
-                                style: TextStyle(
-                                  fontSize: 18, // 폰트 크기 설정 (원하는 크기로 변경)
-                                  fontWeight:
-                                      FontWeight.bold, // 글꼴 굵기 설정 (선택 사항)
-                                  // 다른 스타일 속성도 추가할 수 있습니다.
-                                ),
-                              ),
-                            ),
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: Container(
+                          width: verticalSize * 0.08,
+                          height: verticalSize * 0.08,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/image/${widget.status}.png'),
+                                fit: BoxFit.cover),
                           ),
                         ),
-                      ],
+                      )
+                    ],
+                  )),
+              // ElevatedButton(onPressed: () {}, child: Text("프로필 수정")),
+              LeftAlignText(content: '  내가 쓴 일기'),
+              Container(
+                  margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  width: horizontalSize,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom:
+                              BorderSide(width: 1.0, color: Colors.black)))),
+
+              Expanded(
+                child: ListView.builder(
+                  itemCount: sortedEventSource.length,
+                  itemBuilder: (context, i) {
+                    DateTime date = sortedEventSource.keys.elementAt(i);
+                    List<Event> events = sortedEventSource[date];
+                    int length = events.length;
+                    print('len ; $length');
+                    for (int i = 0; i < length; i++) {
+                      if (events[i].plant_name == widget.name) {
+                        print(events[i].plant_name);
+                        print('-');
+                        print(widget.name);
+                        return Column(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                                vertical: 4.0,
+                              ),
+                              child: Container(
+                                height: verticalSize * 0.2,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                  bottom: BorderSide(
+                                      width: 1.0, color: Colors.black),
+                                )),
+                                child: ListTile(
+                                  onTap: () {
+                                    //diary 페이지에 넘기는 데이터 값들
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DiaryPage(id: events[i].id),
+                                      ),
+                                    );
+                                  },
+                                  leading: Image.memory(
+                                    base64Decode(events[i].image),
+                                    width:
+                                        horizontalSize * 0.2, // 이미지의 가로 크기 설정
+                                    height: verticalSize * 0.5, // 이미지의 세로 크기 설정
+                                  ),
+                                  // 제목
+                                  title: Text(
+                                    events[i].title,
+                                    style: TextStyle(
+                                      fontSize: 24, // 폰트 크기 설정 (원하는 크기로 변경)
+                                      fontWeight:
+                                          FontWeight.bold, // 글꼴 굵기 설정 (선택 사항)
+                                      // 다른 스타일 속성도 추가할 수 있습니다.
+                                    ),
+                                  ),
+                                  // 내용
+                                  subtitle: Text(
+                                    '${events[i].content} \n${formatDate(date.toString())}',
+                                    style: TextStyle(
+                                      fontSize: 18, // 폰트 크기 설정 (원하는 크기로 변경)
+                                      fontWeight:
+                                          FontWeight.bold, // 글꼴 굵기 설정 (선택 사항)
+                                      // 다른 스타일 속성도 추가할 수 있습니다.
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    }
+                    return const SizedBox(
+                      height: 0,
                     );
-                  }
-                }
-                return const SizedBox(
-                  height: 0,
-                );
-              },
-            ),
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      Positioned(
-        right: 0,
-        bottom: 0,
-        child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SetPublicScreen(),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                shape: CircleBorder(),
-                minimumSize: Size(verticalSize*0.08, verticalSize*0.08),
-                backgroundColor: widget.color),
-              child: Icon(Icons.edit, size: verticalSize*0.06,)),)
-      ])
-    );
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SetPublicScreen(),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    minimumSize: Size(verticalSize * 0.08, verticalSize * 0.08),
+                    backgroundColor: widget.color),
+                child: Icon(
+                  Icons.edit,
+                  size: verticalSize * 0.06,
+                )),
+          )
+        ]));
   }
 }

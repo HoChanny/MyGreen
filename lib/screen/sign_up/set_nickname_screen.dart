@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mygreen/provider/global_state.dart';
 import 'package:mygreen/screen/sign_up/set_email_screen.dart';
+import 'package:mygreen/screen/sign_up/sign_up_complete_screen.dart';
 import 'package:mygreen/widgets/sign_in/left_align_text.dart';
 import 'package:mygreen/screen/sign_up/set_password_screen.dart';
 
@@ -19,6 +20,7 @@ class SetNicknameScreen extends StatelessWidget {
     var verticalSize = MediaQuery.of(context).size.height;
     var horizontalSize = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(title: Text('회원가입'),),
         body: InkWell(
       onTap: () {
         FocusScope.of(context).unfocus(); // 포커스 제거
@@ -28,9 +30,7 @@ class SetNicknameScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              height: verticalSize * 0.1,
-            ),
+            
             LeftAlignText(content: '사용하실 닉네임을 입력해주세요'),
             SizedBox(
               height: verticalSize * 0.1,
@@ -42,11 +42,11 @@ class SetNicknameScreen extends StatelessWidget {
                         key: formKey,
                         child: TextFormField(
                           controller: idController,
-                          decoration: InputDecoration(hintText: 'ㄹㅇㄴㅁㄹㄴ'),
+                          decoration: InputDecoration(hintText: '닉네임을 입력해주세요'),
                         ))),
-                ElevatedButton(onPressed: (){
+                // ElevatedButton(onPressed: (){
 
-                }, child: Text('중복확인'))
+                // }, child: Text('중복확인'))
               ],
             ),
             SizedBox(height: verticalSize*0.05,),
@@ -56,7 +56,7 @@ class SetNicknameScreen extends StatelessWidget {
                 Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SetEmailScreen()));
+                                builder: (context) => SignUpCompleteScreen()));
               }, child: Text('다음')),
             )
             
